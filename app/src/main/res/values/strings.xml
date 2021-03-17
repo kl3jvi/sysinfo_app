@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SysInfo</string>
+    <string name="tab_text_1">Dashboard</string>
+    <string name="tab_text_2">Device</string>
+    <string name="tab_text_3">System</string>
+    <string name="tab_text_4">CPU</string>
+</resources>
