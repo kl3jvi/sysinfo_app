@@ -33,8 +33,8 @@ The android app lets you:
 
 [<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_1.jpg" align="left"
 width="200"
-    hspace="10" vspace="10">](/images/sc_1.jpg)  
-
+    hspace="10" vspace="10">](/images/sc_1.jpg)\
+\
 
 ## Permissions
 
