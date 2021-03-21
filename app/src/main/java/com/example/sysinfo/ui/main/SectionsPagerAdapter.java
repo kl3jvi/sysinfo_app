@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.example.sysinfo.R;
 import com.example.sysinfo.fragments.CPU;
 import com.example.sysinfo.fragments.Dashboard;
-import com.example.sysinfo.fragments.Device;
+import com.example.sysinfo.fragments.DeviceFragment;
 import com.example.sysinfo.fragments.SystemFrag;
 
 
@@ -39,7 +39,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 fragment = new Dashboard();
                 break;
             case 1:
-                fragment = new Device();
+                fragment = new DeviceFragment();
                 break;
             case 2:
                 fragment = new SystemFrag();
