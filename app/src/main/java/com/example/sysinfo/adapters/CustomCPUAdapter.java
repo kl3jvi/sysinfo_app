@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
@@ -40,24 +41,20 @@ public class CustomCPUAdapter extends ArrayAdapter<CPUDetails> {
 
         LayoutInflater inflater = LayoutInflater.from(mcontext);
         convertView = inflater.inflate(res,parent,false);
-        final View test = convertView;
+
 
         TextView cpuTitle =  convertView.findViewById(R.id.coreNo);
         TextView freqTxt = convertView.findViewById(R.id.freq_cpu);
         NumberProgressBar progressBar = convertView.findViewById(R.id.cpu_progress);
-//        ImageView imageView = convertView.findViewById(R.id.cpu_logo);
-//
-//        imageView.setImageResource(vector);
+
         cpuTitle.setText(cpuNumber);
         freqTxt.setText(frequency);
-//        percentageText.setText("50%");
-        progressBar.setProgress(percentage);
 
-//        progressBar.startAnimation(anim);
-//        progressBar.setProgress(percentage);
+        ObjectAnimator smoothAnimation = ObjectAnimator.ofInt(progressBar, "progress", percentage);
+        smoothAnimation.setDuration(600);
+        smoothAnimation.setInterpolator(new AnticipateOvershootInterpolator());
 
-
-
+        smoothAnimation.start();
         return convertView;
 
     }

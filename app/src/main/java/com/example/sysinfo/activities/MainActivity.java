@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setElevation(0);
+//            actionBar.setElevation(0);
         }
     }
 

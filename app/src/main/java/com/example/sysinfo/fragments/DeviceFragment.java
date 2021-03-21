@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import com.example.sysinfo.R;
-import com.example.sysinfo.utils.DeviceClass;
+import com.example.sysinfo.utils.DeviceInformation;
 
 public class DeviceFragment extends Fragment {
 
@@ -17,7 +17,7 @@ public class DeviceFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.device_fragment, container, false);
-        DeviceClass deviceClass = new DeviceClass(getContext());
+        DeviceInformation deviceClass = new DeviceInformation(getContext());
 
         TextView device = fragmentView.findViewById(R.id.device);
         device.setText(deviceClass.getDevice());
@@ -26,7 +26,7 @@ public class DeviceFragment extends Fragment {
         board.setText(deviceClass.getBoard());
 
         TextView deviceName = fragmentView.findViewById(R.id.deviceName);
-        deviceName.setText(deviceClass.getModel());
+        deviceName.setText(deviceClass.getDeviceName());
 
         TextView model = fragmentView.findViewById(R.id.model);
         model.setText(deviceClass.getModel());
@@ -43,8 +43,24 @@ public class DeviceFragment extends Fragment {
         TextView buildFingerPrint = fragmentView.findViewById(R.id.fingerprint);
         buildFingerPrint.setText(deviceClass.getFingerprint());
 
+        TextView device_id = fragmentView.findViewById(R.id.deviceId);
+        device_id.setText(deviceClass.getAndroidId());
 
-        System.out.println();
+        TextView mac = fragmentView.findViewById(R.id.mac);
+        mac.setText(deviceClass.getWifiMacAddress(requireContext()));
+
+        TextView deviceType = fragmentView.findViewById(R.id.deviceType);
+        deviceType.setText(deviceClass.getPhoneType());
+
+        TextView networkType = fragmentView.findViewById(R.id.networkType);
+        networkType.setText(deviceClass.getNetworkType());
+
+        TextView operator1 = (TextView) fragmentView.findViewById(R.id.operator1);
+        operator1.setText(deviceClass.getOperator());
+
+
+
+        System.out.println(deviceClass.getDeviceName());
 
         return fragmentView;
     }

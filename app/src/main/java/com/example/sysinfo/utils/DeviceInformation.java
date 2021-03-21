@@ -22,16 +22,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class DeviceInformation {
+public class DeviceInformation extends DeviceInfo {
     private Context context;
     private Memory memory;
     private Activity activity;
 
+    public DeviceInformation(Context context){
+        super(context);
+    }
+
     public DeviceInformation(Context context,Activity activity){
+        super(context);
         this.context = context;
         this.activity = activity;
         memory = new Memory(context);
     }
+
+
 
 
     /**

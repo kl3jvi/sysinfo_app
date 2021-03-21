@@ -1,13 +1,18 @@
 package com.example.sysinfo.fragments;
 
+import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -98,7 +103,7 @@ public class Dashboard extends Fragment {
         //         ArrayList
         arrayList = new ArrayList();
         for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
-            arrayList.add(new CPUDetails(R.drawable.ic_cpu,"Core "+i,deviceInformation.getFrequencyOfCore(i)+" MHz"));
+            arrayList.add(new CPUDetails(R.drawable.ic_cpu,"Core "+(i+1),deviceInformation.getFrequencyOfCore(i)+" MHz"));
         }
 
         customCPUAdapter = new CustomCPUAdapter(getContext(),R.layout.cpu_list,arrayList);
@@ -122,6 +127,7 @@ public class Dashboard extends Fragment {
 
         // ram progress
         checkForRamChanges();
+
     }
 
 
@@ -136,6 +142,8 @@ public class Dashboard extends Fragment {
                 memoryProgress = deviceInformation.calculatePercentage(totalRam-availableRam,totalRam);
                 arcProgress.setProgress(memoryProgress);
 
+
+
                 ramTxt.setText(totalRam-availableRam+" / "+totalRam + " MB");
 
                 System.out.println(deviceInformation.getNumberOfSensors());
@@ -143,7 +151,7 @@ public class Dashboard extends Fragment {
                 for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
                     int coreFreq = deviceInformation.getFrequencyOfCore(i);
                     int progressPercentage = deviceInformation.calculatePercentage(coreFreq,MAX);
-                    arrayList.set(i,new CPUDetails(progressPercentage,"Core "+i,deviceInformation.getFrequencyOfCore(i)+"MHz"));
+                    arrayList.set(i,new CPUDetails(progressPercentage,"Core "+(i+1),deviceInformation.getFrequencyOfCore(i)+"MHz"));
                     customCPUAdapter.notifyDataSetChanged();
                 }
 //
