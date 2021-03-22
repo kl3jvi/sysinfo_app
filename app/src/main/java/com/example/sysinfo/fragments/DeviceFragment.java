@@ -46,8 +46,8 @@ public class DeviceFragment extends Fragment {
         TextView device_id = fragmentView.findViewById(R.id.deviceId);
         device_id.setText(deviceClass.getAndroidId());
 
-        TextView mac = fragmentView.findViewById(R.id.mac);
-        mac.setText(deviceClass.getWifiMacAddress(requireContext()));
+        TextView mac = fragmentView.findViewById(R.id.language); //TODO fix location permission request to display mac successfully
+        mac.setText(deviceClass.getLanguage());
 
         TextView deviceType = fragmentView.findViewById(R.id.deviceType);
         deviceType.setText(deviceClass.getPhoneType());
