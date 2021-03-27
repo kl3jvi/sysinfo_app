@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.16842105263157894" />
         <entry key="app/src/main/res/layout/device_fragment.xml" value="0.26403508771929823" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.28396739130434784" />
+        <entry key="app/src/main/res/layout/system_fragment.xml" value="0.4" />
       </map>
     </option>
   </component>

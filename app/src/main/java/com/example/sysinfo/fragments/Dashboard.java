@@ -38,8 +38,8 @@ import java.util.ArrayList;
 public class Dashboard extends Fragment {
 
     private View fragmentView;
-    private ProgressBar internalP,batteryP;
-    private TextView internalPercentage,batteryPercentage,ramTxt;
+    private ProgressBar internalP, batteryP;
+    private TextView internalPercentage, batteryPercentage, ramTxt;
     private DeviceInformation deviceInformation;
     private BatteryInfo batteryInfo;
     private int totalExternalStorage;
@@ -48,7 +48,7 @@ public class Dashboard extends Fragment {
 
     private int batteryInt;
     private ArcProgress arcProgress;
-    private int availableRam,totalRam;
+    private int availableRam, totalRam;
     private int memoryProgress;
     private Handler handler;
     private ChargingReciever chargingReciever;
@@ -59,6 +59,7 @@ public class Dashboard extends Fragment {
     private TextView sensorsNo;
     private TextView appNo;
     private int MAX;
+
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -70,8 +71,8 @@ public class Dashboard extends Fragment {
         return fragmentView;
     }
 
-    public void init(){
-        deviceInformation = new DeviceInformation(requireContext(),requireActivity());
+    public void init() {
+        deviceInformation = new DeviceInformation(requireContext(), requireActivity());
         batteryInfo = new BatteryInfo(getContext());
 
         //       Find Viewt
@@ -82,7 +83,7 @@ public class Dashboard extends Fragment {
         arcProgress = fragmentView.findViewById(R.id.arc_progress);
         totalRam = (int) deviceInformation.getTotalRam();
         availableRam = (int) deviceInformation.getAvailableRam();
-        memoryProgress = deviceInformation.calculatePercentage(totalRam-availableRam,totalRam);
+        memoryProgress = deviceInformation.calculatePercentage(totalRam - availableRam, totalRam);
         ObjectAnimator.ofInt(arcProgress, "progress", memoryProgress)
                 .setDuration(1000)
                 .start();
@@ -95,35 +96,35 @@ public class Dashboard extends Fragment {
         //        Storage variables
         totalExternalStorage = (int) deviceInformation.totalExternalMemory();
         availableExternalStorage = (int) deviceInformation.availableExternalMemory();
-        storagePercentage = deviceInformation.calculatePercentage(totalExternalStorage-availableExternalStorage,totalExternalStorage);
+        storagePercentage = deviceInformation.calculatePercentage(totalExternalStorage - availableExternalStorage, totalExternalStorage);
 
-            //        Battery Variables
+        //        Battery Variables
         batteryInt = batteryInfo.batteryPercentage();
 
         //         ArrayList
         arrayList = new ArrayList();
         for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
-            arrayList.add(new CPUDetails(R.drawable.ic_cpu,"Core "+(i+1),deviceInformation.getFrequencyOfCore(i)+" MHz"));
+            arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i + 1), deviceInformation.getFrequencyOfCore(i) + " MHz"));
         }
 
-        customCPUAdapter = new CustomCPUAdapter(getContext(),R.layout.cpu_list,arrayList);
-        listView.setAdapter(customCPUAdapter);
 
+        customCPUAdapter = new CustomCPUAdapter(getContext(), R.layout.cpu_list, arrayList);
+        listView.setAdapter(customCPUAdapter);
 
 
     }
 
-    public void updateView(){
+    public void updateView() {
         // storage progress
         internalP.setProgress(storagePercentage);
-        internalPercentage.setText(storagePercentage+" %");
+        internalPercentage.setText(storagePercentage + " %");
 
         // battery progress
-        batteryPercentage.setText(batteryInt+" %");
+        batteryPercentage.setText(batteryInt + " %");
         batteryP.setProgress(batteryInt);
 
-        sensorsNo.setText(deviceInformation.getNumberOfSensors()+" Sensors");
-        appNo.setText(deviceInformation.getNumberOfApps()+" Apps");
+        sensorsNo.setText(deviceInformation.getNumberOfSensors() + " Sensors");
+        appNo.setText(deviceInformation.getNumberOfApps() + " Apps");
 
         // ram progress
         checkForRamChanges();
@@ -131,27 +132,25 @@ public class Dashboard extends Fragment {
     }
 
 
-
-    public void checkForRamChanges(){
+    public void checkForRamChanges() {
 
         handler = new Handler();
         runnable = new Runnable() {
             public void run() {
                 totalRam = (int) deviceInformation.getTotalRam();
                 availableRam = (int) deviceInformation.getAvailableRam();
-                memoryProgress = deviceInformation.calculatePercentage(totalRam-availableRam,totalRam);
+                memoryProgress = deviceInformation.calculatePercentage(totalRam - availableRam, totalRam);
                 arcProgress.setProgress(memoryProgress);
 
 
-
-                ramTxt.setText(totalRam-availableRam+" / "+totalRam + " MB");
+                ramTxt.setText(totalRam - availableRam + " / " + totalRam + " MB");
 
                 System.out.println(deviceInformation.getNumberOfSensors());
                 handler.postDelayed(this, 1000);
                 for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
                     int coreFreq = deviceInformation.getFrequencyOfCore(i);
-                    int progressPercentage = deviceInformation.calculatePercentage(coreFreq,MAX);
-                    arrayList.set(i,new CPUDetails(progressPercentage,"Core "+(i+1),deviceInformation.getFrequencyOfCore(i)+"MHz"));
+                    int progressPercentage = deviceInformation.calculatePercentage(coreFreq, MAX);
+                    arrayList.set(i, new CPUDetails(progressPercentage, "Core " + (i + 1), deviceInformation.getFrequencyOfCore(i) + "MHz"));
                     customCPUAdapter.notifyDataSetChanged();
                 }
 //
@@ -159,29 +158,22 @@ public class Dashboard extends Fragment {
         };
     }
 
-
-
-
-
-
-
-
     @Override
     public void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
-        getActivity().unregisterReceiver(chargingReciever);
+        requireActivity().unregisterReceiver(chargingReciever);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        chargingReciever = new ChargingReciever(batteryP,batteryPercentage,getContext());
+        chargingReciever = new ChargingReciever(batteryP, batteryPercentage, getContext());
         IntentFilter ifilter = new IntentFilter();
         ifilter.addAction(Intent.ACTION_POWER_CONNECTED);
         ifilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         getActivity().registerReceiver(chargingReciever, ifilter);
-        handler.postDelayed(runnable,1000);
+        handler.postDelayed(runnable, 1000);
     }
 
 }
