@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
+
 import com.example.sysinfo.R;
 import com.example.sysinfo.utils.DeviceInformation;
 
@@ -14,8 +16,7 @@ public class DeviceFragment extends Fragment {
     private View fragmentView;
 
 
-
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.device_fragment, container, false);
         DeviceInformation deviceClass = new DeviceInformation(getContext());
 
@@ -58,6 +59,12 @@ public class DeviceFragment extends Fragment {
         TextView operator1 = (TextView) fragmentView.findViewById(R.id.operator1);
         operator1.setText(deviceClass.getOperator());
 
+        TextView usbHost = fragmentView.findViewById(R.id.usbHost);
+        if (deviceClass.checkInfo(getContext())) {
+            usbHost.setText("Supported");
+        } else {
+            usbHost.setText("Not Supported");
+        }
 
 
         System.out.println(deviceClass.getDeviceName());
