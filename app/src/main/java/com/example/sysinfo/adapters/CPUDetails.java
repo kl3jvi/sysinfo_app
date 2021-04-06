@@ -4,11 +4,22 @@ public class CPUDetails {
     int vector;
     String cpuNumber;
     String frequency;
+    String maxFreq;
 
-    public CPUDetails(int vector, String cpuNumber, String frequency) {
+
+    public CPUDetails(int vector, String cpuNumber, String frequency,String maxFreq) {
         this.vector = vector;
         this.cpuNumber = cpuNumber;
         this.frequency = frequency;
+        this.maxFreq = maxFreq;
+    }
+
+    public String getMaxFreq() {
+        return maxFreq;
+    }
+
+    public void setMaxFreq(String maxFreq) {
+        this.maxFreq = maxFreq;
     }
 
     public int getVector() {

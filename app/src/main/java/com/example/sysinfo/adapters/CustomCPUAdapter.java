@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.example.sysinfo.R;
 
@@ -27,6 +28,7 @@ public class CustomCPUAdapter extends ArrayAdapter<CPUDetails> {
         super(context,cpu_list,details);
         mcontext=context;
         res = cpu_list;
+
     }
 
 
@@ -34,27 +36,26 @@ public class CustomCPUAdapter extends ArrayAdapter<CPUDetails> {
     public View getView(int position, View convertView, ViewGroup parent) {
         String cpuNumber = getItem(position).getCpuNumber();
         String frequency = getItem(position).getFrequency();
+        String maxFreq = getItem(position).getMaxFreq();
         int percentage = getItem(position).getVector();
 
-
-        CPUDetails cpuDetails = new CPUDetails(percentage,cpuNumber,frequency);
-
+        CPUDetails cpuDetails = new CPUDetails(percentage,cpuNumber,frequency,maxFreq);
         LayoutInflater inflater = LayoutInflater.from(mcontext);
-        convertView = inflater.inflate(res,parent,false);
-
+        if(convertView == null){
+            convertView = inflater.inflate(res,parent,false);
+        }
 
         TextView cpuTitle =  convertView.findViewById(R.id.coreNo);
         TextView freqTxt = convertView.findViewById(R.id.freq_cpu);
-        NumberProgressBar progressBar = convertView.findViewById(R.id.cpu_progress);
-
+        TextView maxFreqTxt = convertView.findViewById(R.id.maxFreq);
+        IconRoundCornerProgressBar progressBar = convertView.findViewById(R.id.cpuProgress);
+        progressBar.enableAnimation();
+        progressBar.setMax(100);
+        progressBar.setAnimationSpeedScale(2);
+        progressBar.setProgress(percentage);
         cpuTitle.setText(cpuNumber);
         freqTxt.setText(frequency);
-
-        ObjectAnimator smoothAnimation = ObjectAnimator.ofInt(progressBar, "progress", percentage);
-        smoothAnimation.setDuration(600);
-        smoothAnimation.setInterpolator(new AnticipateOvershootInterpolator());
-
-        smoothAnimation.start();
+        maxFreqTxt.setText(maxFreq);
         return convertView;
 
     }

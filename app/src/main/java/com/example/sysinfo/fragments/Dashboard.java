@@ -1,24 +1,17 @@
 package com.example.sysinfo.fragments;
 
-import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.sysinfo.R;
@@ -29,10 +22,8 @@ import com.example.sysinfo.ui.main.ChargingReciever;
 import com.example.sysinfo.utils.DeviceInformation;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Dashboard extends Fragment {
@@ -54,20 +45,19 @@ public class Dashboard extends Fragment {
     private ChargingReciever chargingReciever;
     private Runnable runnable;
     private ListView listView;
-    private ArrayList<CPUDetails> arrayList;
+    private ArrayList arrayList;
     private CustomCPUAdapter customCPUAdapter;
     private TextView sensorsNo;
-    private TextView appNo;
-    private int MAX;
 
-    @Nullable
-    @org.jetbrains.annotations.Nullable
+    private int MAX;
+    private Random random;
+
     @Override
-    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.dashboard_fragment, container, false);
         init();
         updateView();
-        MAX = deviceInformation.getMaxCpuFrequency();
+//        MAX = deviceInformation.getMaxCpuFrequency();
         return fragmentView;
     }
 
@@ -90,8 +80,9 @@ public class Dashboard extends Fragment {
 
         ramTxt = fragmentView.findViewById(R.id.ramTxt);
         listView = fragmentView.findViewById(R.id.listView);
-        sensorsNo = fragmentView.findViewById(R.id.textView5);
-        appNo = fragmentView.findViewById(R.id.textView6);
+//        sensorsNo = fragmentView.findViewById(R.id.textView5);
+//        appNo = fragmentView.findViewById(R.id.textView6);
+
 
         //        Storage variables
         totalExternalStorage = (int) deviceInformation.totalExternalMemory();
@@ -104,9 +95,8 @@ public class Dashboard extends Fragment {
         //         ArrayList
         arrayList = new ArrayList();
         for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
-            arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i + 1), deviceInformation.getFrequencyOfCore(i) + " MHz"));
+            arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i + 1), deviceInformation.getFrequencyOfCore(i) + " MHz",deviceInformation.getMaxCpuFrequency(i)+"MHz"));
         }
-
 
         customCPUAdapter = new CustomCPUAdapter(getContext(), R.layout.cpu_list, arrayList);
         listView.setAdapter(customCPUAdapter);
@@ -123,8 +113,8 @@ public class Dashboard extends Fragment {
         batteryPercentage.setText(batteryInt + " %");
         batteryP.setProgress(batteryInt);
 
-        sensorsNo.setText(deviceInformation.getNumberOfSensors() + " Sensors");
-        appNo.setText(deviceInformation.getNumberOfApps() + " Apps");
+//        sensorsNo.setText(deviceInformation.getNumberOfSensors() + " Sensors");
+//        appNo.setText(deviceInformation.getNumberOfApps() + " Apps");
 
         // ram progress
         checkForRamChanges();
@@ -133,29 +123,34 @@ public class Dashboard extends Fragment {
 
 
     public void checkForRamChanges() {
-
+        totalRam = (int) deviceInformation.getTotalRam();
         handler = new Handler();
         runnable = new Runnable() {
             public void run() {
-                totalRam = (int) deviceInformation.getTotalRam();
                 availableRam = (int) deviceInformation.getAvailableRam();
                 memoryProgress = deviceInformation.calculatePercentage(totalRam - availableRam, totalRam);
                 arcProgress.setProgress(memoryProgress);
 
-
                 ramTxt.setText(totalRam - availableRam + " / " + totalRam + " MB");
 
-                System.out.println(deviceInformation.getNumberOfSensors());
-                handler.postDelayed(this, 1000);
                 for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
                     int coreFreq = deviceInformation.getFrequencyOfCore(i);
-                    int progressPercentage = deviceInformation.calculatePercentage(coreFreq, MAX);
-                    arrayList.set(i, new CPUDetails(progressPercentage, "Core " + (i + 1), deviceInformation.getFrequencyOfCore(i) + "MHz"));
+                    int progressPercentage = deviceInformation.calculatePercentage(coreFreq, deviceInformation.getMaxCpuFrequency(i));
+                    arrayList.set(i, new CPUDetails(progressPercentage, "Core " + (i), deviceInformation.getFrequencyOfCore(i) + "MHz",deviceInformation.getMaxCpuFrequency(i)+" MHz"));
                     customCPUAdapter.notifyDataSetChanged();
+
                 }
-//
+                handler.postDelayed(this, 2000);
+
+
+
             }
         };
+    }
+
+
+    public void cpuHandler() {
+
     }
 
     @Override
@@ -173,7 +168,7 @@ public class Dashboard extends Fragment {
         ifilter.addAction(Intent.ACTION_POWER_CONNECTED);
         ifilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         getActivity().registerReceiver(chargingReciever, ifilter);
-        handler.postDelayed(runnable, 1000);
+        handler.postDelayed(runnable, 2000);
     }
 
 }

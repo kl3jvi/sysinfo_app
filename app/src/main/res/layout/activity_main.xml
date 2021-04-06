@@ -20,7 +20,9 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabIndicatorHeight="4dp"
             android:layout_marginBottom="5dp"
+
             app:tabIconTint="@color/col_selector"
             app:tabTextColor="@color/col_selector"
             app:tabIndicatorFullWidth="false"
@@ -32,6 +34,10 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+
+
+
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"

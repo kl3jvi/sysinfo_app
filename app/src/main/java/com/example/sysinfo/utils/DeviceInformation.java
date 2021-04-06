@@ -12,10 +12,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.net.Uri;
 import android.util.Log;
-
-import androidx.core.content.pm.PackageInfoCompat;
 
 import com.an.deviceinfo.device.DeviceInfo;
 import com.an.deviceinfo.device.model.Memory;
@@ -24,13 +21,11 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -52,6 +47,12 @@ public class DeviceInformation extends DeviceInfo {
         memory = new Memory(context);
     }
 
+    /**
+     * @see FeatureInfo#getGlEsVersion()
+     */
+    private static int getMajorVersion(int glEsVersion) {
+        return ((glEsVersion & 0xffff0000) >> 16);
+    }
 
     /**
      * Returns the size of internal storage in bytes;
@@ -62,7 +63,6 @@ public class DeviceInformation extends DeviceInfo {
         return bytesToMB(memory.getTotalExternalMemorySize());
     }
 
-
     /**
      * Returns the size of internal storage in bytes;
      *
@@ -71,7 +71,6 @@ public class DeviceInformation extends DeviceInfo {
     public long availableExternalMemory() {
         return bytesToMB(memory.getAvailableExternalMemorySize());
     }
-
 
     /**
      * Converts bytes to mega-bytes
@@ -149,12 +148,12 @@ public class DeviceInformation extends DeviceInfo {
      *
      * @return
      */
-    public int getMaxCpuFrequency() {
+    public int getMaxCpuFrequency(int core) {
         int currentFReq = 0;
         try {
             double currentFreq;
             RandomAccessFile readerCurFreq;
-            readerCurFreq = new RandomAccessFile("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq", "r");
+            readerCurFreq = new RandomAccessFile("/sys/devices/system/cpu/cpu"+core+"/cpufreq/cpuinfo_max_freq", "r");
             String curfreg = readerCurFreq.readLine();
             currentFreq = Double.parseDouble(curfreg) / 1000;
             readerCurFreq.close();
@@ -253,15 +252,13 @@ public class DeviceInformation extends DeviceInfo {
         return ver;
     }
 
-
-
     /**
      * Gets the openGl version
      *
      * @param context
      * @return
      */
-    public   int openGlVersion(Context context) {
+    public int openGlVersion(Context context) {
         PackageManager packageManager = context.getPackageManager();
         FeatureInfo[] featureInfos = packageManager.getSystemAvailableFeatures();
         if (featureInfos != null && featureInfos.length > 0) {
@@ -279,25 +276,21 @@ public class DeviceInformation extends DeviceInfo {
         return 1;
     }
 
-    /** @see FeatureInfo#getGlEsVersion() */
-    private static int getMajorVersion(int glEsVersion) {
-        return ((glEsVersion & 0xffff0000) >> 16);
-    }
-
     /**
      * Check for SELinux;
+     *
      * @return
      */
     public String isSeLinuxEnforcing() {
         StringBuffer output = new StringBuffer();
         Process p;
-        String TAG="SELINUX";
+        String TAG = "SELINUX";
         try {
             p = Runtime.getRuntime().exec("getenforce");
             p.waitFor();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = "";
-            while ((line = reader.readLine())!= null) {
+            while ((line = reader.readLine()) != null) {
                 output.append(line);
             }
         } catch (Exception e) {
@@ -318,7 +311,7 @@ public class DeviceInformation extends DeviceInfo {
         }
     }
 
-    public String getPlayVersion(Context context){
+    public String getPlayVersion(Context context) {
         int apkVersion = GoogleApiAvailability.getInstance().getApkVersion(context);
         return String.valueOf(apkVersion);
     }

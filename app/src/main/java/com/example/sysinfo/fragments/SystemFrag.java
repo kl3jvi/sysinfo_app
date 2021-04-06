@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import com.example.sysinfo.R;
 import com.example.sysinfo.utils.DeviceInformation;
 
-import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
 import java.util.Base64;

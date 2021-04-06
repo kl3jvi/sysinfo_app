@@ -1,6 +1,8 @@
 package com.example.sysinfo.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
 
 import com.example.sysinfo.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,8 +18,9 @@ import com.example.sysinfo.ui.main.SectionsPagerAdapter;
 import com.example.sysinfo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
+    boolean doubleBackToExitPressedOnce = false;
     private ActivityMainBinding binding;
+
     private int[] tabIcons={
             R.drawable.ic_dashboard,
             R.drawable.ic_phone,
@@ -45,10 +48,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setupTabsIcon(){
-        tabs.getTabAt(0).setIcon(tabIcons[0]);
-        tabs.getTabAt(1).setIcon(tabIcons[1]);
-        tabs.getTabAt(2).setIcon(tabIcons[2]);
-        tabs.getTabAt(3).setIcon(tabIcons[3]);
+
+    public void setupTabsIcon() {
+        for (int i = 0; i < tabs.getTabCount(); i++) {
+            tabs.getTabAt(i).setIcon(tabIcons[i]);
+        }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+    }
+
 }

@@ -5,15 +5,21 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.5353697749196141" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2078125" />
+        <entry key="app/src/main/res/drawable/ic_bullet.xml" value="0.1618421052631579" />
         <entry key="app/src/main/res/drawable/ic_cpu.xml" value="0.2078125" />
+        <entry key="app/src/main/res/drawable/ic_cpu_white.xml" value="0.1618421052631579" />
         <entry key="app/src/main/res/drawable/ic_dashboard.xml" value="1.0" />
+        <entry key="app/src/main/res/drawable/ic_icon.xml" value="0.1618421052631579" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2078125" />
         <entry key="app/src/main/res/drawable/ic_mobile_app.xml" value="1.0" />
         <entry key="app/src/main/res/drawable/ic_rotation.xml" value="1.0" />
+        <entry key="app/src/main/res/drawable/ic_splash.xml" value="0.15482456140350878" />
+        <entry key="app/src/main/res/drawable/ic_svgexport_1.xml" value="0.27653149266609145" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28396739130434784" />
-        <entry key="app/src/main/res/layout/cpu_fragment.xml" value="1.0" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.8" />
+        <entry key="app/src/main/res/layout/cpu_fragment.xml" value="0.38957816377171217" />
         <entry key="app/src/main/res/layout/cpu_list.xml" value="0.4967532467532468" />
-        <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.16842105263157894" />
+        <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.264" />
         <entry key="app/src/main/res/layout/device_fragment.xml" value="0.26403508771929823" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.28396739130434784" />
         <entry key="app/src/main/res/layout/system_fragment.xml" value="0.4" />

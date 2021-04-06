@@ -47,8 +47,8 @@ public class DeviceFragment extends Fragment {
         TextView device_id = fragmentView.findViewById(R.id.deviceId);
         device_id.setText(deviceClass.getAndroidId());
 
-        TextView mac = fragmentView.findViewById(R.id.language); //TODO fix location permission request to display mac successfully
-        mac.setText(deviceClass.getLanguage());
+        TextView language = fragmentView.findViewById(R.id.language);
+        language.setText(deviceClass.getLanguage());
 
         TextView deviceType = fragmentView.findViewById(R.id.deviceType);
         deviceType.setText(deviceClass.getPhoneType());
@@ -60,7 +60,7 @@ public class DeviceFragment extends Fragment {
         operator1.setText(deviceClass.getOperator());
 
         TextView usbHost = fragmentView.findViewById(R.id.usbHost);
-        if (deviceClass.checkInfo(getContext())) {
+        if (deviceClass.checkInfo(requireContext())) {
             usbHost.setText("Supported");
         } else {
             usbHost.setText("Not Supported");
