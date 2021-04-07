@@ -35,6 +35,18 @@ The android app lets you:
 [<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_1.jpg" align="left"
 width="200"
     hspace="10" vspace="10">](/images/sc_1.jpg)
+    
+[<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_1.jpg" align="left"
+width="200"
+    hspace="10" vspace="10">](/images/sc_2.jpg)
+    
+[<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_1.jpg" align="left"
+width="200"
+    hspace="10" vspace="10">](/images/sc_3.jpg)
+    
+[<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_1.jpg" align="left"
+width="200"
+    hspace="10" vspace="10">](/images/sc_4.jpg)
 
 
 ## Permissions
