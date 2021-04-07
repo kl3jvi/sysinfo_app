@@ -4,7 +4,11 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,5 +78,98 @@ public class CpuUtils {
         }
         return bits;
     }
+
+    /**
+     * Get the minimum frequency of the cpu on device;
+     * @param core
+     * @return
+     */
+    public int getMinCPUFreq(int core) {
+        int minFreq = -1;
+        try {
+            RandomAccessFile randomAccessFile = new RandomAccessFile("/sys/devices/system/cpu/cpu" + core + "/cpufreq/cpuinfo_min_freq", "r");
+            boolean done = false;
+            while (!done) {
+                String line = randomAccessFile.readLine();
+                if (null == line) {
+                    done = true;
+                    break;
+                }
+                int timeInState = Integer.parseInt(line);
+                if (timeInState > 0) {
+                    int freq = timeInState / 1000;
+                    if (freq > minFreq) {
+                        minFreq = freq;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return minFreq;
+    }
+
+    /**
+     * Gets the cpu maximum frequency
+     * @param core
+     * @return
+     */
+    public int getMaxCPUFreq(int core) {
+        int maxFreq = -1;
+        try {
+            RandomAccessFile randomAccessFile = new RandomAccessFile("/sys/devices/system/cpu/cpu" + core + "/cpufreq/cpuinfo_max_freq", "r");
+            boolean done = false;
+            while (!done) {
+                String line = randomAccessFile.readLine();
+                if (null == line) {
+                    done = true;
+                    break;
+                }
+                int timeInState = Integer.parseInt(line);
+                if (timeInState > 0) {
+                    int freq = timeInState / 1000;
+                    if (freq > maxFreq) {
+                        maxFreq = freq;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return maxFreq;
+    }
+
+
+    public String getCPUFreq() {
+        return getMinCPUFreq(0) + " - " + getMaxCPUFreq(0) + " MHz";
+    }
+
+    public String getBogoMIPS() {
+        String bogomips = String.valueOf(getCpuInfoMap().get("bogomips"));
+        if (bogomips.equals("null")) {
+            bogomips = String.valueOf(getCpuInfoMap().get("BogoMIPS"));
+        }
+        return bogomips;
+    }
+
+    public String getCPUGovernor(int core) {
+        String governor = "";
+        String file = "/sys/devices/system/cpu/cpu" + core + "/cpufreq/scaling_governor";
+
+        if (new File(file).exists()) {
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(file)));
+                governor = bufferedReader.readLine();
+
+                if (bufferedReader != null)
+                    bufferedReader.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return governor;
+    }
+
 }
 

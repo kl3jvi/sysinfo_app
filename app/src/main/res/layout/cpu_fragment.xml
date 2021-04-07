@@ -102,12 +102,12 @@
                         android:id="@+id/textView27"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="CPU Architecture"
+                        android:text="BogoMIPS"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/cpuArchitecture"
+                        android:id="@+id/bogo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView"
@@ -125,12 +125,12 @@
                         android:id="@+id/textView25"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="CPU Hardware"
+                        android:text="CPU Governor"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/cpuHardware"
+                        android:id="@+id/cpuGovernor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView"

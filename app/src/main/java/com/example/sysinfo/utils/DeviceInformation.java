@@ -5,8 +5,8 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ConfigurationInfo;
 import android.content.pm.FeatureInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -52,6 +52,25 @@ public class DeviceInformation extends DeviceInfo {
      */
     private static int getMajorVersion(int glEsVersion) {
         return ((glEsVersion & 0xffff0000) >> 16);
+    }
+
+    /**
+     * Get Values from android properties
+     *
+     * @param key
+     * @return
+     */
+    public static String getSystemProperty(String key) {
+        String value = null;
+
+        try {
+            value = (String) Class.forName("android.os.SystemProperties")
+                    .getMethod("get", String.class).invoke(null, key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return value;
     }
 
     /**
@@ -153,7 +172,7 @@ public class DeviceInformation extends DeviceInfo {
         try {
             double currentFreq;
             RandomAccessFile readerCurFreq;
-            readerCurFreq = new RandomAccessFile("/sys/devices/system/cpu/cpu"+core+"/cpufreq/cpuinfo_max_freq", "r");
+            readerCurFreq = new RandomAccessFile("/sys/devices/system/cpu/cpu" + core + "/cpufreq/cpuinfo_max_freq", "r");
             String curfreg = readerCurFreq.readLine();
             currentFreq = Double.parseDouble(curfreg) / 1000;
             readerCurFreq.close();
@@ -258,22 +277,10 @@ public class DeviceInformation extends DeviceInfo {
      * @param context
      * @return
      */
-    public int openGlVersion(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        FeatureInfo[] featureInfos = packageManager.getSystemAvailableFeatures();
-        if (featureInfos != null && featureInfos.length > 0) {
-            for (FeatureInfo featureInfo : featureInfos) {
-                // Null feature name means this feature is the open gl es version feature.
-                if (featureInfo.name == null) {
-                    if (featureInfo.reqGlEsVersion != FeatureInfo.GL_ES_VERSION_UNDEFINED) {
-                        return getMajorVersion(featureInfo.reqGlEsVersion);
-                    } else {
-                        return 1; // Lack of property means OpenGL ES version 1
-                    }
-                }
-            }
-        }
-        return 1;
+    public String openGlVersion(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+        return configurationInfo.getGlEsVersion();
     }
 
     /**
@@ -329,6 +336,7 @@ public class DeviceInformation extends DeviceInfo {
 
     /**
      * Checks if treble is supported;
+     *
      * @param context
      * @return
      */
@@ -339,24 +347,6 @@ public class DeviceInformation extends DeviceInfo {
         } else {
             return "Not Supported";
         }
-    }
-
-    /**
-     * Get Values from android properties
-     * @param key
-     * @return
-     */
-    public static String getSystemProperty(String key) {
-        String value = null;
-
-        try {
-            value = (String) Class.forName("android.os.SystemProperties")
-                    .getMethod("get", String.class).invoke(null, key);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return value;
     }
 
 

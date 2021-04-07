@@ -23,7 +23,7 @@ public class SystemFrag extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.system_fragment, container, false);
-        if(context == null){
+        if (context == null) {
             context = requireContext();
         }
         DeviceInformation deviceClass = new DeviceInformation(context);
@@ -103,5 +103,6 @@ public class SystemFrag extends Fragment {
     public void onResume() {
         super.onResume();
         handler.postDelayed(runnable, 1000);
+
     }
 }

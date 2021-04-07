@@ -2,6 +2,7 @@ package com.example.sysinfo.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ public class CPU extends Fragment {
 
     private View fragmentView;
     private Context context;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +50,37 @@ public class CPU extends Fragment {
         TextView cores = fragmentView.findViewById(R.id.cores);
         cores.setText(deviceInformation.getNumOfCores() + "");
 
-        
+        TextView cpuFreq = fragmentView.findViewById(R.id.cpuFreq);
+        cpuFreq.setText(cpuUtils.getCPUFreq());
+
+        TextView bogoMips = fragmentView.findViewById(R.id.bogo);
+        bogoMips.setText(cpuUtils.getBogoMIPS());
+
+        TextView cpuGovernor = fragmentView.findViewById(R.id.cpuGovernor);
+        cpuGovernor.setText(cpuUtils.getCPUGovernor(0));
+
+        TextView cpuUsage = fragmentView.findViewById(R.id.cpuUsage);
+
+        handler = new Handler();
+        runnable = new Runnable() {
+            public void run() {
+                int PERCENTAGE = deviceInformation.calculatePercentage(deviceInformation.getFrequencyOfCore(0), deviceInformation.getMaxCpuFrequency(0));
+                cpuUsage.setText(PERCENTAGE + "%");
+                handler.postDelayed(this, 1000);
+            }
+        };
         return fragmentView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.postDelayed(runnable, 1000);
     }
 }
