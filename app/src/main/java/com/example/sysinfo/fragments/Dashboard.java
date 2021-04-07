@@ -171,5 +171,4 @@ public class Dashboard extends Fragment {
         getActivity().registerReceiver(chargingReciever, ifilter);
         handler.postDelayed(runnable, 2000);
     }
-
 }
