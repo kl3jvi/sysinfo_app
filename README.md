@@ -33,19 +33,19 @@ The android app lets you:
 ## Screenshots
 
 [<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_1.jpg" align="left"
-width="25%"
+width="23%"
     hspace="10" vspace="10">](/images/sc_1.jpg)
     
 [<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_2.jpg" align="left"
-width="25%"
+width="23%"
     hspace="10" vspace="10">](/images/sc_2.jpg)
     
 [<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_3.jpg" align="left"
-width="25%"
+width="23%"
     hspace="10" vspace="10">](/images/sc_3.jpg)
     
 [<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_4.jpg" align="left"
-width="25%"
+width="23%"
     hspace="10" vspace="10">](/images/sc_4.jpg)
 
 
