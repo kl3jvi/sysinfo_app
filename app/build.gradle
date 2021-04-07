@@ -41,6 +41,8 @@ dependencies {
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
+
+    implementation 'com.github.daniel-stoneuk:material-about-library:3.1.2'
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.1'
 
     implementation 'androidx.gridlayout:gridlayout:1.0.0'

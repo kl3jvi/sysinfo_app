@@ -1,5 +1,6 @@
 package com.example.sysinfo.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -13,21 +14,19 @@ import androidx.fragment.app.Fragment;
 import com.example.sysinfo.R;
 import com.example.sysinfo.utils.DeviceInformation;
 
-import org.w3c.dom.Text;
-
-import java.util.Base64;
-import java.util.concurrent.TimeUnit;
-
 public class SystemFrag extends Fragment {
 
     private View fragmentView;
     private Handler handler;
     private Runnable runnable;
-
+    private Context context;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.system_fragment, container, false);
-        DeviceInformation deviceClass = new DeviceInformation(requireContext());
+        if(context == null){
+            context = requireContext();
+        }
+        DeviceInformation deviceClass = new DeviceInformation(context);
 
         TextView androidNo = fragmentView.findViewById(R.id.androidNo);
         androidNo.setText("Android " + deviceClass.getOSVersion());
@@ -61,10 +60,10 @@ public class SystemFrag extends Fragment {
         kernel.setText(deviceClass.readKernelVersion());
 
         TextView openGl = fragmentView.findViewById(R.id.opengl);
-        openGl.setText(deviceClass.openGlVersion(getContext())+"");
+        openGl.setText(deviceClass.openGlVersion(context) + "");
 
         TextView rootAccess = fragmentView.findViewById(R.id.rootAccess);
-        if(deviceClass.isDeviceRooted()){
+        if (deviceClass.isDeviceRooted()) {
             rootAccess.setText("Rooted");
         } else rootAccess.setText("Not Rooted");
 
@@ -72,25 +71,25 @@ public class SystemFrag extends Fragment {
         seLinux.setText(deviceClass.isSeLinuxEnforcing());
 
         TextView gService = fragmentView.findViewById(R.id.gplay);
-        gService.setText(deviceClass.getPlayVersion(getContext()));
+        gService.setText(deviceClass.getPlayVersion(context));
 
 
         TextView uptime = fragmentView.findViewById(R.id.sysUptime);
 
-        long millis=SystemClock.uptimeMillis();
+        long millis = SystemClock.uptimeMillis();
         uptime.setText(deviceClass.formatTime(millis));
 
         handler = new Handler();
         runnable = new Runnable() {
             public void run() {
-                long millis=SystemClock.uptimeMillis();
+                long millis = SystemClock.uptimeMillis();
                 uptime.setText(deviceClass.formatTime(millis));
                 handler.postDelayed(this, 1000);
             }
         };
 
-        TextView deviceId = fragmentView.findViewById(R.id.treble);
-        deviceId.setText(deviceClass.getAndroidId());
+        TextView treble = fragmentView.findViewById(R.id.treble);
+        treble.setText(deviceClass.getTreble(context));
         return fragmentView;
     }
 

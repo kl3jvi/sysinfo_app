@@ -327,5 +327,37 @@ public class DeviceInformation extends DeviceInfo {
         return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes, seconds) : String.format("%02d:%02d", minutes, seconds);
     }
 
+    /**
+     * Checks if treble is supported;
+     * @param context
+     * @return
+     */
+    public String getTreble(Context context) {
+        String output = getSystemProperty("ro.treble.enabled");
+        if (output.equals("true")) {
+            return "Supported";
+        } else {
+            return "Not Supported";
+        }
+    }
+
+    /**
+     * Get Values from android properties
+     * @param key
+     * @return
+     */
+    public static String getSystemProperty(String key) {
+        String value = null;
+
+        try {
+            value = (String) Class.forName("android.os.SystemProperties")
+                    .getMethod("get", String.class).invoke(null, key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return value;
+    }
+
 
 }

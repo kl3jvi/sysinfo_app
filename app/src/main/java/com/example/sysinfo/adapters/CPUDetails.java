@@ -7,7 +7,7 @@ public class CPUDetails {
     String maxFreq;
 
 
-    public CPUDetails(int vector, String cpuNumber, String frequency,String maxFreq) {
+    public CPUDetails(int vector, String cpuNumber, String frequency, String maxFreq) {
         this.vector = vector;
         this.cpuNumber = cpuNumber;
         this.frequency = frequency;

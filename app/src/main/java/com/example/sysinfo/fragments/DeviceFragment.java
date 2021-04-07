@@ -1,5 +1,6 @@
 package com.example.sysinfo.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +15,15 @@ import com.example.sysinfo.utils.DeviceInformation;
 public class DeviceFragment extends Fragment {
 
     private View fragmentView;
-
+    private Context context;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.device_fragment, container, false);
-        DeviceInformation deviceClass = new DeviceInformation(getContext());
+
+        if(context == null){
+            context = requireContext();
+        }
+        DeviceInformation deviceClass = new DeviceInformation(context);
 
         TextView device = fragmentView.findViewById(R.id.device);
         device.setText(deviceClass.getDevice());

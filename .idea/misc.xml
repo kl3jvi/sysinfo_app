@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/drawable/ic_rotation.xml" value="1.0" />
         <entry key="app/src/main/res/drawable/ic_splash.xml" value="0.15482456140350878" />
         <entry key="app/src/main/res/drawable/ic_svgexport_1.xml" value="0.27653149266609145" />
+        <entry key="app/src/main/res/layout/activity_about.xml" value="0.13771929824561405" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28396739130434784" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.8" />
         <entry key="app/src/main/res/layout/cpu_fragment.xml" value="0.38957816377171217" />
@@ -23,6 +24,7 @@
         <entry key="app/src/main/res/layout/device_fragment.xml" value="0.26403508771929823" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.28396739130434784" />
         <entry key="app/src/main/res/layout/system_fragment.xml" value="0.4" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.26403508771929823" />
       </map>
     </option>
   </component>

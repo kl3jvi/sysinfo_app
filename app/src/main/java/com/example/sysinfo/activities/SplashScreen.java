@@ -1,11 +1,11 @@
 package com.example.sysinfo.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sysinfo.R;
 
@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
         imageView.setImageResource(R.drawable.ic_splash);
 
         new Handler().postDelayed(() -> {
-            Intent i= new Intent(SplashScreen.this,MainActivity.class);
+            Intent i = new Intent(SplashScreen.this, MainActivity.class);
             startActivity(i); //start new activity
             finish();
         }, SPLASH_DISPLAY_LENGTH); //time in milliseconds

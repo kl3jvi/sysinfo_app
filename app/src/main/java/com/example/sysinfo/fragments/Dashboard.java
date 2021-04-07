@@ -1,6 +1,7 @@
 package com.example.sysinfo.fragments;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -47,14 +48,14 @@ public class Dashboard extends Fragment {
     private ListView listView;
     private ArrayList arrayList;
     private CustomCPUAdapter customCPUAdapter;
-    private TextView sensorsNo;
-
-    private int MAX;
-    private Random random;
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.dashboard_fragment, container, false);
+        if(context == null){
+            context = requireContext();
+        }
         init();
         updateView();
 //        MAX = deviceInformation.getMaxCpuFrequency();
@@ -95,7 +96,7 @@ public class Dashboard extends Fragment {
         //         ArrayList
         arrayList = new ArrayList();
         for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
-            arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i + 1), deviceInformation.getFrequencyOfCore(i) + " MHz",deviceInformation.getMaxCpuFrequency(i)+"MHz"));
+            arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i), deviceInformation.getFrequencyOfCore(i) + " MHz",deviceInformation.getMaxCpuFrequency(i)+"MHz"));
         }
 
         customCPUAdapter = new CustomCPUAdapter(getContext(), R.layout.cpu_list, arrayList);
