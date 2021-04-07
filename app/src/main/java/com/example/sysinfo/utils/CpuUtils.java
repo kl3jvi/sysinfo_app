@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -38,7 +39,7 @@ public class CpuUtils {
 
     /**
      * Method that returns the abi supported on runtime cpu, approach adapted from termux api;
-     *
+     * <p>
      * Note that we cannot use System.getProperty("os.arch") since that may give e.g. "aarch64"
      * while a 64-bit runtime may not be installed (like on the Samsung Galaxy S5 Neo).
      * Instead we search through the supported abi:s on the device, see:
@@ -68,9 +69,8 @@ public class CpuUtils {
     }
 
 
-
-    public String getCpuArchitecture(){
-        String bits=" ";
+    public String getCpuArchitecture() {
+        String bits = " ";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             bits = TextUtils.join(", ", Build.SUPPORTED_ABIS).contains("64") ? "64-Bit" : "32-Bit";
         } else {
@@ -81,6 +81,7 @@ public class CpuUtils {
 
     /**
      * Get the minimum frequency of the cpu on device;
+     *
      * @param core
      * @return
      */
@@ -111,32 +112,24 @@ public class CpuUtils {
 
     /**
      * Gets the cpu maximum frequency
+     *
      * @param core
      * @return
      */
     public int getMaxCPUFreq(int core) {
-        int maxFreq = -1;
+        int currentFReq = 0;
         try {
-            RandomAccessFile randomAccessFile = new RandomAccessFile("/sys/devices/system/cpu/cpu" + core + "/cpufreq/cpuinfo_max_freq", "r");
-            boolean done = false;
-            while (!done) {
-                String line = randomAccessFile.readLine();
-                if (null == line) {
-                    done = true;
-                    break;
-                }
-                int timeInState = Integer.parseInt(line);
-                if (timeInState > 0) {
-                    int freq = timeInState / 1000;
-                    if (freq > maxFreq) {
-                        maxFreq = freq;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            double currentFreq;
+            RandomAccessFile readerCurFreq;
+            readerCurFreq = new RandomAccessFile("/sys/devices/system/cpu/cpu" + core + "/cpufreq/cpuinfo_max_freq", "r");
+            String curfreg = readerCurFreq.readLine();
+            currentFreq = Double.parseDouble(curfreg) / 1000;
+            readerCurFreq.close();
+            currentFReq = (int) currentFreq;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return maxFreq;
+        return currentFReq;
     }
 
 
@@ -160,11 +153,10 @@ public class CpuUtils {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(file)));
                 governor = bufferedReader.readLine();
-
-                if (bufferedReader != null)
-                    bufferedReader.close();
-            }
-            catch (IOException e) {
+                bufferedReader.close();
+            } catch (FileNotFoundException e) {
+                governor = "Not Found";
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

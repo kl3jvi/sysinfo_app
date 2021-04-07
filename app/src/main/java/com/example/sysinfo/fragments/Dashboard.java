@@ -24,7 +24,6 @@ import com.example.sysinfo.utils.DeviceInformation;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class Dashboard extends Fragment {
@@ -46,14 +45,14 @@ public class Dashboard extends Fragment {
     private ChargingReciever chargingReciever;
     private Runnable runnable;
     private ListView listView;
-    private ArrayList arrayList;
+    private ArrayList<CPUDetails> arrayList;
     private CustomCPUAdapter customCPUAdapter;
     private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.dashboard_fragment, container, false);
-        if(context == null){
+        if (context == null) {
             context = requireContext();
         }
         init();
@@ -96,7 +95,7 @@ public class Dashboard extends Fragment {
         //         ArrayList
         arrayList = new ArrayList();
         for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
-            arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i), deviceInformation.getFrequencyOfCore(i) + " MHz",deviceInformation.getMaxCpuFrequency(i)+"MHz"));
+            arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i), deviceInformation.getFrequencyOfCore(i) + " MHz", deviceInformation.getMaxCpuFrequency(i) + "MHz"));
         }
 
         customCPUAdapter = new CustomCPUAdapter(getContext(), R.layout.cpu_list, arrayList);
@@ -137,12 +136,11 @@ public class Dashboard extends Fragment {
                 for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
                     int coreFreq = deviceInformation.getFrequencyOfCore(i);
                     int progressPercentage = deviceInformation.calculatePercentage(coreFreq, deviceInformation.getMaxCpuFrequency(i));
-                    arrayList.set(i, new CPUDetails(progressPercentage, "Core " + (i), deviceInformation.getFrequencyOfCore(i) + "MHz",deviceInformation.getMaxCpuFrequency(i)+" MHz"));
+                    arrayList.set(i, new CPUDetails(progressPercentage, "Core " + (i), deviceInformation.getFrequencyOfCore(i) + "MHz", deviceInformation.getMaxCpuFrequency(i) + " MHz"));
                     customCPUAdapter.notifyDataSetChanged();
 
                 }
                 handler.postDelayed(this, 2000);
-
 
 
             }

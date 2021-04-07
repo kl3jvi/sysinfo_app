@@ -11,14 +11,14 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -38,13 +38,9 @@ dependencies {
     implementation 'com.an.deviceinfo:deviceinfo:0.1.5'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
-    implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-
-
     implementation 'com.github.daniel-stoneuk:material-about-library:3.1.2'
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.1'
-
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
@@ -52,3 +48,4 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+

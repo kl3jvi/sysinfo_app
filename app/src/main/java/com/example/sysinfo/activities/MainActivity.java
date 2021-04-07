@@ -16,13 +16,15 @@ import com.example.sysinfo.databinding.ActivityMainBinding;
 import com.example.sysinfo.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
     private ActivityMainBinding binding;
 
     private int[] tabIcons = {
             R.drawable.ic_dashboard,
-            R.drawable.ic_phone,
+            R.drawable.ic_devicee,
             R.drawable.ic_system,
             R.drawable.ic_cpu
     };
@@ -46,12 +48,13 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setElevation(0);
         }
-    }
 
+
+    }
 
     public void setupTabsIcon() {
         for (int i = 0; i < tabs.getTabCount(); i++) {
-            tabs.getTabAt(i).setIcon(tabIcons[i]);
+            Objects.requireNonNull(tabs.getTabAt(i)).setIcon(tabIcons[i]);
         }
     }
 
@@ -80,11 +83,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         int id = item.getItemId();
-        if (id == R.id.settings) {
-//            Intent setting = new Intent(this, SettingsActivity.class); //TODO Create settings activity
-//            startActivity(setting);
-            return true;
-        } else if (id == R.id.about) {
+        if (id == R.id.about) {
             Intent about = new Intent(this, AboutActivity.class);
             startActivity(about);
             return true;
