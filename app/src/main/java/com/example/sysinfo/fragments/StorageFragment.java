@@ -1,7 +1,6 @@
 package com.example.sysinfo.fragments;
 
 import android.app.Activity;
-import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +18,9 @@ import com.example.sysinfo.utils.DeviceInformation;
 public class StorageFragment extends Fragment {
     private Context context;
     private Activity activity;
-    private TextView internalTxt,externalTxt;
-    private IconRoundCornerProgressBar internalProgressBar,externalProgressBar;
+    private TextView internalTxt, externalTxt;
+    private IconRoundCornerProgressBar internalProgressBar, externalProgressBar;
+    private DeviceInformation dInfo;
 
     @Nullable
     @Override
@@ -31,18 +31,36 @@ public class StorageFragment extends Fragment {
             context = requireContext();
             activity = requireActivity();
         }
-        DeviceInformation dInfo = new DeviceInformation(context,activity);
+        dInfo = new DeviceInformation(context, activity);
 
         internalTxt = fragmentView.findViewById(R.id.internal);
         externalTxt = fragmentView.findViewById(R.id.external);
 
-        internalProgressBar = fragmentView.findViewById(R.id.internalSize);
+        internalProgressBar = fragmentView.findViewById(R.id.progress_bar_internal);
+
         externalProgressBar = fragmentView.findViewById(R.id.externalSize);
 
         long totalInternalMemorySize = dInfo.getTotalInternalMemorySize();
         long availableInternalMemorySize = dInfo.getAvailableInternalMemorySize();
-        int internalPercentage = dInfo.calculatePercentage((int)availableInternalMemorySize,(int)totalInternalMemorySize);
-        System.out.println(internalPercentage+"-----------------------------------------------");
+        long internalPercentage = dInfo.calculateLongPercentage(totalInternalMemorySize-availableInternalMemorySize, totalInternalMemorySize);
+
+        String avail = dInfo.humanReadableByteCountBin(totalInternalMemorySize - availableInternalMemorySize);
+        String total = dInfo.humanReadableByteCountBin(totalInternalMemorySize);
+
+        internalTxt.setText("Internal: " + avail + " / " + total + " ("+internalPercentage+"%)");
+        internalProgressBar.setProgress(internalPercentage);
+
+
+        long totalExternalMemorySize = dInfo.getTotalExternalMemorySize();
+        long availableExternalMemorySize = dInfo.getAvailableExternalMemorySize();
+        long externalPercentage = dInfo.calculateLongPercentage(totalExternalMemorySize-availableExternalMemorySize,totalExternalMemorySize);
+
+        String exAvail = dInfo.humanReadableByteCountBin(totalExternalMemorySize-availableExternalMemorySize);
+        String exTotal = dInfo.humanReadableByteCountBin(totalExternalMemorySize);
+        externalTxt.setText("External: " + exAvail + " / " + exTotal + " ("+externalPercentage+"%)");
+        externalProgressBar.setProgress(externalPercentage);
+
+
         return fragmentView;
     }
 

@@ -130,6 +130,13 @@ public class DeviceInformation extends DeviceInfo {
         } else return 30;
     }
 
+    public long calculateLongPercentage(long toCalculate,long maximum){
+        if (maximum != 0) {
+            return (100 * toCalculate) / maximum;
+        } else return 30;
+    }
+
+
     /**
      * returns the number of cpu cores
      *

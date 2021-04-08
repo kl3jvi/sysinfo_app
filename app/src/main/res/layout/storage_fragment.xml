@@ -25,18 +25,17 @@
 
 
         <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
-            android:id="@+id/internalSize"
+            android:id="@+id/progress_bar_internal"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             app:rcBackgroundColor="#babdbe"
             app:rcBackgroundPadding="5dp"
-            app:rcIconPadding="1dp"
-            app:rcIconSize="25dp"
-            app:rcIconSrc="@drawable/ic_external_size"
+            app:rcIconPadding="5dp"
+            app:rcIconSize="30dp"
+            app:rcIconSrc="@drawable/ic_root_slash"
             app:rcMax="100"
-            app:rcProgress="80"
             app:rcProgressColor="@color/colorAccent"
             app:rcRadius="8dp" >
         </com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar>
@@ -54,14 +53,14 @@
         <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
             android:id="@+id/externalSize"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             app:rcBackgroundColor="#babdbe"
             app:rcBackgroundPadding="5dp"
             app:rcIconPadding="2dp"
-            app:rcIconSize="25dp"
-            app:rcIconSrc="@drawable/ic_cpu_white"
+            app:rcIconSize="30dp"
+            app:rcIconSrc="@drawable/ic_external_size"
             app:rcMax="100"
             app:rcProgress="80"
             app:rcProgressColor="@color/colorAccent"
