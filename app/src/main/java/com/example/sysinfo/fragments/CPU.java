@@ -69,6 +69,9 @@ public class CPU extends Fragment {
                 handler.postDelayed(this, 1000);
             }
         };
+
+
+
         return fragmentView;
     }
 

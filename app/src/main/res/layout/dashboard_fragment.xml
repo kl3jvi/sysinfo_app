@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -31,7 +31,8 @@
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/colorAccent"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="8dp"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,20 +117,19 @@
                                 android:orientation="vertical">
 
                                 <ProgressBar
-                                    android:id="@+id/progressBar1"
+                                    android:id="@+id/systemStorage"
                                     style="?android:attr/progressBarStyleHorizontal"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:progressTint="#FFFF" />
-
                                 <TextView
                                     android:id="@+id/textView4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="end"
-                                    android:text="100 %"
+                                    android:text="99 %"
                                     android:textColor="#FFFF"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -200,10 +200,10 @@
                 android:text="CPU HISTORY" />
 
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
 
         </LinearLayout>
@@ -218,10 +218,10 @@
         android:divider="@null"
         android:paddingBottom="10dp" />
     <!--    <ListView-->
-<!--        android:id="@+id/listView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:divider="@null"-->
-<!--        android:layout_height="match_parent" />-->
+    <!--        android:id="@+id/listView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:divider="@null"-->
+    <!--        android:layout_height="match_parent" />-->
 
 
 </LinearLayout>

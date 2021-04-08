@@ -1,6 +1,7 @@
 package com.example.sysinfo.fragments;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -28,15 +29,13 @@ import java.util.ArrayList;
 
 public class Dashboard extends Fragment {
 
+    int osStoragePercentage;
     private View fragmentView;
-    private ProgressBar internalP, batteryP;
-    private TextView internalPercentage, batteryPercentage, ramTxt;
+    private ProgressBar internalP, batteryP, sysStorageProgress;
+    private TextView internalPercentage, batteryPercentage, ramTxt, osTxt;
     private DeviceInformation deviceInformation;
     private BatteryInfo batteryInfo;
-    private int totalExternalStorage;
-    private int availableExternalStorage;
     private int storagePercentage;
-
     private int batteryInt;
     private ArcProgress arcProgress;
     private int availableRam, totalRam;
@@ -44,7 +43,6 @@ public class Dashboard extends Fragment {
     private Handler handler;
     private ChargingReciever chargingReciever;
     private Runnable runnable;
-    private ListView listView;
     private ArrayList<CPUDetails> arrayList;
     private CustomCPUAdapter customCPUAdapter;
     private Context context;
@@ -79,21 +77,28 @@ public class Dashboard extends Fragment {
                 .start();
 
         ramTxt = fragmentView.findViewById(R.id.ramTxt);
-        listView = fragmentView.findViewById(R.id.listView);
+        osTxt = fragmentView.findViewById(R.id.textView4);
+        ListView listView = fragmentView.findViewById(R.id.listView);
 //        sensorsNo = fragmentView.findViewById(R.id.textView5);
 //        appNo = fragmentView.findViewById(R.id.textView6);
 
-
+        sysStorageProgress = fragmentView.findViewById(R.id.systemStorage);
+        sysStorageProgress.setMax(100);
         //        Storage variables
-        totalExternalStorage = (int) deviceInformation.totalExternalMemory();
-        availableExternalStorage = (int) deviceInformation.availableExternalMemory();
+        int totalExternalStorage = (int) deviceInformation.totalExternalMemory();
+        int availableExternalStorage = (int) deviceInformation.availableExternalMemory();
+
+        int totalOsStorage = (int) deviceInformation.getTotalOsStorage()/100;
+        int usedOsStorage = (int) deviceInformation.getUsedOsStorage()/100;
+
         storagePercentage = deviceInformation.calculatePercentage(totalExternalStorage - availableExternalStorage, totalExternalStorage);
+        osStoragePercentage = deviceInformation.calculatePercentage(totalOsStorage, usedOsStorage);
 
         //        Battery Variables
         batteryInt = batteryInfo.batteryPercentage();
 
         //         ArrayList
-        arrayList = new ArrayList();
+        arrayList = new ArrayList<>();
         for (int i = 0; i < deviceInformation.getNumOfCores(); i++) {
             arrayList.add(new CPUDetails(R.drawable.ic_cpu, "Core " + (i), deviceInformation.getFrequencyOfCore(i) + " MHz", deviceInformation.getMaxCpuFrequency(i) + "MHz"));
         }
@@ -104,19 +109,22 @@ public class Dashboard extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void updateView() {
         // storage progress
         internalP.setProgress(storagePercentage);
         internalPercentage.setText(storagePercentage + " %");
 
+        // os storage progress
+        sysStorageProgress.setProgress(osStoragePercentage);
+        osTxt.setText(osStoragePercentage + " %");
+
         // battery progress
         batteryPercentage.setText(batteryInt + " %");
         batteryP.setProgress(batteryInt);
 
-        if(batteryInfo.isCharging()){
-            batteryP.setIndeterminate(true);
-//            batteryPercentage.setText("(Charging) "+batteryInfo.batteryPercentage()+" %");
-        } else batteryP.setIndeterminate(false);
+        //            batteryPercentage.setText("(Charging) "+batteryInfo.batteryPercentage()+" %");
+        batteryP.setIndeterminate(batteryInfo.isCharging());
         // ram progress
         checkForRamChanges();
 
@@ -127,6 +135,7 @@ public class Dashboard extends Fragment {
         totalRam = (int) deviceInformation.getTotalRam();
         handler = new Handler();
         runnable = new Runnable() {
+            @SuppressLint("SetTextI18n")
             public void run() {
                 availableRam = (int) deviceInformation.getAvailableRam();
                 memoryProgress = deviceInformation.calculatePercentage(totalRam - availableRam, totalRam);

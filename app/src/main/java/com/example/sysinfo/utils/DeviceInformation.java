@@ -12,6 +12,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 
 import com.an.deviceinfo.device.DeviceInfo;
@@ -25,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -349,5 +353,44 @@ public class DeviceInformation extends DeviceInfo {
         }
     }
 
+
+    public long getTotalStorageInfo(String path) {
+        StatFs statFs = new StatFs(path);
+        long t;
+        t = statFs.getTotalBytes();
+        return t;    // remember to convert in GB,MB or KB.
+    }
+
+    public long getUsedStorageInfo(String path) {
+        StatFs statFs = new StatFs(path);
+        long u;
+        u = statFs.getTotalBytes() - statFs.getAvailableBytes();
+        return u;  // remember to convert in GB,MB or KB.
+    }
+
+
+    public long getTotalOsStorage(){
+        return getTotalStorageInfo(Environment.getRootDirectory().getPath());
+    }
+
+    public long getUsedOsStorage(){
+        return getUsedStorageInfo(Environment.getRootDirectory().getPath());
+    }
+
+
+    public String humanReadableByteCountBin(long bytes) {
+        long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
+        if (absB < 1024) {
+            return bytes + " B";
+        }
+        long value = absB;
+        CharacterIterator ci = new StringCharacterIterator("KMGTPE");
+        for (int i = 40; i >= 0 && absB > 0xfffccccccccccccL >> i; i -= 10) {
+            value >>= 10;
+            ci.next();
+        }
+        value *= Long.signum(bytes);
+        return String.format("%.1f %ciB", value / 1024.0, ci.current());
+    }
 
 }

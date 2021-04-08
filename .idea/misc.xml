@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_cpu.xml" value="0.2078125" />
         <entry key="app/src/main/res/drawable/ic_cpu_white.xml" value="0.1618421052631579" />
         <entry key="app/src/main/res/drawable/ic_dashboard.xml" value="1.0" />
+        <entry key="app/src/main/res/drawable/ic_external_size.xml" value="0.28114035087719297" />
         <entry key="app/src/main/res/drawable/ic_icon.xml" value="0.1618421052631579" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2078125" />
         <entry key="app/src/main/res/drawable/ic_mobile_app.xml" value="1.0" />
@@ -25,6 +26,7 @@
         <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.264" />
         <entry key="app/src/main/res/layout/device_fragment.xml" value="0.26403508771929823" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.28396739130434784" />
+        <entry key="app/src/main/res/layout/storage_fragment.xml" value="0.264" />
         <entry key="app/src/main/res/layout/system_fragment.xml" value="0.4" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.26403508771929823" />
       </map>
