@@ -20,9 +20,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
-    private ActivityMainBinding binding;
 
-    private int[] tabIcons = {
+    private final int[] tabIcons = {
             R.drawable.ic_dashboard,
             R.drawable.ic_devicee,
             R.drawable.ic_system,
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.sysinfo.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -42,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
+        int NUMBER =tabs.getTabCount()-1;
+        viewPager.setOffscreenPageLimit(NUMBER); // TODO Never forget to increment this if you add another page ; (N-1) N->Number of pages
         setupTabsIcon();
 
         ActionBar actionBar = getSupportActionBar();
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupTabsIcon() {
+
+
         for (int i = 0; i < tabs.getTabCount(); i++) {
             Objects.requireNonNull(tabs.getTabAt(i)).setIcon(tabIcons[i]);
         }

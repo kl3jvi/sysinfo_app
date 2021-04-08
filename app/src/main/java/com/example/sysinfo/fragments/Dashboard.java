@@ -113,9 +113,10 @@ public class Dashboard extends Fragment {
         batteryPercentage.setText(batteryInt + " %");
         batteryP.setProgress(batteryInt);
 
-//        sensorsNo.setText(deviceInformation.getNumberOfSensors() + " Sensors");
-//        appNo.setText(deviceInformation.getNumberOfApps() + " Apps");
-
+        if(batteryInfo.isCharging()){
+            batteryP.setIndeterminate(true);
+//            batteryPercentage.setText("(Charging) "+batteryInfo.batteryPercentage()+" %");
+        } else batteryP.setIndeterminate(false);
         // ram progress
         checkForRamChanges();
 
@@ -148,25 +149,28 @@ public class Dashboard extends Fragment {
     }
 
 
-    public void cpuHandler() {
-
-    }
-
     @Override
     public void onPause() {
+        if (getActivity() != null) {
+            getActivity().unregisterReceiver(chargingReciever);
+        }
         super.onPause();
         handler.removeCallbacksAndMessages(null);
-        requireActivity().unregisterReceiver(chargingReciever);
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        chargingReciever = new ChargingReciever(batteryP, batteryPercentage, getContext());
-        IntentFilter ifilter = new IntentFilter();
-        ifilter.addAction(Intent.ACTION_POWER_CONNECTED);
-        ifilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        getActivity().registerReceiver(chargingReciever, ifilter);
+
+        if (getActivity() != null) {
+            chargingReciever = new ChargingReciever(batteryP, batteryPercentage, getContext());
+            IntentFilter ifilter = new IntentFilter();
+            ifilter.addAction(Intent.ACTION_POWER_CONNECTED);
+            ifilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+            getActivity().registerReceiver(chargingReciever, ifilter);
+        }
+
         handler.postDelayed(runnable, 2000);
     }
 }
