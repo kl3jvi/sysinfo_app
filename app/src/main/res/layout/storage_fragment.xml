@@ -33,7 +33,7 @@
             app:rcBackgroundColor="#babdbe"
             app:rcBackgroundPadding="5dp"
             app:rcIconPadding="5dp"
-            app:rcIconSize="30dp"
+            app:rcIconSize="35dp"
             app:rcIconSrc="@drawable/ic_root_slash"
             app:rcMax="100"
             app:rcProgressColor="@color/colorAccent"
@@ -59,10 +59,9 @@
             app:rcBackgroundColor="#babdbe"
             app:rcBackgroundPadding="5dp"
             app:rcIconPadding="2dp"
-            app:rcIconSize="30dp"
+            app:rcIconSize="35dp"
             app:rcIconSrc="@drawable/ic_external_size"
             app:rcMax="100"
-            app:rcProgress="80"
             app:rcProgressColor="@color/colorAccent"
             app:rcRadius="8dp" >
         </com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar>

@@ -88,8 +88,8 @@ public class Dashboard extends Fragment {
         int totalExternalStorage = (int) deviceInformation.totalExternalMemory();
         int availableExternalStorage = (int) deviceInformation.availableExternalMemory();
 
-        int totalOsStorage = (int) deviceInformation.getTotalOsStorage()/100;
-        int usedOsStorage = (int) deviceInformation.getUsedOsStorage()/100;
+        int totalOsStorage = (int) deviceInformation.getTotalOsStorage() / 100;
+        int usedOsStorage = (int) deviceInformation.getUsedOsStorage() / 100;
 
         storagePercentage = deviceInformation.calculatePercentage(totalExternalStorage - availableExternalStorage, totalExternalStorage);
         osStoragePercentage = deviceInformation.calculatePercentage(totalOsStorage, usedOsStorage);
@@ -124,7 +124,7 @@ public class Dashboard extends Fragment {
         batteryP.setProgress(batteryInt);
 
         //            batteryPercentage.setText("(Charging) "+batteryInfo.batteryPercentage()+" %");
-        batteryP.setIndeterminate(batteryInfo.isCharging());
+
         // ram progress
         checkForRamChanges();
 
@@ -137,6 +137,7 @@ public class Dashboard extends Fragment {
         runnable = new Runnable() {
             @SuppressLint("SetTextI18n")
             public void run() {
+
                 availableRam = (int) deviceInformation.getAvailableRam();
                 memoryProgress = deviceInformation.calculatePercentage(totalRam - availableRam, totalRam);
                 arcProgress.setProgress(memoryProgress);
@@ -171,7 +172,7 @@ public class Dashboard extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        batteryP.setIndeterminate(batteryInfo.isCharging());
         if (getActivity() != null) {
             chargingReciever = new ChargingReciever(batteryP, batteryPercentage, getContext());
             IntentFilter ifilter = new IntentFilter();
@@ -179,7 +180,6 @@ public class Dashboard extends Fragment {
             ifilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
             getActivity().registerReceiver(chargingReciever, ifilter);
         }
-
         handler.postDelayed(runnable, 2000);
     }
 }

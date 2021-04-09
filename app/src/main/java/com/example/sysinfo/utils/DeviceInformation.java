@@ -167,6 +167,7 @@ public class DeviceInformation extends DeviceInfo {
             currentFreq = Double.parseDouble(curfreg) / 1000;
             readerCurFreq.close();
             currentFReq = (int) currentFreq;
+            System.out.println(currentFReq+"----------------------------------------------------");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

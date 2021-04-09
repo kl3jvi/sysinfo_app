@@ -4,6 +4,8 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,20 +52,22 @@ public class CpuUtils {
      *
      * @return cpuAbi;
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public String getCpuAbi() {
-
-        for (String androidArch : Build.SUPPORTED_ABIS) {
-            switch (androidArch) {
-                case "arm64-v8a":
-                    return "aarch64";
-                case "armeabi-v7a":
-                    return "arm";
-                case "x86_64":
-                    return "x86_64";
-                case "x86":
-                    return "i686";
+        if (android.os.Build.VERSION.SDK_INT>=21) {
+            for (String androidArch : Build.SUPPORTED_ABIS) {
+                switch (androidArch) {
+                    case "arm64-v8a":
+                        return "aarch64";
+                    case "armeabi-v7a":
+                        return "arm";
+                    case "x86_64":
+                        return "x86_64";
+                    case "x86":
+                        return "i686";
+                }
             }
-        }
+        } else return "Not Supported";
         throw new RuntimeException("Unable to determine arch from Build.SUPPORTED_ABIS =  " +
                 Arrays.toString(Build.SUPPORTED_ABIS));
     }
