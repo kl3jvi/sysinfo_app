@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/layout/activity_about.xml" value="0.13771929824561405" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28396739130434784" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.8" />
+        <entry key="app/src/main/res/layout/battery_fragment.xml" value="0.26403508771929823" />
         <entry key="app/src/main/res/layout/cpu_fragment.xml" value="0.38957816377171217" />
         <entry key="app/src/main/res/layout/cpu_list.xml" value="0.4967532467532468" />
         <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.264" />

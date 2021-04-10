@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment;
 import com.example.sysinfo.R;
 import com.example.sysinfo.adapters.CPUDetails;
 import com.example.sysinfo.adapters.CustomCPUAdapter;
-import com.example.sysinfo.ui.main.BatteryInfo;
-import com.example.sysinfo.ui.main.ChargingReciever;
+import com.example.sysinfo.utils.BatteryInfo;
+import com.example.sysinfo.utils.ChargingReciever;
 import com.example.sysinfo.utils.DeviceInformation;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 

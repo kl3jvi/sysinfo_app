@@ -1,6 +1,8 @@
 package com.example.sysinfo.activities;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,8 @@ public class AboutActivity extends MaterialAboutActivity {
     @Override
     protected MaterialAboutList getMaterialAboutList(@NonNull Context c) {
         MaterialAboutCard.Builder appCardBuilder = new MaterialAboutCard.Builder();
+        Context context = this;
+
 
         appCardBuilder.addItem(new MaterialAboutTitleItem.Builder()
                 .text("SysInfo")
@@ -41,7 +45,7 @@ public class AboutActivity extends MaterialAboutActivity {
 
         MaterialAboutCard.Builder convenienceCardBuilder = new MaterialAboutCard.Builder();
 
-        convenienceCardBuilder.title("Convenience Builder");
+        convenienceCardBuilder.title("Contact Me");
 
         convenienceCardBuilder.addItem(ConvenienceBuilder.createVersionActionItem(c,
                 getResources().getDrawable(R.drawable.ic_info),
@@ -102,6 +106,5 @@ public class AboutActivity extends MaterialAboutActivity {
     protected CharSequence getActivityTitle() {
         return null;
     }
-
 
 }

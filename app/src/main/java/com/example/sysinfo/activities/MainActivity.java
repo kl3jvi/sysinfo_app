@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_devicee,
             R.drawable.ic_system,
             R.drawable.ic_sd_card,
-            R.drawable.ic_cpu
+            R.drawable.ic_cpu,
+            R.drawable.ic_battery
     };
     private TabLayout tabs;
 

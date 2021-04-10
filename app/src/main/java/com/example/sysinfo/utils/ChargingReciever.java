@@ -1,4 +1,4 @@
-package com.example.sysinfo.ui.main;
+package com.example.sysinfo.utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
