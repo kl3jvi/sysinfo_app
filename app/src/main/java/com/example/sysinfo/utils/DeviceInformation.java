@@ -12,6 +12,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
@@ -401,4 +403,31 @@ public class DeviceInformation extends DeviceInfo {
         return String.format("%.1f %ciB", value / 1024.0, ci.current());
     }
 
+    /**
+     * Gets Battery capacity in mAh
+     * @param context
+     * @return
+     */
+    public double getBatteryCapacity(Context context) {
+        Object mPowerProfile;
+        double batteryCapacity = 0;
+        final String POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile";
+
+        try {
+            mPowerProfile = Class.forName(POWER_PROFILE_CLASS)
+                    .getConstructor(Context.class)
+                    .newInstance(context);
+
+            batteryCapacity = (double) Class
+                    .forName(POWER_PROFILE_CLASS)
+                    .getMethod("getBatteryCapacity")
+                    .invoke(mPowerProfile);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return batteryCapacity;
+
+    }
 }
