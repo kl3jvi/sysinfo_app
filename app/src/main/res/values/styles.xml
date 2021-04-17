@@ -21,6 +21,7 @@
         <item name="windowNoTitle">false</item>
     </style>
 
+
     <style name="TintTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
     </style>

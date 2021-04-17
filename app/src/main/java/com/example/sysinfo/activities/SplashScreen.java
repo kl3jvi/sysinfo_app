@@ -11,7 +11,7 @@ import com.example.sysinfo.R;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static final int SPLASH_DISPLAY_LENGTH = 1000;
+    private static final int SPLASH_TIMEOUT = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class SplashScreen extends AppCompatActivity {
             Intent i = new Intent(SplashScreen.this, MainActivity.class);
             startActivity(i); //start new activity
             finish();
-        }, SPLASH_DISPLAY_LENGTH); //time in milliseconds
+        }, SPLASH_TIMEOUT); //time in milliseconds
 
     }
 }

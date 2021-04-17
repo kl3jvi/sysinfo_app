@@ -14,6 +14,7 @@ import com.example.sysinfo.fragments.BatteryFragment;
 import com.example.sysinfo.fragments.CPU;
 import com.example.sysinfo.fragments.Dashboard;
 import com.example.sysinfo.fragments.DeviceFragment;
+import com.example.sysinfo.fragments.ScreenFragment;
 import com.example.sysinfo.fragments.StorageFragment;
 import com.example.sysinfo.fragments.SystemFrag;
 
@@ -26,7 +27,7 @@ import com.example.sysinfo.fragments.SystemFrag;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3, R.string.tab_text_4, R.string.tab_text_5,R.string.tab_text_6};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3, R.string.tab_text_4, R.string.tab_text_5, R.string.tab_text_6, R.string.tab_text_7};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -57,6 +58,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 5:
                 fragment = new BatteryFragment();
                 break;
+            case 6:
+                fragment = new ScreenFragment();
+                break;
         }
         assert fragment != null;
         return fragment;
@@ -71,7 +75,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 6 total pages.
-        return 6;
+        // Show 7 total pages.
+        return 7;
     }
 }
