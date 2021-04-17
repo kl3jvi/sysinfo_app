@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
 import android.content.pm.FeatureInfo;
 import android.content.pm.ResolveInfo;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.usb.UsbDevice;
@@ -16,7 +17,10 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.an.deviceinfo.device.DeviceInfo;
 import com.an.deviceinfo.device.model.Memory;
@@ -33,6 +37,7 @@ import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -426,8 +431,54 @@ public class DeviceInformation extends DeviceInfo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return batteryCapacity;
+    }
 
+    /**
+     * Returns dpi of the current screen the app is shown.
+     * @param context
+     * @return
+     */
+    public String getDPI(Activity activity) {
+        DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+        int densityDPI = (int)(metrics.density * 160f);
+        return densityDPI + " DPI";
+    }
+
+    /**
+     * Calculates the screen size on inches;
+     * @param activity
+     * @return
+     */
+    public static String getScreenSize(Activity activity) {
+        int widthPixels = 0;
+        int heightPixels = 0;
+        WindowManager windowManager = activity.getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        try {
+            Point realSize = new Point();
+            Display.class.getMethod("getRealSize", Point.class).invoke(display, realSize);
+            widthPixels = realSize.x;
+            heightPixels = realSize.y;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        double x = Math.pow(widthPixels / displayMetrics.xdpi, 2);
+        double y = Math.pow(heightPixels / displayMetrics.ydpi, 2);
+        double screenSize = Math.sqrt(x + y);
+        return String.format(Locale.ENGLISH, "%.2f", screenSize) + "\"";
+    }
+
+    /**
+     * Returns the refresh rate of the device;
+     * @param context
+     * @return
+     */
+    public static String getRefreshValue(Activity context) {
+        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        float refreshValue = display.getRefreshRate();
+        return String.format(Locale.ENGLISH, "%.2f", refreshValue) + "Hz";
     }
 }
