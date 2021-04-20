@@ -9,7 +9,7 @@ width="200" hspace="10" vspace="10">
 SysInfo is a simple and powerful Android application that gives you complete information about your mobile device with advanced user interfaces. Device Info includes information about CPU, RAM, OS, Sensors, Storage, Battery, SIM, Bluetooth, Network, Installed Apps, System Apps, Display, Camera, Thermal, etc.
 <br><br><br>
 ##### SysInfo  is under development and is not yet deployed on play store.
-\
+
 
 ## About
 
