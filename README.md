@@ -40,7 +40,7 @@ width="20%"
 width="20%"
     hspace="10" vspace="10">](/images/sc_2.jpg)
     
-[<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo/main/images/sc_3.jpg" align="left"
+[<img src="https://raw.githubusercontent.com/kl3jvi/sysinfo_app/main/images/sc_3.jpg" align="left"
 width="20%"
     hspace="10" vspace="10">](/images/sc_3.jpg)
     
