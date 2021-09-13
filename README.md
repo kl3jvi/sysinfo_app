@@ -51,8 +51,7 @@ width="20%"
 
 ## Permissions
 
-Until this very day the app does not require any permission to run on the Android Device.
-
+The application requires internet connection and location permission (not mandatory)
 
 ## Contributing
 
@@ -62,5 +61,5 @@ SysInfo app is a free and open source project developed by volunteers. Any contr
 
 ## License
 
-This application is released under GNU GPLv3 (see [LICENSE](LICENSE)).
+This application is released under MIT License (see [LICENSE](LICENSE)).
 Some of the used libraries are released under different licenses.
