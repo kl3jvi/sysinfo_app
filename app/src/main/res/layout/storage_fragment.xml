@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/internal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Internal"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+        <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+            android:id="@+id/progress_bar_internal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:rcBackgroundColor="#babdbe"
+            app:rcBackgroundPadding="5dp"
+            app:rcIconPadding="5dp"
+            app:rcIconSize="35dp"
+            app:rcIconSrc="@drawable/ic_root_slash"
+            app:rcMax="100"
+            app:rcProgressColor="@color/colorAccent"
+            app:rcRadius="8dp" >
+        </com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar>
+
+        <TextView
+            android:id="@+id/external"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="External"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+        <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+            android:id="@+id/externalSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:rcBackgroundColor="#babdbe"
+            app:rcBackgroundPadding="5dp"
+            app:rcIconPadding="2dp"
+            app:rcIconSize="35dp"
+            app:rcIconSrc="@drawable/ic_external_size"
+            app:rcMax="100"
+            app:rcProgressColor="@color/colorAccent"
+            app:rcRadius="8dp" >
+        </com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
