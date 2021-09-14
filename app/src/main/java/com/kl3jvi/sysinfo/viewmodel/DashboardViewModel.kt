@@ -16,27 +16,33 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     val ram = MutableLiveData<Long>()
     val ramText = MutableLiveData<String>()
-
+    val frequencies = MutableLiveData<ArrayList<Long>>()
 
     fun repeatFun(): Job {
         return viewModelScope.launch {
             while (isActive) {
                 //do your work here
-                val percentage =
-                    toPercent(
-                        deviceInfoExtended.getAvailableRam(),
-                        deviceInfoExtended.totalDeviceRam()
-                    )
-                ram.value = percentage
-                val usedRam =
-                    deviceInfoExtended.totalDeviceRam() - deviceInfoExtended.getAvailableRam()
-                ramText.value =
-                    "$usedRam / ${deviceInfoExtended.totalDeviceRam()} MB"
+                ramUi()
+
                 // Time Delay
                 delay(timeMillis = TIME_MILLIS)
             }
         }
     }
+
+    private fun ramUi() {
+        val percentage =
+            toPercent(
+                deviceInfoExtended.getAvailableRam(),
+                deviceInfoExtended.totalDeviceRam()
+            )
+        ram.value = percentage
+        val usedRam =
+            deviceInfoExtended.totalDeviceRam() - deviceInfoExtended.getAvailableRam()
+        ramText.value =
+            "$usedRam / ${deviceInfoExtended.totalDeviceRam()} MB"
+    }
+
 
     private fun toPercent(toCalculate: Long, maximum: Long): Long {
         return (100 - (toCalculate * 100L) / maximum)

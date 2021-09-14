@@ -5,10 +5,12 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_battery.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/drawable/ic_cpu_white.xml" value="0.334375" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3672514619883041" />
-        <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.8" />
+        <entry key="app/src/main/res/layout/cpu_list.xml" value="0.3140625" />
+        <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.5336283185840708" />
         <entry key="app/src/main/res/layout/storage_fragment.xml" value="0.3140625" />
         <entry key="app/src/main/res/layout/system_fragment.xml" value="0.3140625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.18385416666666668" />
