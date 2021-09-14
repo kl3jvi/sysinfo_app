@@ -37,13 +37,16 @@ class Dashboard : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mDashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
         mDashboardViewModel.repeatFun()
-        mDashboardViewModel.index.observe(viewLifecycleOwner, { num ->
-//            binding.arcProgress.progress = num.toInt()
+        mDashboardViewModel.ram.observe(viewLifecycleOwner, { num ->
             ObjectAnimator.ofInt(binding.arcProgress, "progress", num.toInt())
                 .setDuration(1000)
                 .start()
-
             Log.e("Number", num.toString())
+        })
+
+
+        mDashboardViewModel.ramText.observe(viewLifecycleOwner, { num ->
+            binding.ramTxt.text = num
         })
 
     }
