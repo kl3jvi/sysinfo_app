@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.kl3jvi.sysinfo.utils.DeviceInfoExtended
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class DashboardViewModel(application: Application) : AndroidViewModel(application) {
-    private val deviceInfoExtended =
-        DeviceInfoExtended(getApplication<Application>().applicationContext)
+    private val deviceInfoExtended = DeviceInfoExtended(getApplication<Application>().applicationContext)
 
     val ram = MutableLiveData<Long>()
     val ramText = MutableLiveData<String>()
@@ -41,6 +43,15 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             deviceInfoExtended.totalDeviceRam() - deviceInfoExtended.getAvailableRam()
         ramText.value =
             "$usedRam / ${deviceInfoExtended.totalDeviceRam()} MB"
+    }
+
+
+    fun randomFlow(): Flow<List<Long>> = flow {
+        while (true) {
+            val randomList = (0 until 7).map { Random.nextLong(100) }
+            emit(randomList)
+            delay(2000)
+        }
     }
 
 

@@ -43,8 +43,6 @@ class MainActivity : AppCompatActivity() {
         }
         viewPager.offscreenPageLimit = 5
         tabs.setupWithViewPager(viewPager)
-
-
     }
 
 

@@ -21,7 +21,7 @@ class DeviceInfoExtended(private val context: Context) : Memory(context) {
         var currentFReq = 0
         try {
             val currentFreq: Double
-            val readerCurFreq: RandomAccessFile =
+            val readerCurFreq =
                 RandomAccessFile("/sys/devices/system/cpu/cpu$core/cpufreq/cpuinfo_max_freq", "r")
             val currentfreq = readerCurFreq.readLine()
             currentFreq = currentfreq.toDouble() / 1000
@@ -34,12 +34,12 @@ class DeviceInfoExtended(private val context: Context) : Memory(context) {
     }
 
     fun getNumOfCores(): Int {
-        return File("/sys/devices/system/cpu/").listFiles { params ->
+        return File("/sys/devices/sys/tem/cpu/").listFiles { params ->
             Pattern.matches(
                 "cpu[0-9]",
                 params.name
             )
-        }.size
+        }?.size ?: -1
     }
 
     fun totalDeviceRam(): Long {
