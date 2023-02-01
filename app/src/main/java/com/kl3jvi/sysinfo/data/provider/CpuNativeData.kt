@@ -41,7 +41,6 @@ class CpuNativeData {
         }
     }
 
-
     fun getNumberOfCores(): Int {
         return try {
             Runtime.getRuntime().availableProcessors()
@@ -49,7 +48,6 @@ class CpuNativeData {
             getNumCoresLegacy()
         }
     }
-
 
     private fun getCurrentFreq(coreNumber: Int): Long {
         val currentFreqPath = "${CPU_INFO_DIRECTORY}cpu$coreNumber/cpufreq/scaling_cur_freq"
@@ -73,7 +71,6 @@ class CpuNativeData {
             Pair(-1, -1)
         }
     }
-
 
     /**
      * Returns a flow that emits a list of [CoreInfo] objects each second, representing the current frequency,
@@ -99,7 +96,6 @@ class CpuNativeData {
             }
         }
     }
-
 
     companion object {
         private const val CPU_INFO_DIRECTORY = "/sys/devices/system/cpu/"

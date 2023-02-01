@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         R.drawable.ic_screen
     )
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,13 +36,10 @@ class MainActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.elevation = 0f
 
-
         for (i in 0..tabs.size) {
             tabs.getTabAt(i)?.setIcon(tabIcons[i])
         }
         viewPager.offscreenPageLimit = 5
         tabs.setupWithViewPager(viewPager)
     }
-
-
 }

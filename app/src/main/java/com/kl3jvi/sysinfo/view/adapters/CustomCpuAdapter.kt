@@ -18,7 +18,6 @@ class CustomCpuAdapter :
         }
     }) {
 
-
     class ViewHolder(private val view: CpuListBinding) : RecyclerView.ViewHolder(view.root) {
         init {
             view.cpuProgress.enableAnimation()

@@ -5,10 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.sysinfo.R
-
 import com.kl3jvi.sysinfo.view.fragments.*
-
-
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

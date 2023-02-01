@@ -6,6 +6,5 @@ import android.content.pm.PackageStats;
  * statistics related to code, data, cache usage
  */
 oneway interface IPackageStatsObserver {
-
     void onGetStatsCompleted(in PackageStats pStats, boolean succeeded);
 }
