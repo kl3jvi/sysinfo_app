@@ -4,5 +4,5 @@ data class CoreInfo(
     val coreNumber: Int,
     val coreFrequency: Long,
     val minFrequency: Long,
-    val maxFrequency: Long,
+    val maxFrequency: Long
 )
