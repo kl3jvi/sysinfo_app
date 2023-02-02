@@ -1,8 +1,8 @@
 package com.kl3jvi.sysinfo.data.model
 
 data class RamInfo(
-    val total: Long,
-    val available: Long,
-    val percentageAvailable: Int,
-    val threshold: Long,
+    val total: Long = 0L,
+    val available: Long = 0L,
+    val percentageAvailable: Int = 0,
+    val threshold: Long = 0L,
 )
