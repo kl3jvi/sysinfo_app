@@ -4,8 +4,11 @@ import android.app.ActivityManager
 import com.kl3jvi.sysinfo.data.model.RamInfo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import org.koin.core.component.KoinComponent
 
-class RamDataProvider {
+class RamDataProvider(
+    private val activityManager: ActivityManager
+) : KoinComponent {
 
     private fun getTotalBytes(): Long {
         val memoryInfo = ActivityManager.MemoryInfo()
