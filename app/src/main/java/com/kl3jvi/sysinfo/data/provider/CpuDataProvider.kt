@@ -11,7 +11,7 @@ import java.io.FileFilter
 import java.io.RandomAccessFile
 import java.util.regex.Pattern
 
-class CpuNativeData {
+class CpuDataProvider {
     external fun initLibrary()
 
     external fun getCpuName(): String
