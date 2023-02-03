@@ -10,6 +10,7 @@ import android.hardware.SensorManager
 import android.net.wifi.WifiManager
 import android.view.WindowManager
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
+import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
 import com.kl3jvi.sysinfo.viewmodel.DashboardViewModel
 import org.koin.android.ext.koin.androidContext
@@ -23,6 +24,7 @@ private val viewModelModule = module {
 private val providerModule = module {
     single { CpuDataProvider() }
     single { RamDataProvider(get()) }
+    single { GpuDataProvider(get()) }
 }
 
 private val appModule = module {

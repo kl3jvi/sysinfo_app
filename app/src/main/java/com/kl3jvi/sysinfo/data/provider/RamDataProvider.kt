@@ -48,5 +48,4 @@ class RamDataProvider(
     companion object {
         private const val REFRESH_DELAY = 5000L
     }
-
 }
