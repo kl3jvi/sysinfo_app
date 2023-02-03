@@ -2,7 +2,8 @@ package com.kl3jvi.sysinfo.data.provider
 
 import android.os.Build
 import android.util.Log
-import com.kl3jvi.sysinfo.data.model.CoreInfo
+import com.kl3jvi.sysinfo.data.model.CpuInfo
+import com.kl3jvi.sysinfo.utils.cacheHumanReadable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -41,7 +42,7 @@ class CpuDataProvider {
         }
     }
 
-    fun getNumberOfCores(): Int {
+    private fun getNumberOfCores(): Int {
         return try {
             Runtime.getRuntime().availableProcessors()
         } catch (e: Exception) {
@@ -78,26 +79,51 @@ class CpuDataProvider {
      *
      * @return a flow of list of [CoreInfo] objects.
      */
-    fun getCpuCoresInformation(): Flow<List<CoreInfo>> {
+    fun getCpuCoresInformation(): Flow<CpuInfo> {
         val numberOfCores = getNumberOfCores()
-        val minMaxFreq = (0 until numberOfCores).map { coreNumber ->
-            getMinMaxFreq(coreNumber)
-        }
+        val minMaxFreq = (0 until numberOfCores).map { getMinMaxFreq(it) }
+        val cpuName = getCpuName()
+        val abi = getAbi()
+        val hasArmNeon = hasArmNeon()
+        val l1dCaches = getL1dCaches().cacheHumanReadable()
+        val l1iCaches = getL1iCaches().cacheHumanReadable()
+        val l2Caches = getL2Caches().cacheHumanReadable()
+        val l3Caches = getL3Caches().cacheHumanReadable()
+        val l4Caches = getL4Caches().cacheHumanReadable()
 
         return flow {
             while (true) {
-                val coresData = (0 until numberOfCores).mapIndexed { index, coreNumber ->
-                    val currentFrequency = getCurrentFreq(coreNumber)
-                    val (minFrequency, maxFrequency) = minMaxFreq[index]
-                    CoreInfo(coreNumber, currentFrequency, minFrequency, maxFrequency)
-                }
-                emit(coresData)
-                delay(1000)
+                val coresData = (0 until numberOfCores).map { getCurrentFreq(it) }
+                    .zip(minMaxFreq)
+                    .map { (current, frequencyHolder) ->
+                        CpuInfo.Frequency(
+                            min = frequencyHolder.first,
+                            max = frequencyHolder.second,
+                            current = current
+                        )
+                    }
+
+                val result = CpuInfo(
+                    processorName = cpuName,
+                    abi = abi,
+                    coreNumber = numberOfCores,
+                    hasArmNeon = hasArmNeon,
+                    frequencies = coresData,
+                    l1dCaches = l1dCaches,
+                    l1iCaches = l1iCaches,
+                    l2Caches = l2Caches,
+                    l3Caches = l3Caches,
+                    l4Caches = l4Caches
+                )
+                emit(result)
+                delay(DELAY)
             }
         }
     }
 
+
     companion object {
         private const val CPU_INFO_DIRECTORY = "/sys/devices/system/cpu/"
+        private const val DELAY = 1000L
     }
 }
