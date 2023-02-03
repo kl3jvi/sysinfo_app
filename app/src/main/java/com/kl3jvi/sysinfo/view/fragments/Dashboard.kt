@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.DashboardFragmentBinding
 import com.github.lzyzsd.circleprogress.ArcProgress
@@ -33,8 +34,20 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
 
         _binding = DashboardFragmentBinding.bind(view)
         binding.arcProgress.setRamValueAsync(dashboardViewModel.ramInfo)
+        launchAndRepeatWithViewLifecycle {
+            dashboardViewModel.cpuInfo.collect {
+                when (it) {
+                    is UiResult.Error -> {}
+                    UiResult.Idle -> {
 
-        binding.listView.layoutManager = GridLayoutManager(requireActivity(), 1)
+                    }
+                    is UiResult.Success -> {
+                        cpuAdapter.passFrequencies(it.data.frequencies)
+                    }
+                }
+            }
+        }
+        binding.listView.layoutManager = LinearLayoutManager(requireContext())
         binding.listView.adapter = cpuAdapter
         binding.listView.itemAnimator = null
     }

@@ -156,6 +156,6 @@ class CpuDataProvider {
 
     companion object {
         private const val CPU_INFO_DIRECTORY = "/sys/devices/system/cpu/"
-        private const val DELAY = 1000L
+        private const val DELAY = 2000L
     }
 }

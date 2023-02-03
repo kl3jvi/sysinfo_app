@@ -19,6 +19,7 @@ class SysInfoApplication : Application(), KoinComponent {
             androidContext(this@SysInfoApplication)
             modules(allModules)
         }
+        initNativeCpuInfo()
     }
 
     private fun initNativeCpuInfo() {

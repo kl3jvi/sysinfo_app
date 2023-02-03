@@ -1,5 +1,6 @@
 package com.kl3jvi.sysinfo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
@@ -8,11 +9,22 @@ import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.mapToUiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class DashboardViewModel(
     cpuDataProvider: CpuDataProvider,
     ramDataProvider: RamDataProvider
 ) : ViewModel() {
+
+    val cpuInfo = cpuDataProvider
+        .getCpuCoresInformation()
+        .mapToUiState()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000),
+            UiResult.Idle
+        )
+
 
     val ramInfo = ramDataProvider
         .getRamInformation()
@@ -23,12 +35,4 @@ class DashboardViewModel(
             UiResult.Idle
         )
 
-    val cpuInfo = cpuDataProvider
-        .getCpuCoresInformation()
-        .mapToUiState()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            UiResult.Idle
-        )
 }

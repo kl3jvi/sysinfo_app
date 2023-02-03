@@ -34,10 +34,10 @@ sealed interface UiResult<out T> {
  */
 fun <T> Flow<T>.mapToUiState(): Flow<UiResult<T>> {
     return map<T, UiResult<T>> {
-        UiResult.Success(it)
+        Success(it)
     }.onStart {
-        emit(UiResult.Idle)
+        emit(Idle)
     }.catch {
-        UiResult.Error(it)
+        Error(it)
     }
 }

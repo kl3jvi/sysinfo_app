@@ -7,4 +7,6 @@
     <string name="tab_text_5">CPU</string>
     <string name="tab_text_6">Battery</string>
     <string name="tab_text_7">Screen</string>
+    <string name="coreNumber">Core %s</string>
+    <string name="mhzString">%s Mhz</string>
 </resources>

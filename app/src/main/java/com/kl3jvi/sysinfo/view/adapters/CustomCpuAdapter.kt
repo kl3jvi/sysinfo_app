@@ -6,15 +6,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sysinfo.databinding.CpuListBinding
+import com.kl3jvi.sysinfo.data.model.CpuInfo
 
-class CustomCpuAdapter :
-    ListAdapter<Long, CustomCpuAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Long>() {
-        override fun areItemsTheSame(oldItem: Long, newItem: Long): Boolean {
+class CustomCpuAdapter : ListAdapter<CpuInfo.Frequency, CustomCpuAdapter.ViewHolder>(
+    object : DiffUtil.ItemCallback<CpuInfo.Frequency>() {
+        override fun areItemsTheSame(
+            oldItem: CpuInfo.Frequency,
+            newItem: CpuInfo.Frequency
+        ): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Long, newItem: Long): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(
+            oldItem: CpuInfo.Frequency,
+            newItem: CpuInfo.Frequency
+        ): Boolean {
+            return oldItem.current == newItem.current &&
+                    oldItem.max == newItem.max &&
+                    oldItem.min == newItem.min
         }
     }) {
 
@@ -24,8 +33,9 @@ class CustomCpuAdapter :
             view.cpuProgress.animationSpeedScale = 1f
         }
 
-        fun bind(item: Long) {
-            view.cpuProgress.progress = item.toFloat()
+        fun bind(item: CpuInfo.Frequency, position: Int) {
+            view.cpuInfo = item
+            view.position = position.plus(1)
             view.executePendingBindings()
         }
     }
@@ -37,12 +47,12 @@ class CustomCpuAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
     override fun getItemCount() = currentList.size
 
-    fun passFrequencies(list: List<Long>) {
+    fun passFrequencies(list: List<CpuInfo.Frequency>) {
         submitList(list)
     }
 }
