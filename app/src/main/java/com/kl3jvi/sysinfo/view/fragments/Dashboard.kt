@@ -3,12 +3,14 @@ package com.kl3jvi.sysinfo.view.fragments
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.DashboardFragmentBinding
 import com.github.lzyzsd.circleprogress.ArcProgress
 import com.kl3jvi.sysinfo.data.model.RamInfo
+import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.launchAndRepeatWithViewLifecycle
 import com.kl3jvi.sysinfo.view.adapters.CustomCpuAdapter
 import com.kl3jvi.sysinfo.viewmodel.DashboardViewModel
@@ -38,15 +40,32 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
     }
 
     private fun ArcProgress.setRamValueAsync(
-        flow: StateFlow<RamInfo>
+        flow: StateFlow<UiResult<RamInfo>>
     ) = apply {
         launchAndRepeatWithViewLifecycle {
             flow.collect {
-                ObjectAnimator.ofInt(
-                    this@setRamValueAsync,
-                    "progress",
-                    it.percentageAvailable
-                ).setDuration(1000).start()
+                when (it) {
+                    is UiResult.Error -> Toast.makeText(
+                        requireContext(),
+                        "Error Getting Data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    UiResult.Idle -> Toast.makeText(
+                        requireContext(),
+                        "Loading Data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    is UiResult.Success -> {
+                        ObjectAnimator.ofInt(
+                            this@setRamValueAsync,
+                            "progress",
+                            it.data.percentageAvailable
+                        ).setDuration(1000).start()
+                    }
+                }
+
             }
         }
     }

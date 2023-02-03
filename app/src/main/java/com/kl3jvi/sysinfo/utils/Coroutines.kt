@@ -7,6 +7,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+/**
+ * Runs a block of code within a [CoroutineScope], and the execution of the block is repeated
+ * until the lifecycle state of the [Fragment] is below [minActiveState].
+ * This function is similar to [lifecycleScope.launch] with the difference that it repeats the execution of the block
+ * until the [Fragment]'s lifecycle state is below [minActiveState].
+ * @param minActiveState the minimum [Lifecycle.State] required to keep the block running.
+ * @param block the block of code to be executed within the [CoroutineScope].
+ */
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
     crossinline block: suspend CoroutineScope.() -> Unit

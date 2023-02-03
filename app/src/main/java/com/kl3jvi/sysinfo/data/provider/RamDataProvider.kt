@@ -2,8 +2,11 @@ package com.kl3jvi.sysinfo.data.provider
 
 import android.app.ActivityManager
 import com.kl3jvi.sysinfo.data.model.RamInfo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import org.koin.core.component.KoinComponent
 
 class RamDataProvider(
@@ -43,7 +46,8 @@ class RamDataProvider(
             emit(RamInfo(total, available, availablePercentage, threshold))
             delay(REFRESH_DELAY)
         }
-    }
+    }.distinctUntilChanged()
+        .flowOn(Dispatchers.IO)
 
     companion object {
         private const val REFRESH_DELAY = 5000L

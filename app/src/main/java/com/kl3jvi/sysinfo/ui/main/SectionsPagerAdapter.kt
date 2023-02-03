@@ -5,14 +5,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.sysinfo.R
-import com.kl3jvi.sysinfo.view.fragments.*
+import com.kl3jvi.sysinfo.view.fragments.BatteryFragment
+import com.kl3jvi.sysinfo.view.fragments.CPU
+import com.kl3jvi.sysinfo.view.fragments.Dashboard
+import com.kl3jvi.sysinfo.view.fragments.DeviceFragment
+import com.kl3jvi.sysinfo.view.fragments.ScreenFragment
+import com.kl3jvi.sysinfo.view.fragments.StorageFragment
+import com.kl3jvi.sysinfo.view.fragments.SystemFrag
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentPagerAdapter(fm) {
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val TAB_TITLES = intArrayOf(
         R.string.tab_text_1,
         R.string.tab_text_2,

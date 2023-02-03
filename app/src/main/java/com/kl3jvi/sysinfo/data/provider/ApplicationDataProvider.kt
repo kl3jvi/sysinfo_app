@@ -7,7 +7,6 @@ import android.os.Build
 class ApplicationDataProvider(
     private val packageManager: PackageManager
 ) {
-    @Suppress("DEPRECATION")
     fun getInstalledApplications(withSystemApps: Boolean): List<ApplicationInfo> {
         val applications = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             packageManager.getInstalledApplications(
