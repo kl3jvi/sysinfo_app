@@ -1,5 +1,8 @@
 package com.kl3jvi.sysinfo.utils
 
+import kotlin.math.ln
+import kotlin.math.pow
+
 /**
  * Formats the given number of bytes into a human-readable string with the size and unit, such as "4.00 MB".
  *
@@ -9,8 +12,8 @@ package com.kl3jvi.sysinfo.utils
  */
 fun humanReadableByteCount(bytes: Long): String {
     val units = listOf("B", "KB", "MB", "GB", "TB", "PB", "EB")
-    val unitIndex = (Math.log(bytes.toDouble()) / Math.log(1024.0)).toInt()
-    return "%.2f %s".format(bytes / Math.pow(1024.0, unitIndex.toDouble()), units[unitIndex])
+    val unitIndex = (ln(bytes.toDouble()) / ln(1024.0)).toInt()
+    return "%.2f %s".format(bytes / 1024.0.pow(unitIndex.toDouble()), units[unitIndex])
 }
 
 /**

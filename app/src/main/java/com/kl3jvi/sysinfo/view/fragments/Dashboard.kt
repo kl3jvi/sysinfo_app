@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.DashboardFragmentBinding
@@ -39,7 +38,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
                 when (it) {
                     is UiResult.Error -> {}
                     UiResult.Idle -> {
-
                     }
                     is UiResult.Success -> {
                         cpuAdapter.passFrequencies(it.data.frequencies)
@@ -78,7 +76,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
                         ).setDuration(1000).start()
                     }
                 }
-
             }
         }
     }

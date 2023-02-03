@@ -14,7 +14,6 @@ fun TextView.coreNumber(coreNumber: Int) {
 @BindingAdapter("integerText")
 fun TextView.integerText(number: Long) {
     text = resources.getString(R.string.mhzString, number.toString())
-
 }
 
 @BindingAdapter("coreProgress")
@@ -22,4 +21,3 @@ fun IconRoundCornerProgressBar.progress(cpuInfo: CpuInfo.Frequency) {
     max = cpuInfo.max.toFloat()
     progress = cpuInfo.current.toFloat()
 }
-

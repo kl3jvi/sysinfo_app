@@ -1,6 +1,5 @@
 package com.kl3jvi.sysinfo.data.model
 
-
 data class CpuInfo(
     val processorName: String,
     val abi: String,
@@ -19,6 +18,3 @@ data class CpuInfo(
         val current: Long
     )
 }
-
-
-

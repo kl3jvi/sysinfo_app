@@ -22,10 +22,11 @@ class CustomCpuAdapter : ListAdapter<CpuInfo.Frequency, CustomCpuAdapter.ViewHol
             newItem: CpuInfo.Frequency
         ): Boolean {
             return oldItem.current == newItem.current &&
-                    oldItem.max == newItem.max &&
-                    oldItem.min == newItem.min
+                oldItem.max == newItem.max &&
+                oldItem.min == newItem.min
         }
-    }) {
+    }
+) {
 
     class ViewHolder(private val view: CpuListBinding) : RecyclerView.ViewHolder(view.root) {
         init {
