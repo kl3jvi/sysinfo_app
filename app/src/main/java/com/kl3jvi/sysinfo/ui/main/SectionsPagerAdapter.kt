@@ -2,8 +2,10 @@ package com.kl3jvi.sysinfo.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.sysinfo.R
 import com.kl3jvi.sysinfo.view.fragments.BatteryFragment
 import com.kl3jvi.sysinfo.view.fragments.CPU
@@ -17,8 +19,8 @@ import com.kl3jvi.sysinfo.view.fragments.SystemFrag
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class SectionsPagerAdapter(private val context: Context, fm: FragmentActivity) :
+    FragmentStateAdapter(fm) {
     private val TAB_TITLES = intArrayOf(
         R.string.tab_text_1,
         R.string.tab_text_2,
@@ -29,26 +31,30 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         R.string.tab_text_7
     )
 
-    override fun getItem(position: Int): Fragment {
-        var fragment: Fragment? = null
-        when (position) {
-            0 -> fragment = Dashboard()
-            1 -> fragment = DeviceFragment()
-            2 -> fragment = SystemFrag()
-            3 -> fragment = StorageFragment()
-            4 -> fragment = CPU()
-            5 -> fragment = BatteryFragment()
-            6 -> fragment = ScreenFragment()
-        }
-        return fragment!!
-    }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(TAB_TITLES[position])
-    }
-
-    override fun getCount(): Int {
-        // Show 2 total pages.
+    override fun getItemCount(): Int {
         return 6
     }
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> Dashboard()
+            1 -> DeviceFragment()
+            2 -> SystemFrag()
+            3 -> StorageFragment()
+            4 -> CPU()
+            5 -> BatteryFragment()
+            6 -> ScreenFragment()
+            else -> throw IllegalStateException("Invalid position: $position")
+        }
+    }
+
+    fun currentPosition(position: Int) {
+        notifyItemChanged(position)
+    }
+
+
+    fun getPageTitle(position: Int): CharSequence? {
+        return context.resources.getString(TAB_TITLES[position])
+    }
 }
+

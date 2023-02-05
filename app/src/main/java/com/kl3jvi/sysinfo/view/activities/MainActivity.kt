@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.size
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kl3jvi.sysinfo.ui.main.SectionsPagerAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -28,18 +30,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, this)
+        val viewPager: ViewPager2 = binding.viewPager
         val tabs: TabLayout = binding.tabs
+        viewPager.adapter = sectionsPagerAdapter
+
+        sectionsPagerAdapter.currentPosition(2)
+
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            tab.text = sectionsPagerAdapter.getPageTitle(position)
+            tab.setIcon(tabIcons[position])
+        }.attach()
+
 
         val actionBar = supportActionBar
         actionBar?.elevation = 0f
-
-        for (i in 0..tabs.size) {
-            tabs.getTabAt(i)?.setIcon(tabIcons[i])
-        }
         viewPager.offscreenPageLimit = 5
-        tabs.setupWithViewPager(viewPager)
     }
 }

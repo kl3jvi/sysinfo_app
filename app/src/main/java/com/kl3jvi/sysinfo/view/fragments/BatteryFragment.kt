@@ -5,21 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.sysinfo.R
 import com.example.sysinfo.databinding.BatteryFragmentBinding
 
-class BatteryFragment : Fragment() {
+class BatteryFragment : Fragment(R.layout.battery_fragment) {
 
     private var _binding: BatteryFragmentBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = BatteryFragmentBinding.inflate(inflater, container, false)
-        val root = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        BatteryFragmentBinding.bind(view)
+    }
 
-        return root
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

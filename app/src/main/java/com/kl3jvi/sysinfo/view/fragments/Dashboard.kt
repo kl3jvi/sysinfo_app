@@ -22,8 +22,8 @@ import org.koin.core.component.KoinComponent
  * A placeholder fragment containing a simple view.
  */
 class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
-    private val dashboardViewModel: DashboardViewModel by viewModel()
 
+    private val dashboardViewModel: DashboardViewModel by viewModel()
     private var _binding: DashboardFragmentBinding? = null
     private val binding get() = _binding!!
     private var cpuAdapter: CustomCpuAdapter = CustomCpuAdapter()
@@ -78,5 +78,10 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

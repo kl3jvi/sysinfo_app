@@ -1,26 +1,23 @@
 package com.kl3jvi.sysinfo.data.provider
 
+import android.app.Instrumentation
+import com.getkeepsafe.relinker.ReLinker
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class CpuDataProviderTest {
-
-//    private val testDispatcher = TestCoroutineDispatcher()
-//    private val testScope = TestCoroutineScope(testDispatcher)
-
     private val cpuDataProvider = CpuDataProvider()
 
     @Before
     fun setUp() {
-        // Initialize library, if needed
-//        cpuDataProvider.initLibrary()
+        System.loadLibrary("cpuinfo-libs")
+        cpuDataProvider.initLibrary()
     }
 
     @Test
@@ -79,7 +76,7 @@ class CpuDataProviderTest {
 
     @Test
     fun testGetCpuCoresInformation() = runBlocking {
-        val coresInformation = cpuDataProvider.getCpuCoresInformation().take(1).single()
+        val coresInformation = cpuDataProvider.getCpuCoresInformation().first()
         assertNotNull(coresInformation)
     }
 }

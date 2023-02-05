@@ -32,7 +32,7 @@ class CpuDataProvider {
 
     external fun getL4Caches(): IntArray?
 
-    private fun getAbi(): String {
+    fun getAbi(): String {
         return Build.SUPPORTED_ABIS[0]
     }
 
@@ -50,7 +50,7 @@ class CpuDataProvider {
         }
     }
 
-    private fun getNumberOfCores(): Int {
+    fun getNumberOfCores(): Int {
         return try {
             Runtime.getRuntime().availableProcessors()
         } catch (e: Exception) {
