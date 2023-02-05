@@ -31,9 +31,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentActivity) :
         R.string.tab_text_7
     )
 
-    override fun getItemCount(): Int {
-        return 6
-    }
+    override fun getItemCount(): Int = TAB_TITLES.size - 1
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
