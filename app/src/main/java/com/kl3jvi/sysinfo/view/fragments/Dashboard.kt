@@ -13,9 +13,8 @@ import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.launchAndRepeatWithViewLifecycle
 import com.kl3jvi.sysinfo.utils.parsePercentage
 import com.kl3jvi.sysinfo.utils.showToast
-import com.kl3jvi.sysinfo.viewmodel.DashboardViewModel
+import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -24,7 +23,7 @@ import org.koin.core.component.KoinComponent
  */
 class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
 
-    private val dashboardViewModel: DashboardViewModel by viewModel()
+    private val dataViewModel: DataViewModel by viewModel()
     private var _binding: DashboardFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -32,26 +31,26 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = DashboardFragmentBinding.bind(view)
-        binding.arcProgress.setRamValueAsync(dashboardViewModel.ramInfo)
+        binding.arcProgress.setRamValueAsync(dataViewModel.ramInfo)
         binding.apply {
-            systemStorage.progress = dashboardViewModel.systemStoragePercentage
+            systemStorage.progress = dataViewModel.systemStoragePercentage
             textView4.text = resources.getString(
                 R.string.percentage_format,
-                dashboardViewModel.systemStoragePercentage.toString()
+                dataViewModel.systemStoragePercentage.toString()
             )
 
-            internalProgress.progress = dashboardViewModel.internalStoragePercentage
+            internalProgress.progress = dataViewModel.internalStoragePercentage
             internalPercentage.text = resources.getString(
                 R.string.percentage_format,
-                dashboardViewModel.internalStoragePercentage.toString()
+                dataViewModel.internalStoragePercentage.toString()
             )
 
-            batteryPercentage.text = dashboardViewModel.batteryInfo.level
-            batteryProgress.progress = dashboardViewModel.batteryInfo.level.parsePercentage()
+            batteryPercentage.text = dataViewModel.batteryInfo.level
+            batteryProgress.progress = dataViewModel.batteryInfo.level.parsePercentage()
         }
 
         launchAndRepeatWithViewLifecycle {
-            dashboardViewModel.cpuInfo.collect {
+            dataViewModel.cpuInfo.collect {
                 binding.listView.itemAnimator = null
                 binding.listView.withModels {
                     when (it) {

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class DashboardViewModel(
+class DataViewModel(
     cpuDataProvider: CpuDataProvider,
     ramDataProvider: RamDataProvider,
     storageProvider: StorageProvider,

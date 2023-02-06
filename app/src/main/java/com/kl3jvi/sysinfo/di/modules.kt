@@ -11,14 +11,13 @@ import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.view.WindowManager
 import com.kl3jvi.sysinfo.data.provider.*
-import com.kl3jvi.sysinfo.viewmodel.DashboardViewModel
+import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.scope.get
 import org.koin.dsl.module
 
 private val viewModelModule = module {
-    viewModel { DashboardViewModel(get(), get(), get(), get()) }
+    viewModel { DataViewModel(get(), get(), get(), get()) }
 }
 
 private val providerModule = module {
