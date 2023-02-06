@@ -1,16 +1,15 @@
 package com.kl3jvi.sysinfo.view.fragments
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.DashboardFragmentBinding
 import com.github.lzyzsd.circleprogress.ArcProgress
 import com.kl3jvi.sysinfo.data.model.CpuInfo
-import com.kl3jvi.sysinfo.data.model.RamInfo
 import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.launchAndRepeatWithViewLifecycle
@@ -37,6 +36,20 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
         _binding = DashboardFragmentBinding.bind(view)
         binding.arcProgress.setRamValueAsync(dashboardViewModel.ramInfo)
         cpuAdapter.passFrequencies(dashboardViewModel.cpuInfo)
+
+        binding.apply {
+            systemStorage.progress = dashboardViewModel.systemStoragePercentage
+            textView4.text = resources.getString(
+                R.string.percentage_format,
+                dashboardViewModel.systemStoragePercentage.toString()
+            )
+
+            internalProgress.progress = dashboardViewModel.internalStoragePercentage
+            internalPercentage.text = resources.getString(
+                R.string.percentage_format,
+                dashboardViewModel.internalStoragePercentage.toString()
+            )
+        }
 
         binding.listView.layoutManager = LinearLayoutManager(requireContext())
         binding.listView.adapter = cpuAdapter

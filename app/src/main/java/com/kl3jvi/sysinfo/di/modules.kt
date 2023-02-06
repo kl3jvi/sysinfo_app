@@ -12,19 +12,21 @@ import android.view.WindowManager
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
+import com.kl3jvi.sysinfo.data.provider.StorageProvider
 import com.kl3jvi.sysinfo.viewmodel.DashboardViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 private val viewModelModule = module {
-    viewModel { DashboardViewModel(get(), get()) }
+    viewModel { DashboardViewModel(get(), get(), get()) }
 }
 
 private val providerModule = module {
     single { CpuDataProvider() }
     single { RamDataProvider(get()) }
     single { GpuDataProvider(get()) }
+    single { StorageProvider(get()) }
 }
 
 private val appModule = module {

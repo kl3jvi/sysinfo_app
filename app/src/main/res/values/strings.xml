@@ -10,4 +10,6 @@
     <string name="coreNumber">Core %s</string>
     <string name="mhzString">%s Mhz</string>
     <string name="ram_text">%s / %s</string>
+    <string name="percentage_format">%.3s%%</string>
+
 </resources>

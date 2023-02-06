@@ -1,14 +1,14 @@
 package com.kl3jvi.sysinfo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kl3jvi.sysinfo.data.model.RamInfo
 import com.kl3jvi.sysinfo.data.model.toHumanReadableValues
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
+import com.kl3jvi.sysinfo.data.provider.StorageProvider
 import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.humanReadableByteCount
-import com.kl3jvi.sysinfo.utils.invoke
 import com.kl3jvi.sysinfo.utils.mapToUiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.stateIn
 
 class DashboardViewModel(
     cpuDataProvider: CpuDataProvider,
-    ramDataProvider: RamDataProvider
+    ramDataProvider: RamDataProvider,
+    storageProvider: StorageProvider
 ) : ViewModel() {
 
     val cpuInfo = cpuDataProvider
@@ -39,4 +40,7 @@ class DashboardViewModel(
             SharingStarted.WhileSubscribed(5_000),
             UiResult.Idle
         )
+
+    val systemStoragePercentage = storageProvider.calculateSystemPercentage()
+    val internalStoragePercentage = storageProvider.calculateInternalPercentage()
 }
