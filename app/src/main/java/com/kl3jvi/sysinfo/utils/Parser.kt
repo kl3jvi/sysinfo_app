@@ -29,3 +29,8 @@ fun IntArray?.cacheHumanReadable(): String {
         transform = ::humanReadableByteCount
     ).orEmpty()
 }
+
+fun String.parsePercentage(): Int {
+    val percentageInt = removeSuffix("%").toFloat().toInt()
+    return percentageInt / 1
+}

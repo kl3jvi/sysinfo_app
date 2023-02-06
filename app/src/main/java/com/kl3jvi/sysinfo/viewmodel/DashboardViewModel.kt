@@ -1,6 +1,5 @@
 package com.kl3jvi.sysinfo.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kl3jvi.sysinfo.data.model.toHumanReadableValues

@@ -4,18 +4,18 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
+import com.example.sysinfo.cpuProgress
 import com.example.sysinfo.databinding.DashboardFragmentBinding
 import com.github.lzyzsd.circleprogress.ArcProgress
-import com.kl3jvi.sysinfo.data.model.CpuInfo
 import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.launchAndRepeatWithViewLifecycle
+import com.kl3jvi.sysinfo.utils.parsePercentage
 import com.kl3jvi.sysinfo.utils.showToast
-import com.kl3jvi.sysinfo.view.adapters.CustomCpuAdapter
 import com.kl3jvi.sysinfo.viewmodel.DashboardViewModel
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -27,15 +27,12 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
     private val dashboardViewModel: DashboardViewModel by viewModel()
     private var _binding: DashboardFragmentBinding? = null
     private val binding get() = _binding!!
-    private var cpuAdapter: CustomCpuAdapter = CustomCpuAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = DashboardFragmentBinding.bind(view)
         binding.arcProgress.setRamValueAsync(dashboardViewModel.ramInfo)
-        cpuAdapter.passFrequencies(dashboardViewModel.cpuInfo)
-
         binding.apply {
             systemStorage.progress = dashboardViewModel.systemStoragePercentage
             textView4.text = resources.getString(
@@ -50,13 +47,29 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             )
 
             batteryPercentage.text = dashboardViewModel.batteryInfo.level
-            batteryProgress.progress = dashboardViewModel.batteryInfo.level.take(1).toInt()
+            batteryProgress.progress = dashboardViewModel.batteryInfo.level.parsePercentage()
         }
 
-
-        binding.listView.layoutManager = LinearLayoutManager(requireContext())
-        binding.listView.adapter = cpuAdapter
-        binding.listView.itemAnimator = null
+        launchAndRepeatWithViewLifecycle {
+            dashboardViewModel.cpuInfo.collect {
+                binding.listView.itemAnimator = null
+                binding.listView.withModels {
+                    when (it) {
+                        is UiResult.Error -> requireContext().showToast(it.throwable.message.orEmpty())
+                        UiResult.Idle -> requireContext().showToast("Loading Data")
+                        is UiResult.Success -> {
+                            it.data.frequencies.forEachIndexed { index, frequency ->
+                                cpuProgress {
+                                    id(it.hashCode())
+                                    position(index + 1)
+                                    cpuInfo(frequency)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun ArcProgress.setRamValueAsync(
@@ -81,20 +94,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
                             )
                         }
                     }
-                }
-            }
-        }
-    }
-
-    private fun CustomCpuAdapter.passFrequencies(
-        flow: StateFlow<UiResult<CpuInfo>>
-    ) = launchAndRepeatWithViewLifecycle {
-        flow.collect {
-            when (it) {
-                is UiResult.Error -> requireContext().showToast(it.throwable.message.orEmpty())
-                UiResult.Idle -> requireContext().showToast("Loading Data")
-                is UiResult.Success -> {
-                    passFrequencies(it.data.frequencies)
                 }
             }
         }

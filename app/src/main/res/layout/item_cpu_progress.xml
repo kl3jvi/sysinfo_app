@@ -62,6 +62,7 @@
             <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
                 android:id="@+id/cpuProgress"
                 coreProgress="@{cpuInfo}"
+                app:rcAnimationEnable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

@@ -29,10 +29,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/colorAccent"
-                app:cardCornerRadius="8dp"
-                android:focusable="true">
+                app:cardCornerRadius="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,6 +123,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:progressTint="#FFFF" />
+
                                 <TextView
                                     android:id="@+id/textView4"
                                     android:layout_width="match_parent"
@@ -172,6 +173,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:indeterminateTint="#FFFF"
+                                    android:max="100"
                                     android:progressTint="#FFFF" />
 
                                 <TextView
@@ -211,7 +213,7 @@
 
     </ScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.airbnb.epoxy.EpoxyRecyclerView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
