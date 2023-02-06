@@ -1,0 +1,19 @@
+package com.kl3jvi.sysinfo.utils
+
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+
+/**
+ * Runs the given [block] after the execution of the last Unit method and returns the result as [Result].
+ *
+ * @param block The block to be executed after the last Unit method.
+ * @return The result of executing [block] as a [Result].
+ */
+@OptIn(ExperimentalContracts::class)
+inline fun <T> T.then(block: T.() -> T): Result<T> {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    return runCatching(block)
+}

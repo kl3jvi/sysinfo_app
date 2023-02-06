@@ -2,8 +2,6 @@ package com.kl3jvi.sysinfo.view.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.size
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.ActivityMainBinding
@@ -35,13 +33,10 @@ class MainActivity : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         viewPager.adapter = sectionsPagerAdapter
 
-        sectionsPagerAdapter.currentPosition(2)
-
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = sectionsPagerAdapter.getPageTitle(position)
             tab.setIcon(tabIcons[position])
         }.attach()
-
 
         val actionBar = supportActionBar
         actionBar?.elevation = 0f

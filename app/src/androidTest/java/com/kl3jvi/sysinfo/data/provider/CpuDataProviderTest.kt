@@ -1,12 +1,8 @@
 package com.kl3jvi.sysinfo.data.provider
 
-import android.app.Instrumentation
-import com.getkeepsafe.relinker.ReLinker
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test

@@ -5,6 +5,7 @@ import android.util.Log
 import com.getkeepsafe.relinker.ReLinker
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.di.allModules
+import com.kl3jvi.sysinfo.utils.then
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -15,12 +16,13 @@ class SysInfoApplication : Application(), KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
-
-        startKoin {
-            androidContext(this@SysInfoApplication)
-            modules(allModules)
-        }
+        startKoin()
         initNativeCpuInfo()
+    }
+
+    private fun startKoin() = startKoin {
+        androidContext(this@SysInfoApplication)
+        modules(allModules)
     }
 
     private fun initNativeCpuInfo() {
@@ -36,9 +38,4 @@ class SysInfoApplication : Application(), KoinComponent {
     companion object {
         const val LIB_NAME = "cpuinfo-libs"
     }
-}
-
-fun <T : Any> T.then(block: () -> Unit): Result<Unit> {
-    // The extension function that takes a block as a parameter and runs it after the execution of the last Unit method
-    return runCatching(block)
 }
