@@ -11,5 +11,12 @@
     <string name="mhzString">%s Mhz</string>
     <string name="ram_text">%s / %s</string>
     <string name="percentage_format">%.3s%%</string>
+    <string name="battery_cold">Cold</string>
+    <string name="battery_good">Good</string>
+    <string name="battery_dead">Dead</string>
+    <string name="battery_overheat">Overheat</string>
+    <string name="battery_overvoltage">Overvoltage</string>
+    <string name="battery_unknown">Unknown</string>
+    <string name="battery_unspecified_failure">Unspecified failure</string>
 
 </resources>

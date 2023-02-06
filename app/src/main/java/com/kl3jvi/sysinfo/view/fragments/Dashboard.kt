@@ -1,7 +1,6 @@
 package com.kl3jvi.sysinfo.view.fragments
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -49,7 +48,11 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
                 R.string.percentage_format,
                 dashboardViewModel.internalStoragePercentage.toString()
             )
+
+            batteryPercentage.text = dashboardViewModel.batteryInfo.level
+            batteryProgress.progress = dashboardViewModel.batteryInfo.level.take(1).toInt()
         }
+
 
         binding.listView.layoutManager = LinearLayoutManager(requireContext())
         binding.listView.adapter = cpuAdapter
@@ -82,7 +85,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             }
         }
     }
-
 
     private fun CustomCpuAdapter.passFrequencies(
         flow: StateFlow<UiResult<CpuInfo>>

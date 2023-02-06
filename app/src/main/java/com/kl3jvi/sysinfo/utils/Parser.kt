@@ -2,6 +2,7 @@ package com.kl3jvi.sysinfo.utils
 
 import kotlin.math.ln
 import kotlin.math.pow
+import kotlin.math.roundToLong
 
 /**
  * Formats the given number of bytes into a human-readable string with the size and unit, such as "4.00 MB".
@@ -15,6 +16,8 @@ fun humanReadableByteCount(bytes: Long): String {
     val unitIndex = (ln(bytes.toDouble()) / ln(1024.0)).toInt()
     return "%.2f %s".format(bytes / 1024.0.pow(unitIndex.toDouble()), units[unitIndex])
 }
+
+fun Float.round2(): Double = (this * 100.0).roundToLong() / 100.0
 
 /**
  * Returns a [String] representation of the cache size, in a human readable format, of the [IntArray].

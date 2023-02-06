@@ -10,7 +10,6 @@ data class RamInfo(
     val threshold: Long = 0L
 )
 
-
 fun RamInfo.toHumanReadableValues(): RamData {
     return RamData(
         humanReadableByteCount(total),
@@ -19,5 +18,3 @@ fun RamInfo.toHumanReadableValues(): RamData {
         humanReadableByteCount(threshold)
     )
 }
-
-

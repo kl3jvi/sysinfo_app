@@ -2,7 +2,6 @@ package com.kl3jvi.sysinfo.data.provider
 
 import android.content.Context
 import android.os.StatFs
-import android.util.Log
 import org.koin.core.component.KoinComponent
 
 class StorageProvider(
@@ -31,7 +30,6 @@ class StorageProvider(
         return Pair(totalInternalStorage, totalInternalStorage - availableInternalStorage)
     }
 
-
     fun calculateSystemPercentage(): Int {
         val (total, available) = getSystemStorageUsage()
         return (available / total * 100).toInt()
@@ -39,8 +37,6 @@ class StorageProvider(
 
     fun calculateInternalPercentage(): Int {
         val (total, available) = getInternalStorageUsage()
-        Log.e("calculateInternalPerce", context.filesDir.absolutePath)
-        Log.e("calculateInternalPerce", total.toString())
-        return (available / total * 100).toInt()
+        return (available.toDouble() / total * 100).toInt()
     }
 }
