@@ -21,3 +21,5 @@ fun IconRoundCornerProgressBar.progress(cpuInfo: CpuInfo.Frequency) {
     max = cpuInfo.max.toFloat()
     progress = cpuInfo.current.toFloat()
 }
+
+

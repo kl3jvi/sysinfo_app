@@ -9,4 +9,5 @@
     <string name="tab_text_7">Screen</string>
     <string name="coreNumber">Core %s</string>
     <string name="mhzString">%s Mhz</string>
+    <string name="ram_text">%s / %s</string>
 </resources>

@@ -17,3 +17,11 @@ inline fun <T> T.then(block: T.() -> T): Result<T> {
     }
     return runCatching(block)
 }
+
+/**
+ * Invokes a given function `fn` and returns its result.
+ *
+ * @param fn a function with no arguments that returns a `Long` value
+ * @return the result of the function `fn`
+ */
+fun<T> invoke(fn: () -> T) = fn()

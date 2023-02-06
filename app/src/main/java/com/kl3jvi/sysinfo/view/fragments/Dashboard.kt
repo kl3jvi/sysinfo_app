@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.DashboardFragmentBinding
 import com.github.lzyzsd.circleprogress.ArcProgress
+import com.kl3jvi.sysinfo.data.model.CpuInfo
 import com.kl3jvi.sysinfo.data.model.RamInfo
+import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.launchAndRepeatWithViewLifecycle
+import com.kl3jvi.sysinfo.utils.showToast
 import com.kl3jvi.sysinfo.view.adapters.CustomCpuAdapter
 import com.kl3jvi.sysinfo.viewmodel.DashboardViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -33,48 +36,50 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
 
         _binding = DashboardFragmentBinding.bind(view)
         binding.arcProgress.setRamValueAsync(dashboardViewModel.ramInfo)
-        launchAndRepeatWithViewLifecycle {
-            dashboardViewModel.cpuInfo.collect {
-                when (it) {
-                    is UiResult.Error -> {}
-                    UiResult.Idle -> {
-                    }
-                    is UiResult.Success -> {
-                        cpuAdapter.passFrequencies(it.data.frequencies)
-                    }
-                }
-            }
-        }
+        cpuAdapter.passFrequencies(dashboardViewModel.cpuInfo)
+
         binding.listView.layoutManager = LinearLayoutManager(requireContext())
         binding.listView.adapter = cpuAdapter
         binding.listView.itemAnimator = null
     }
 
     private fun ArcProgress.setRamValueAsync(
-        flow: StateFlow<UiResult<RamInfo>>
+        flow: StateFlow<UiResult<RamData>>
     ) = apply {
         launchAndRepeatWithViewLifecycle {
             flow.collect {
                 when (it) {
-                    is UiResult.Error -> Toast.makeText(
-                        requireContext(),
-                        "Error Getting Data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    UiResult.Idle -> Toast.makeText(
-                        requireContext(),
-                        "Loading Data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
+                    is UiResult.Error -> requireContext().showToast(it.throwable.message.orEmpty())
+                    UiResult.Idle -> requireContext().showToast("Loading Data")
                     is UiResult.Success -> {
                         ObjectAnimator.ofInt(
                             this@setRamValueAsync,
                             "progress",
                             it.data.percentageAvailable
                         ).setDuration(1000).start()
+                        binding.apply {
+                            ramTxt.text = resources.getString(
+                                R.string.ram_text,
+                                it.data.available,
+                                it.data.total
+                            )
+                        }
                     }
+                }
+            }
+        }
+    }
+
+
+    private fun CustomCpuAdapter.passFrequencies(
+        flow: StateFlow<UiResult<CpuInfo>>
+    ) = launchAndRepeatWithViewLifecycle {
+        flow.collect {
+            when (it) {
+                is UiResult.Error -> requireContext().showToast(it.throwable.message.orEmpty())
+                UiResult.Idle -> requireContext().showToast("Loading Data")
+                is UiResult.Success -> {
+                    passFrequencies(it.data.frequencies)
                 }
             }
         }
