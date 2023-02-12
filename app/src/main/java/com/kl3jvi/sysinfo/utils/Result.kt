@@ -38,6 +38,6 @@ fun <T> Flow<T>.mapToUiState(): Flow<UiResult<T>> {
     }.onStart {
         emit(Idle)
     }.catch {
-        Error(it)
+        emit(Error(it))
     }
 }

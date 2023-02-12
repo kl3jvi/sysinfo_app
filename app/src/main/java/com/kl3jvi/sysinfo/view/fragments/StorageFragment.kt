@@ -13,7 +13,7 @@ class StorageFragment : Fragment(R.layout.storage_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        StorageFragmentBinding.bind(view)
+        _binding = StorageFragmentBinding.bind(view)
     }
 
     override fun onDestroy() {

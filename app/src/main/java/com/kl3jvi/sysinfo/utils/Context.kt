@@ -1,8 +1,10 @@
 package com.kl3jvi.sysinfo.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.view.ContextThemeWrapper
 
 fun Context.showToast(message: String) {
     val currentToast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
@@ -10,3 +12,6 @@ fun Context.showToast(message: String) {
         currentToast.show()
     }
 }
+
+fun Context.asActivity() = (this as? ContextThemeWrapper)?.baseContext as? Activity
+    ?: this as? Activity

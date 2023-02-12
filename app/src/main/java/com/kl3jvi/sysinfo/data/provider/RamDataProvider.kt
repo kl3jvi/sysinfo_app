@@ -2,7 +2,6 @@ package com.kl3jvi.sysinfo.data.provider
 
 import android.app.ActivityManager
 import com.kl3jvi.sysinfo.data.model.RamInfo
-import com.kl3jvi.sysinfo.utils.invoke
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
