@@ -10,7 +10,13 @@ import android.hardware.SensorManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.view.WindowManager
-import com.kl3jvi.sysinfo.data.provider.*
+import com.kl3jvi.sysinfo.data.local.PreferencesHolder
+import com.kl3jvi.sysinfo.data.provider.BatteryDataProvider
+import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
+import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
+import com.kl3jvi.sysinfo.data.provider.RamDataProvider
+import com.kl3jvi.sysinfo.data.provider.StorageProvider
+import com.kl3jvi.sysinfo.utils.Settings
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -38,6 +44,8 @@ private val appModule = module {
     single { androidContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager }
     single { androidContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager }
     single { androidContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager }
+
+    single<PreferencesHolder> { Settings(get()) }
 }
 
 val allModules = appModule + viewModelModule + providerModule

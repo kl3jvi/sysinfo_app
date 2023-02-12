@@ -18,5 +18,7 @@
     <string name="battery_overvoltage">Overvoltage</string>
     <string name="battery_unknown">Unknown</string>
     <string name="battery_unspecified_failure">Unspecified failure</string>
+    <string name="ram_refresh_pref">ram_refresh_rate</string>
+    <string name="cpu_frequency_pref">cpu_refresh_rate</string>
 
 </resources>
