@@ -3,6 +3,7 @@ package com.kl3jvi.sysinfo.data.provider
 import android.os.Build
 import android.util.Log
 import com.kl3jvi.sysinfo.data.model.CpuInfo
+import com.kl3jvi.sysinfo.utils.Settings
 import com.kl3jvi.sysinfo.utils.cacheHumanReadable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -15,7 +16,9 @@ import java.io.FileFilter
 import java.io.RandomAccessFile
 import java.util.regex.Pattern
 
-class CpuDataProvider {
+class CpuDataProvider(
+    private val settings: Settings
+) {
     external fun initLibrary()
 
     external fun getCpuName(): String
@@ -147,7 +150,7 @@ class CpuDataProvider {
                     l4Caches = l4Caches
                 )
                 emit(cpuInfo)
-                delay(DELAY)
+                delay(settings.coreFrequencyRefreshRate)
             }
         }.distinctUntilChanged()
             .flowOn(Dispatchers.IO)
@@ -155,6 +158,5 @@ class CpuDataProvider {
 
     companion object {
         private const val CPU_INFO_DIRECTORY = "/sys/devices/system/cpu/"
-        private const val DELAY = 1000L
     }
 }

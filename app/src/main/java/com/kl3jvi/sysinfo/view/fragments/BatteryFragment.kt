@@ -23,7 +23,6 @@ class BatteryFragment : Fragment(R.layout.battery_fragment), KoinComponent {
 
     private fun initViews() {
         binding.apply bind@{
-
             viewModel.batteryInfo.apply {
                 this@bind.health.text = health
                 this@bind.batPercentage.text = level

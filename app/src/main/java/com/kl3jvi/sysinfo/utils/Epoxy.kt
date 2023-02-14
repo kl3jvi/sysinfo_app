@@ -4,4 +4,4 @@ import com.airbnb.epoxy.EpoxyDataBindingPattern
 import com.example.sysinfo.R
 
 @EpoxyDataBindingPattern(rClass = R::class, layoutPrefix = "item")
-object EpoxyDataBindingPatterns
+object Epoxy

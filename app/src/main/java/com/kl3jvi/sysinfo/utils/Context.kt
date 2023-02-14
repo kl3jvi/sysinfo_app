@@ -19,4 +19,3 @@ fun Context.asActivity() = (this as? ContextThemeWrapper)?.baseContext as? Activ
 
 fun Context.getPreferenceKey(@StringRes resourceId: Int): String =
     resources.getString(resourceId)
-

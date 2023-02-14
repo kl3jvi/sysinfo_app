@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
+    app:startDestination="@id/dashboard">
+
+    <fragment
+        android:id="@+id/dashboard"
+        android:name="com.kl3jvi.sysinfo.view.fragments.Dashboard"
+        android:label="Dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.kl3jvi.sysinfo.view.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>

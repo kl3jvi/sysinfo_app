@@ -2,19 +2,28 @@ package com.kl3jvi.sysinfo.utils
 
 import android.app.Activity
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.WindowManager
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
+import androidx.annotation.StringRes
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-
+import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 
 /**
  * Sets the [WindowManager.LayoutParams.FLAG_SECURE] flag for the current activity window.
  */
 fun Fragment.secure() {
     this.activity?.window?.addFlags(
-        WindowManager.LayoutParams.FLAG_SECURE,
+        WindowManager.LayoutParams.FLAG_SECURE
     )
 }
 
@@ -23,7 +32,7 @@ fun Fragment.secure() {
  */
 fun Fragment.removeSecure() {
     this.activity?.window?.clearFlags(
-        WindowManager.LayoutParams.FLAG_SECURE,
+        WindowManager.LayoutParams.FLAG_SECURE
     )
 }
 
@@ -38,7 +47,7 @@ fun Fragment.removeSecure() {
  */
 fun Fragment.registerForActivityResult(
     onFailure: (result: ActivityResult) -> Unit = {},
-    onSuccess: (result: ActivityResult) -> Unit,
+    onSuccess: (result: ActivityResult) -> Unit
 ): ActivityResultLauncher<Intent> {
     return registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -47,4 +56,27 @@ fun Fragment.registerForActivityResult(
             onFailure(result)
         }
     }
+}
+
+fun Fragment.getPreferenceKey(@StringRes resourceId: Int): String = getString(resourceId)
+
+fun Fragment.setupActionBar(
+    @MenuRes layout: Int,
+    itemSelected: (MenuItem) -> Unit
+) {
+    requireActivity().addMenuProvider(object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            // Add menu items here
+            menuInflater.inflate(layout, menu)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            itemSelected(menuItem)
+            return true
+        }
+    })
+}
+
+fun Fragment.nav(@IdRes id: Int?, directions: NavDirections, options: NavOptions? = null) {
+    findNavController().nav(id, directions, options)
 }

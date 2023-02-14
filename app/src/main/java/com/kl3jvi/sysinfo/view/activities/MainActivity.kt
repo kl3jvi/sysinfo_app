@@ -2,16 +2,19 @@ package com.kl3jvi.sysinfo.view.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
+import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.ActivityMainBinding
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kl3jvi.sysinfo.ui.main.SectionsPagerAdapter
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
     private val tabIcons = intArrayOf(
         R.drawable.ic_dashboard,
         R.drawable.ic_devicee,
@@ -24,22 +27,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupViewPager()
+        /* Setting up the navigation controller and the action bar with the navigation controller. */
+        navController = findNavController(binding.fragContainer)
+        setupActionBarWithNavController(this, navController)
+    }
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, this)
-        val viewPager: ViewPager2 = binding.viewPager
-        val tabs: TabLayout = binding.tabs
-        viewPager.adapter = sectionsPagerAdapter
-
-        TabLayoutMediator(tabs, viewPager) { tab, position ->
-            tab.text = sectionsPagerAdapter.getPageTitle(position)
-            tab.setIcon(tabIcons[position])
-        }.attach()
-
-        val actionBar = supportActionBar
-        actionBar?.elevation = 0f
-        viewPager.offscreenPageLimit = 5
+    private fun setupViewPager() {
+        val adapter = SectionsPagerAdapter(this, this)
+        with(binding) {
+            viewPager.adapter = adapter
+            TabLayoutMediator(tabs, viewPager) { tab, position ->
+                tab.text = adapter.getPageTitle(position)
+                tab.setIcon(tabIcons[position])
+            }.attach()
+        }
+        supportActionBar?.elevation = 0f
+        binding.viewPager.offscreenPageLimit = 5
     }
 }

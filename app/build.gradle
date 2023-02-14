@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -71,6 +72,9 @@ dependencies {
 
     implementation "com.airbnb.android:epoxy:5.1.1"
     implementation "com.airbnb.android:epoxy-databinding:5.1.1"
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     kapt "com.airbnb.android:epoxy-processor:5.1.1"
 
     testImplementation 'junit:junit:4.13.2'

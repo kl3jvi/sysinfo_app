@@ -2,6 +2,7 @@ package com.kl3jvi.sysinfo.data.provider
 
 import android.app.ActivityManager
 import com.kl3jvi.sysinfo.data.model.RamInfo
+import com.kl3jvi.sysinfo.utils.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,8 @@ import kotlinx.coroutines.flow.flowOn
 import org.koin.core.component.KoinComponent
 
 class RamDataProvider(
-    private val activityManager: ActivityManager
+    private val activityManager: ActivityManager,
+    private val settings: Settings
 ) : KoinComponent {
 
     private fun getTotalBytes(): Long {
@@ -44,14 +46,9 @@ class RamDataProvider(
             val available = getAvailableBytes()
             val availablePercentage = getAvailablePercentage()
             val threshold = getThreshold()
-
             emit(RamInfo(total, available, availablePercentage, threshold))
-            delay(REFRESH_DELAY)
+            delay(settings.ramRefreshRate)
         }
     }.distinctUntilChanged()
         .flowOn(Dispatchers.IO)
-
-    companion object {
-        private const val REFRESH_DELAY = 5000L
-    }
 }

@@ -11,7 +11,9 @@ import com.github.lzyzsd.circleprogress.ArcProgress
 import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.launchAndRepeatWithViewLifecycle
+import com.kl3jvi.sysinfo.utils.nav
 import com.kl3jvi.sysinfo.utils.parsePercentage
+import com.kl3jvi.sysinfo.utils.setupActionBar
 import com.kl3jvi.sysinfo.utils.showToast
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -69,7 +71,19 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
                 }
             }
         }
+
+        setupActionBar(R.menu.settings_menu) {
+            when (it.itemId) {
+                R.id.settings -> handleSettings()
+            }
+        }
     }
+
+    private fun handleSettings() = nav(
+        R.id.dashboard,
+        DashboardDirections.actionDashboardToSettingsFragment()
+    )
+
 
     private fun ArcProgress.setRamValueAsync(
         flow: StateFlow<UiResult<RamData>>
