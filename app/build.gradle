@@ -57,7 +57,7 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
@@ -72,9 +72,10 @@ dependencies {
 
     implementation "com.airbnb.android:epoxy:5.1.1"
     implementation "com.airbnb.android:epoxy-databinding:5.1.1"
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-common-ktx:2.5.3'
     kapt "com.airbnb.android:epoxy-processor:5.1.1"
 
     testImplementation 'junit:junit:4.13.2'

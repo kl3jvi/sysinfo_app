@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+
 interface PreferencesHolder {
     val preferences: SharedPreferences
 }

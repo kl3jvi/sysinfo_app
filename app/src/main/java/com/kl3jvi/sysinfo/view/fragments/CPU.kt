@@ -13,7 +13,7 @@ class CPU : Fragment(R.layout.cpu_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CpuFragmentBinding.bind(view)
+        _binding = CpuFragmentBinding.bind(view)
     }
 
     override fun onDestroy() {

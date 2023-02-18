@@ -4,10 +4,11 @@
     <PreferenceCategory app:title="@string/sync_header">
 
         <SeekBarPreference
-            android:max="20000"
-            app:defaultValue="5000"
+            android:max="20"
+            app:defaultValue="5"
             app:key="@string/ram_refresh_pref"
-            app:min="1000"
+            app:seekBarIncrement="1"
+            app:min="1"
             app:title="Ram Update Delay">
 
         </SeekBarPreference>
