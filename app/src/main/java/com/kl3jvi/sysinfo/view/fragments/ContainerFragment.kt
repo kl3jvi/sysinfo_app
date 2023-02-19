@@ -29,7 +29,6 @@ class ContainerFragment : Fragment(R.layout.fragment_container) {
         setupViewPager()
     }
 
-
     private fun setupViewPager() {
         val adapter = SectionsPagerAdapter(requireContext(), requireActivity())
         with(binding) {

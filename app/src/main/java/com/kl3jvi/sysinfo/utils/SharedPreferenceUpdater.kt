@@ -2,7 +2,6 @@ package com.kl3jvi.sysinfo.utils
 
 import android.content.SharedPreferences
 
-
 public inline fun SharedPreferences.edit(
     commit: Boolean = false,
     action: SharedPreferences.Editor.() -> Unit
@@ -15,4 +14,3 @@ public inline fun SharedPreferences.edit(
         editor.apply()
     }
 }
-

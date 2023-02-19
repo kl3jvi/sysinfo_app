@@ -7,8 +7,6 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.ActivityMainBinding
-import com.google.android.material.tabs.TabLayoutMediator
-import com.kl3jvi.sysinfo.ui.main.SectionsPagerAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,5 +26,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
 }

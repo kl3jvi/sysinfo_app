@@ -7,12 +7,17 @@
             android:max="20"
             app:defaultValue="5"
             app:key="@string/ram_refresh_pref"
-            app:seekBarIncrement="1"
             app:min="1"
-            app:title="Ram Update Delay">
+            app:seekBarIncrement="1"
+            app:title="Ram Update Delay" />
 
-        </SeekBarPreference>
+        <SeekBarPreference
+            android:max="5"
+            app:defaultValue="1"
+            app:key="@string/cpu_frequency_pref"
+            app:min="1"
+            app:seekBarIncrement="1"
+            app:title="Cpu Update Delay" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>

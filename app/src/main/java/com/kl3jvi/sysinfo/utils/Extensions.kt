@@ -12,7 +12,7 @@ import androidx.preference.PreferenceFragmentCompat
  * @param onPreferenceChangeListener The callback to be invoked
  */
 inline fun <reified T> Preference.setOnPreferenceChangeListener(
-    crossinline onPreferenceChangeListener: (Preference, T) -> Boolean,
+    crossinline onPreferenceChangeListener: (Preference, T) -> Boolean
 ) {
     setOnPreferenceChangeListener { preference: Preference, newValue: Any ->
         (newValue as? T)?.let { onPreferenceChangeListener(preference, it) } ?: false

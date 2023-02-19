@@ -4,8 +4,6 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.example.sysinfo.R
 import com.example.sysinfo.cpuProgress
 import com.example.sysinfo.databinding.DashboardFragmentBinding
@@ -84,7 +82,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
         R.id.containerFragment,
         ContainerFragmentDirections.actionDashboardToSettingsFragment()
     )
-
 
     private fun ArcProgress.setRamValueAsync(
         flow: StateFlow<UiResult<RamData>>

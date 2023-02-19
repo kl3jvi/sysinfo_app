@@ -7,7 +7,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 
-
 /**
  * Navigate from the fragment with [id] using the given [directions].
  * If the id doesn't match the current destination, an error is recorded.
@@ -26,7 +25,7 @@ fun NavController.alreadyOnDestination(@IdRes destId: Int?): Boolean {
 
 fun NavController.navigateSafe(
     @IdRes resId: Int,
-    directions: NavDirections,
+    directions: NavDirections
 ) {
     if (currentDestination?.id == resId) {
         this.navigate(directions)
@@ -40,6 +39,6 @@ fun NavController.navigateSafe(
 fun NavController.hasTopDestination(fragmentClassName: String): Boolean {
     return this.backQueue.lastOrNull()?.destination?.displayName?.contains(
         fragmentClassName,
-        true,
+        true
     ) == true
 }

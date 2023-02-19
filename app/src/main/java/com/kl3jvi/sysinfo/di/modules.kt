@@ -11,7 +11,6 @@ import android.hardware.SensorManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.view.WindowManager
-import com.kl3jvi.sysinfo.data.local.PreferencesHolder
 import com.kl3jvi.sysinfo.data.provider.BatteryDataProvider
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
@@ -60,6 +59,6 @@ private val persistenceModule = module {
 }
 
 val allModules = appModule +
-        viewModelModule +
-        providerModule +
-        persistenceModule
+    viewModelModule +
+    providerModule +
+    persistenceModule

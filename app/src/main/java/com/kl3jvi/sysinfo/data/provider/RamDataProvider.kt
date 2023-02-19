@@ -48,7 +48,7 @@ class RamDataProvider(
             val availablePercentage = getAvailablePercentage()
             val threshold = getThreshold()
             emit(RamInfo(total, available, availablePercentage, threshold))
-            Log.e("ram freq",settings.ramRefreshRate.toString())
+            Log.e("ram freq", settings.ramRefreshRate.toString())
 
             delay(settings.ramRefreshRate)
         }

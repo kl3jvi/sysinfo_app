@@ -24,16 +24,34 @@ class SettingsFragment : PreferenceFragmentCompat(), KoinComponent {
     private fun setupPreferences() {
         requirePreference<SeekBarPreference>(R.string.ram_refresh_pref).apply {
             seekBarIncrement = 1000
-            summary = String.format("${settings.ramRefreshRate}")
-            onPreferenceChangeListener = object : Preference.OnPreferenceChangeListener {
-                override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
+            summary = String.format("${settings.ramRefreshRate.div(1000)} Seconds")
+            onPreferenceChangeListener =
+                Preference.OnPreferenceChangeListener { preference, newValue ->
                     settings.preferences.edit {
-                        putLong(getPreferenceKey(R.string.ram_refresh_pref), (newValue as Int).times(1000).toLong())
+                        putLong(
+                            getPreferenceKey(R.string.ram_refresh_pref),
+                            (newValue as Int).times(1000).toLong()
+                        )
                     }
-                    preference.summary = String.format("${newValue}000")
-                    return true
+                    preference.summary = String.format("$newValue Seconds")
+                    true
                 }
-            }
+        }
+
+        requirePreference<SeekBarPreference>(R.string.cpu_frequency_pref).apply {
+            seekBarIncrement = 1000
+            summary = String.format("${settings.coreFrequencyRefreshRate.div(1000)} Seconds")
+            onPreferenceChangeListener =
+                Preference.OnPreferenceChangeListener { preference, newValue ->
+                    settings.preferences.edit {
+                        putLong(
+                            getPreferenceKey(R.string.cpu_frequency_pref),
+                            (newValue as Int).times(1000).toLong()
+                        )
+                    }
+                    preference.summary = String.format("$newValue Seconds")
+                    true
+                }
         }
     }
 }

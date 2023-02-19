@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.sysinfo.R
 import com.kl3jvi.sysinfo.data.local.PreferencesHolder
-import com.kl3jvi.sysinfo.data.local.intPreference
 import com.kl3jvi.sysinfo.data.local.longPreference
 
 class Settings(

@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/containerFragment"
         android:name="com.kl3jvi.sysinfo.view.fragments.ContainerFragment"
-        android:label="ContainerFragment">
+        android:label="SysInfo">
         <action
             android:id="@+id/action_dashboard_to_settingsFragment"
             app:destination="@id/settingsFragment" />
