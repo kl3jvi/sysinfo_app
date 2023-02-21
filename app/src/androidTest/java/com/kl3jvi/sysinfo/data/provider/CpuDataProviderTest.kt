@@ -1,5 +1,6 @@
 package com.kl3jvi.sysinfo.data.provider
 
+import com.kl3jvi.sysinfo.utils.Settings
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
@@ -8,10 +9,13 @@ import org.junit.Before
 import org.junit.Test
 
 class CpuDataProviderTest {
-    private val cpuDataProvider = CpuDataProvider()
+    private lateinit var cpuDataProvider: CpuDataProvider
+    private lateinit var settings: Settings
 
     @Before
     fun setUp() {
+//        settings = Settings()
+//        cpuDataProvider = CpuDataProvider()
         System.loadLibrary("cpuinfo-libs")
         cpuDataProvider.initLibrary()
     }

@@ -19,7 +19,7 @@ import java.util.regex.Pattern
 class CpuDataProvider(
     private val settings: Settings
 ) {
-    external fun initLibrary()
+    external fun initLibrary(): Boolean
 
     external fun getCpuName(): String
 
@@ -115,6 +115,7 @@ class CpuDataProvider(
     fun getCpuCoresInformation(): Flow<CpuInfo> {
         val numberOfCores = getNumberOfCores()
         val minMaxFreq = (0 until numberOfCores).map { getMinMaxFreq(it) }
+
         val cpuName = getCpuName()
         val abi = getAbi()
         val hasArmNeon = hasArmNeon()

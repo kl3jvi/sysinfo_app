@@ -1,6 +1,7 @@
 package com.kl3jvi.sysinfo.di
 
 import android.app.ActivityManager
+import android.app.Application
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.Context
@@ -17,6 +18,7 @@ import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
 import com.kl3jvi.sysinfo.data.provider.StorageProvider
 import com.kl3jvi.sysinfo.utils.Settings
+import com.kl3jvi.sysinfo.utils.WifiConnectionMonitor
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -46,6 +48,7 @@ private val appModule = module {
     single<SensorManager> { androidContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager }
     single<WifiManager> { androidContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager }
     single<BatteryManager> { androidContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager }
+    single<WifiConnectionMonitor> { WifiConnectionMonitor(androidContext() as Application) }
 }
 
 private val persistenceModule = module {
@@ -59,6 +62,6 @@ private val persistenceModule = module {
 }
 
 val allModules = appModule +
-    viewModelModule +
-    providerModule +
-    persistenceModule
+        viewModelModule +
+        providerModule +
+        persistenceModule

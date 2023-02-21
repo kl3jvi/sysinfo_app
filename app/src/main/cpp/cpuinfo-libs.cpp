@@ -10,11 +10,12 @@
 
 
 extern "C"
-JNIEXPORT void JNICALL
+JNIEXPORT jboolean JNICALL
 Java_com_kl3jvi_sysinfo_data_provider_CpuDataProvider_initLibrary(JNIEnv *env, jobject thiz) {
     if (!cpuinfo_initialize()) {
-        LOGI("Error during initialization");
-    }
+        LOGI("Error initialising library");
+        return true;
+    } else return false;
 }
 
 extern "C"
@@ -126,4 +127,5 @@ Java_com_kl3jvi_sysinfo_data_provider_CpuDataProvider_getL4Caches(JNIEnv *env, j
     delete[] internalArray;
     return result;
 }
+
 

@@ -40,4 +40,9 @@ class ContainerFragment : Fragment(R.layout.fragment_container) {
         }
         binding.viewPager.offscreenPageLimit = 5
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

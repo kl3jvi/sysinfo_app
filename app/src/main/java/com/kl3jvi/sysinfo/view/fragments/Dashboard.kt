@@ -50,13 +50,15 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             batteryProgress.progress = dataViewModel.batteryInfo.level.parsePercentage()
         }
 
+
+
         launchAndRepeatWithViewLifecycle {
             dataViewModel.cpuInfo.collect {
                 binding.listView.itemAnimator = null
                 binding.listView.withModels {
                     when (it) {
-                        is UiResult.Error -> requireContext().showToast(it.throwable.message.orEmpty())
-                        UiResult.Idle -> requireContext().showToast("Loading Data")
+                        is UiResult.Error -> showToast(it.throwable.message.orEmpty())
+                        UiResult.Idle -> showToast("Loading Data")
                         is UiResult.Success -> {
                             it.data.frequencies.forEachIndexed { index, frequency ->
                                 cpuProgress {
