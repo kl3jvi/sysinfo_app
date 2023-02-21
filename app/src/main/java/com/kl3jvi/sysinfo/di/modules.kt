@@ -62,6 +62,6 @@ private val persistenceModule = module {
 }
 
 val allModules = appModule +
-        viewModelModule +
-        providerModule +
-        persistenceModule
+    viewModelModule +
+    providerModule +
+    persistenceModule

@@ -25,7 +25,8 @@ fun Float.round2(): Double = (this * 100.0).roundToLong() / 100.0
  */
 fun IntArray?.cacheHumanReadable(): String {
     return this?.map { it.toLong() }?.joinToString(
-        separator = "\n", transform = ::humanReadableByteCount
+        separator = "\n",
+        transform = ::humanReadableByteCount
     ).orEmpty()
 }
 

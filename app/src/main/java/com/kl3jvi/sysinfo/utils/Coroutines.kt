@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 /**
@@ -16,13 +16,18 @@ import kotlinx.coroutines.launch
  * @param minActiveState the minimum [Lifecycle.State] required to keep the block running.
  * @param block the block of code to be executed within the [CoroutineScope].
  */
-inline fun Fragment.launchAndRepeatWithViewLifecycle(
+inline fun <T> Fragment.launchAndCollectWithViewLifecycle(
+    flow: Flow<T>,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    crossinline block: suspend CoroutineScope.() -> Unit
+    crossinline block: suspend CoroutineScope.(T) -> Unit
 ) {
     viewLifecycleOwner.apply {
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(minActiveState) { block() }
+            lifecycle.repeatOnLifecycle(minActiveState) {
+                flow.collect {
+                    block(it)
+                }
+            }
         }
     }
 }

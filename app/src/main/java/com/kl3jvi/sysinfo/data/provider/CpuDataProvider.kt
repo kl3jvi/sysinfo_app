@@ -8,7 +8,6 @@ import com.kl3jvi.sysinfo.utils.cacheHumanReadable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.File
@@ -154,8 +153,7 @@ class CpuDataProvider(
                 Log.e("core freq", settings.coreFrequencyRefreshRate.toString())
                 delay(settings.coreFrequencyRefreshRate)
             }
-        }.distinctUntilChanged()
-            .flowOn(Dispatchers.IO)
+        }.flowOn(Dispatchers.IO)
     }
 
     companion object {

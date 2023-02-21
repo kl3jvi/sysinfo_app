@@ -20,22 +20,17 @@ object Do {
     inline infix fun <reified T> exhaustive(any: T?) = any
 }
 
-
 class WifiConnectionMonitor(app: Application) {
 
     private val callbacks = mutableListOf<(Boolean) -> Unit>()
 
-
     private var connectivityManager = app.getSystemService(Context.CONNECTIVITY_SERVICE) as
-            ConnectivityManager
-
+        ConnectivityManager
 
     internal var lastKnownStateWasAvailable: Boolean? = null
 
-
     private var isRegistered = false
         @Synchronized set
-
 
     private val frameworkListener = object : ConnectivityManager.NetworkCallback() {
         override fun onLost(network: Network) {

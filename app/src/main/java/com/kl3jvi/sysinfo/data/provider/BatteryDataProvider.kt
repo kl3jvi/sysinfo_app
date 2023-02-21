@@ -48,11 +48,11 @@ class BatteryDataProvider(
         val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         val batteryStatus = appContext.registerReceiver(null, iFilter)
         val temperature = (
-                batteryStatus?.getIntExtra(
-                    BatteryManager.EXTRA_TEMPERATURE,
-                    0
-                ) ?: 0
-                ) / 10
+            batteryStatus?.getIntExtra(
+                BatteryManager.EXTRA_TEMPERATURE,
+                0
+            ) ?: 0
+            ) / 10
 
         return "%.2s".format(temperature.toFloat())
     }

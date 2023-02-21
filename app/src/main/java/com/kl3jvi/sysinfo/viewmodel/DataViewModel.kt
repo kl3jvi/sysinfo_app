@@ -1,17 +1,19 @@
 package com.kl3jvi.sysinfo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kl3jvi.sysinfo.data.model.RamInfo
 import com.kl3jvi.sysinfo.data.model.toHumanReadableValues
 import com.kl3jvi.sysinfo.data.provider.BatteryDataProvider
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
 import com.kl3jvi.sysinfo.data.provider.StorageProvider
-import com.kl3jvi.sysinfo.utils.UiResult
+import com.kl3jvi.sysinfo.utils.ifChanged
 import com.kl3jvi.sysinfo.utils.mapToUiState
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.onEach
 
 class DataViewModel(
     cpuDataProvider: CpuDataProvider,
@@ -26,20 +28,18 @@ class DataViewModel(
 
     val cpuInfo = cpuDataProvider
         .getCpuCoresInformation()
-        .mapToUiState()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            UiResult.Idle
-        )
+        .ifChanged()
+        .mapToUiState(viewModelScope)
 
     val ramInfo = ramDataProvider
         .getRamInformation()
-        .map { it.toHumanReadableValues() }
-        .mapToUiState()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            UiResult.Idle
-        )
+        .map(RamInfo::toHumanReadableValues)
+        .ifChanged()
+        .mapToUiState(viewModelScope)
+}
+
+private fun <T> Flow<T>.logFlow(name: String = "Flow Logged"): Flow<T> {
+    return onEach {
+        Log.e(name, "data:$it")
+    }
 }

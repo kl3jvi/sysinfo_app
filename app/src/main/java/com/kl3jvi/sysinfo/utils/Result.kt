@@ -3,10 +3,14 @@ package com.kl3jvi.sysinfo.utils
 import com.kl3jvi.sysinfo.utils.UiResult.Error
 import com.kl3jvi.sysinfo.utils.UiResult.Idle
 import com.kl3jvi.sysinfo.utils.UiResult.Success
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 
 /**
  * Sealed interface used to represent the states of a UI related operation
@@ -32,12 +36,18 @@ sealed interface UiResult<out T> {
  *
  * @return a flow of [UiResult] of type [T].
  */
-fun <T> Flow<T>.mapToUiState(): Flow<UiResult<T>> {
+fun <T> Flow<T>.mapToUiState(
+    coroutineScope: CoroutineScope
+): StateFlow<UiResult<T>> {
     return map<T, UiResult<T>> {
         Success(it)
     }.onStart {
         emit(Idle)
     }.catch {
         emit(Error(it))
-    }
+    }.stateIn(
+        scope = coroutineScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = Idle
+    )
 }

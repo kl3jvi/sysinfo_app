@@ -1,16 +1,13 @@
 package com.kl3jvi.sysinfo.view.activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.ActivityMainBinding
-import com.kl3jvi.sysinfo.utils.WifiConnectionMonitor
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 
@@ -30,7 +27,4 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
 }
-
-
