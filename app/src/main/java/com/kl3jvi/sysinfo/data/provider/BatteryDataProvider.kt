@@ -12,25 +12,33 @@ import com.kl3jvi.sysinfo.data.model.BatteryInfo
 import com.kl3jvi.sysinfo.data.model.BatteryType
 import com.kl3jvi.sysinfo.utils.round2
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import org.koin.core.component.KoinComponent
 
-class BatteryDataProvider(
-    private val appContext: Context
-) : KoinComponent {
+class BatteryDataProvider(private val appContext: Context) {
 
-    init {
-        getBatteryStatusIntent()
-    }
+    fun getBatteryStatus(): Flow<BatteryInfo> = callbackFlow {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val batteryInfo = BatteryInfo(
+                    level = getBatteryLevel(intent),
+                    health = getBatteryHealth(intent),
+                    voltage = getBatteryVoltage(intent),
+                    temperature = getBatteryTemperature(intent),
+                    capacity = getBatteryCapacity(),
+                    technology = getBatteryTechnology(intent),
+                    isCharging = getIsCharging(intent),
+                    chargingType = getChargingType(intent)
+                )
+                trySend(batteryInfo)
+            }
+        }
+        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        appContext.registerReceiver(receiver, filter)
 
-    /**
-     * @return [Intent] with battery information
-     */
-    private fun getBatteryStatusIntent(): Intent? {
-        val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        return appContext.registerReceiver(null, iFilter)
-    }
+        awaitClose { appContext.unregisterReceiver(receiver) }
+    }.distinctUntilChanged()
 
     private fun getBatteryLevel(batteryStatus: Intent?): String {
         val level = batteryStatus?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: return ""
@@ -49,16 +57,8 @@ class BatteryDataProvider(
         return "${voltage / 1000.0}V"
     }
 
-    private fun getBatteryTemperature(): String {
-        val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        val batteryStatus = appContext.registerReceiver(null, iFilter)
-        val temperature = (
-                batteryStatus?.getIntExtra(
-                    BatteryManager.EXTRA_TEMPERATURE,
-                    0
-                ) ?: 0
-                ) / 10
-
+    private fun getBatteryTemperature(batteryStatus: Intent?): String {
+        val temperature = (batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) ?: 0) / 10
         return "%.2s".format(temperature.toFloat())
     }
 
@@ -66,27 +66,16 @@ class BatteryDataProvider(
         return batteryStatus?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: ""
     }
 
-    private fun getIsCharging() = callbackFlow {
-        val receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val statusMapped = when (intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
-                    BatteryManager.BATTERY_STATUS_CHARGING -> BatteryType.CHARGING
-                    BatteryManager.BATTERY_STATUS_DISCHARGING -> BatteryType.DISCHARGING
-                    BatteryManager.BATTERY_STATUS_FULL -> BatteryType.FULL
-                    BatteryManager.BATTERY_STATUS_NOT_CHARGING -> BatteryType.NOT_CHARGING
-                    BatteryManager.BATTERY_STATUS_UNKNOWN -> BatteryType.UNKNOWN
-                    else -> BatteryType.UNKNOWN
-                }
-                trySend(statusMapped)
-            }
+    private fun getIsCharging(batteryStatus: Intent?): BatteryType {
+        return when (batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+            BatteryManager.BATTERY_STATUS_CHARGING -> BatteryType.CHARGING
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> BatteryType.DISCHARGING
+            BatteryManager.BATTERY_STATUS_FULL -> BatteryType.FULL
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> BatteryType.NOT_CHARGING
+            BatteryManager.BATTERY_STATUS_UNKNOWN -> BatteryType.UNKNOWN
+            else -> BatteryType.UNKNOWN
         }
-
-        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        appContext.registerReceiver(receiver, filter)
-
-        // Ensure the receiver is unregistered when the flow is cancelled
-        awaitClose { appContext.unregisterReceiver(receiver) }
-    }.distinctUntilChanged()
+    }
 
     private fun getChargingType(batteryStatus: Intent?): String {
         val chargePlug = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: return ""
@@ -127,19 +116,5 @@ class BatteryDataProvider(
             BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> appContext.getString(R.string.battery_unspecified_failure)
             else -> appContext.getString(R.string.battery_unknown)
         }
-    }
-
-    fun getBatteryStatus(): BatteryInfo {
-        val batteryStatus = getBatteryStatusIntent()
-        return BatteryInfo(
-            level = getBatteryLevel(batteryStatus),
-            health = getBatteryHealth(batteryStatus),
-            voltage = getBatteryVoltage(batteryStatus),
-            temperature = getBatteryTemperature(),
-            capacity = getBatteryCapacity(),
-            technology = getBatteryTechnology(batteryStatus),
-            isCharging = getIsCharging(),
-            chargingType = getChargingType(batteryStatus)
-        )
     }
 }

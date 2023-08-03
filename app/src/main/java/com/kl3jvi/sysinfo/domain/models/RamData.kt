@@ -5,4 +5,4 @@ data class RamData(
     val available: String,
     val percentageAvailable: Int,
     val threshold: String
-)
+) 

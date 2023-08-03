@@ -57,8 +57,11 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             dataViewModel.internalStoragePercentage,
             internalPercentage
         )
-        batteryPercentage.text = dataViewModel.batteryInfo.level
-        batteryProgress.progress = dataViewModel.batteryInfo.level.parsePercentage()
+        launchAndCollectWithViewLifecycle(dataViewModel.batteryInfo) { type ->
+            batteryPercentage.text = type.data.first().details
+            batteryProgress.progress = type.data.first().details.parsePercentage()
+        }
+
     }
 
     private fun ProgressBar.setProgressAndText(percentage: Int, textView: TextView) {

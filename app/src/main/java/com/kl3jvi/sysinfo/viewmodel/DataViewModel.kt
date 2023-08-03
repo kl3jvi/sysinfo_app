@@ -3,6 +3,7 @@ package com.kl3jvi.sysinfo.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kl3jvi.sysinfo.data.model.BatteryInfo
 import com.kl3jvi.sysinfo.data.model.CpuInfo
 import com.kl3jvi.sysinfo.data.model.RamInfo
 import com.kl3jvi.sysinfo.data.model.toDomainModel
@@ -26,6 +27,8 @@ class DataViewModel(
     val systemStoragePercentage = storageProvider.calculateSystemPercentage()
     val internalStoragePercentage = storageProvider.calculateInternalPercentage()
     val batteryInfo = batteryDataProvider.getBatteryStatus()
+        .map(BatteryInfo::toDomainModel)
+        .ifChanged()
 
     val cpuInfo = cpuDataProvider
         .getCpuCoresInformation()

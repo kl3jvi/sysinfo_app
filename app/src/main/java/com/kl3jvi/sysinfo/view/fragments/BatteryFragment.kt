@@ -3,9 +3,10 @@ package com.kl3jvi.sysinfo.view.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.BatteryFragmentBinding
-import com.kl3jvi.sysinfo.data.model.BatteryType.Companion.asString
+import com.example.sysinfo.information
 import com.kl3jvi.sysinfo.utils.launchAndCollectWithViewLifecycle
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,20 +25,17 @@ class BatteryFragment : Fragment(R.layout.battery_fragment), KoinComponent {
     }
 
     private fun initViews() {
-        binding.apply bind@{
-            viewModel.batteryInfo.apply {
-                this@bind.health.text = health
-                this@bind.batPercentage.text = level
-                this@bind.powerSource.text = chargingType
-                this@bind.batTemperature.text = getString(R.string.temperature, temperature)
-                this@bind.technology.text = technology
-                this@bind.voltage.text = voltage
-                this@bind.capacity.text = capacity
-            }
-        }
+        binding.listWithItems.layoutManager = LinearLayoutManager(requireContext())
 
-        launchAndCollectWithViewLifecycle(viewModel.batteryInfo.isCharging) { type ->
-            binding.batStatus.text = type.asString()
+        launchAndCollectWithViewLifecycle(viewModel.batteryInfo) { type ->
+            binding.listWithItems.withModels {
+                type.data.forEach {
+                    information {
+                        id(it.details)
+                        data(it)
+                    }
+                }
+            }
         }
     }
 

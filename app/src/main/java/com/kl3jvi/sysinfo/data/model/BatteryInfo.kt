@@ -1,6 +1,8 @@
 package com.kl3jvi.sysinfo.data.model
 
-import kotlinx.coroutines.flow.Flow
+import com.kl3jvi.sysinfo.data.model.BatteryType.Companion.asString
+import com.kl3jvi.sysinfo.domain.models.BatteryData
+import com.kl3jvi.sysinfo.utils.toInformation
 import java.util.Locale
 
 data class BatteryInfo(
@@ -10,7 +12,7 @@ data class BatteryInfo(
     val temperature: String,
     val capacity: String,
     val technology: String,
-    val isCharging: Flow<BatteryType>,
+    val isCharging: BatteryType,
     val chargingType: String
 )
 
@@ -23,11 +25,26 @@ enum class BatteryType {
 
     companion object {
 
-        fun BatteryType.asString(): String? {
+        fun BatteryType.asString(): String {
             return this.name.split('_').joinToString(" ") {
                 it.lowercase(Locale.getDefault())
                     .replaceFirstChar { char -> char.titlecase(Locale.getDefault()) }
             }
         }
     }
+}
+
+fun BatteryInfo.toDomainModel(): BatteryData {
+    val listOfInfo = listOf(
+        "Level" to level,
+        "Health" to health,
+        "Voltage" to voltage,
+        "Temperature" to temperature,
+        "Capacity" to capacity,
+        "Technology" to technology,
+        "Status" to isCharging.asString(),
+        "Power Source" to chargingType,
+    ).map(Pair<String, String>::toInformation)
+
+    return BatteryData(listOfInfo)
 }
