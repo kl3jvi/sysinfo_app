@@ -1,6 +1,7 @@
 package com.kl3jvi.sysinfo.data.provider
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -8,7 +9,11 @@ import android.os.BatteryManager
 import android.util.Log
 import com.example.sysinfo.R
 import com.kl3jvi.sysinfo.data.model.BatteryInfo
+import com.kl3jvi.sysinfo.data.model.BatteryType
 import com.kl3jvi.sysinfo.utils.round2
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import org.koin.core.component.KoinComponent
 
 class BatteryDataProvider(
@@ -29,7 +34,7 @@ class BatteryDataProvider(
 
     private fun getBatteryLevel(batteryStatus: Intent?): String {
         val level = batteryStatus?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: return ""
-        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1) ?: return ""
+        val scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
         val batteryPct = (level / scale.toFloat()) * 100
         return "${batteryPct.round2()}%"
     }
@@ -48,11 +53,11 @@ class BatteryDataProvider(
         val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         val batteryStatus = appContext.registerReceiver(null, iFilter)
         val temperature = (
-            batteryStatus?.getIntExtra(
-                BatteryManager.EXTRA_TEMPERATURE,
-                0
-            ) ?: 0
-            ) / 10
+                batteryStatus?.getIntExtra(
+                    BatteryManager.EXTRA_TEMPERATURE,
+                    0
+                ) ?: 0
+                ) / 10
 
         return "%.2s".format(temperature.toFloat())
     }
@@ -61,10 +66,27 @@ class BatteryDataProvider(
         return batteryStatus?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: ""
     }
 
-    private fun getIsCharging(batteryStatus: Intent?): Boolean {
-        val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: return false
-        return status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
-    }
+    private fun getIsCharging() = callbackFlow {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val statusMapped = when (intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+                    BatteryManager.BATTERY_STATUS_CHARGING -> BatteryType.CHARGING
+                    BatteryManager.BATTERY_STATUS_DISCHARGING -> BatteryType.DISCHARGING
+                    BatteryManager.BATTERY_STATUS_FULL -> BatteryType.FULL
+                    BatteryManager.BATTERY_STATUS_NOT_CHARGING -> BatteryType.NOT_CHARGING
+                    BatteryManager.BATTERY_STATUS_UNKNOWN -> BatteryType.UNKNOWN
+                    else -> BatteryType.UNKNOWN
+                }
+                trySend(statusMapped)
+            }
+        }
+
+        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        appContext.registerReceiver(receiver, filter)
+
+        // Ensure the receiver is unregistered when the flow is cancelled
+        awaitClose { appContext.unregisterReceiver(receiver) }
+    }.distinctUntilChanged()
 
     private fun getChargingType(batteryStatus: Intent?): String {
         val chargePlug = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: return ""
@@ -79,16 +101,17 @@ class BatteryDataProvider(
 
     @SuppressLint("PrivateApi")
     private fun getBatteryCapacity(): String {
-        var capacity = -1.0
-        try {
+        val capacity = try {
             val powerProfile = Class.forName("com.android.internal.os.PowerProfile")
-                .getConstructor(Context::class.java).newInstance(appContext)
-            capacity = Class
+                .getConstructor(Context::class.java)
+                .newInstance(appContext)
+            Class
                 .forName("com.android.internal.os.PowerProfile")
                 .getMethod("getAveragePower", String::class.java)
                 .invoke(powerProfile, "battery.capacity") as Double
         } catch (e: Exception) {
             Log.e("Error", "occurred", e)
+            -1.0
         }
         return "${capacity.toFloat().round2()}mAh"
     }
@@ -115,7 +138,7 @@ class BatteryDataProvider(
             temperature = getBatteryTemperature(),
             capacity = getBatteryCapacity(),
             technology = getBatteryTechnology(batteryStatus),
-            isCharging = getIsCharging(batteryStatus),
+            isCharging = getIsCharging(),
             chargingType = getChargingType(batteryStatus)
         )
     }

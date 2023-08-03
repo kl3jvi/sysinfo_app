@@ -31,7 +31,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentActivity) :
         }
     }
 
-    fun getPageTitle(position: Int): CharSequence? {
+    fun getPageTitle(position: Int): CharSequence {
         return context.resources.getString(TAB_TITLES[position])
     }
 

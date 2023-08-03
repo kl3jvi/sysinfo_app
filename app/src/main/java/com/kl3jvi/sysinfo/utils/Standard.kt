@@ -11,7 +11,7 @@ import kotlin.contracts.contract
  * @return The result of executing [block] as a [Result].
  */
 @OptIn(ExperimentalContracts::class)
-inline fun <T> T.then(block: T.() -> T): Result<T> {
+inline fun <T> T.thenCatching(block: T.() -> T): Result<T> {
     contract {
         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
     }

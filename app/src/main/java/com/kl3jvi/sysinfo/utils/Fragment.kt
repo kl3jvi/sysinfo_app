@@ -77,9 +77,9 @@ fun Fragment.setupActionBar(
     })
 }
 
-fun Fragment.nav(@IdRes id: Int?, directions: NavDirections, options: NavOptions? = null) {
+fun Fragment.nav(@IdRes id: Int?, directions: NavDirections, options: NavOptions? = null) =
     findNavController().nav(id, directions, options)
-}
+
 
 fun Fragment.showToast(message: String) {
     requireContext().showToast(message)

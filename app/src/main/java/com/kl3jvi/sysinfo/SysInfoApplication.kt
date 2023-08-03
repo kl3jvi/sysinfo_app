@@ -5,7 +5,7 @@ import android.util.Log
 import com.getkeepsafe.relinker.ReLinker
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.di.allModules
-import com.kl3jvi.sysinfo.utils.then
+import com.kl3jvi.sysinfo.utils.thenCatching
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -26,13 +26,14 @@ class SysInfoApplication : Application(), KoinComponent {
     }
 
     private fun initNativeCpuInfo() {
-        ReLinker.loadLibrary(this, LIB_NAME).then {
-            cpuDataProvider.initLibrary()
-        }.onSuccess {
-            Log.e("Initialised CpuInfo", "successfully")
-        }.onFailure {
-            Log.e("Failed cpu-info", "initialisation")
-        }
+        ReLinker.loadLibrary(this, LIB_NAME)
+            .thenCatching {
+                cpuDataProvider.initLibrary()
+            }.onSuccess {
+                Log.i("Initialised CpuInfo", "successfully")
+            }.onFailure {
+                Log.e("Failed cpu-info", "initialisation", it)
+            }
     }
 
     companion object {

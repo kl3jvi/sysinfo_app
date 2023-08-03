@@ -52,6 +52,7 @@ class RamDataProvider(
 
             delay(settings.ramRefreshRate)
         }
-    }.distinctUntilChanged()
+    }
+        .distinctUntilChanged()
         .flowOn(Dispatchers.IO)
 }

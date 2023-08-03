@@ -126,7 +126,8 @@ class CpuDataProvider(
 
         return flow {
             while (true) {
-                val coresData = (0 until numberOfCores).map { getCurrentFreq(it) }
+                val coresData = (0 until numberOfCores)
+                    .map { getCurrentFreq(it) }
                     .zip(minMaxFreq)
                     .map { (current, frequencyHolder) ->
                         val (minimum, maximum) = frequencyHolder

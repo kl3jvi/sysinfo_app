@@ -24,7 +24,7 @@ fun Float.round2(): Double = (this * 100.0).roundToLong() / 100.0
  * @return [String] representation of the cache size in a human readable format. An empty string if the [IntArray] is null.
  */
 fun IntArray?.cacheHumanReadable(): String {
-    return this?.map { it.toLong() }?.joinToString(
+    return this?.map(Int::toLong)?.joinToString(
         separator = "\n",
         transform = ::humanReadableByteCount
     ).orEmpty()

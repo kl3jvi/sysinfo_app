@@ -18,6 +18,6 @@ class Settings(
 
     val coreFrequencyRefreshRate by longPreference(
         appContext.getPreferenceKey(R.string.cpu_frequency_pref),
-        default = 1000L
+        default = 500L
     )
 }

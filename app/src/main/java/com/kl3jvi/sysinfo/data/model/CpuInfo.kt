@@ -1,5 +1,7 @@
 package com.kl3jvi.sysinfo.data.model
 
+import com.kl3jvi.sysinfo.domain.models.CpuData
+
 data class CpuInfo(
     val processorName: String,
     val abi: String,
@@ -16,5 +18,17 @@ data class CpuInfo(
         val min: Long,
         val max: Long,
         val current: Long
+    )
+}
+
+fun CpuInfo.toDomainModel(): CpuData {
+    val caches = listOf(l1dCaches, l1iCaches, l2Caches, l3Caches, l4Caches)
+    return CpuData(
+        processorName,
+        abi,
+        coreNumber,
+        hasArmNeon,
+        frequencies,
+        caches
     )
 }
