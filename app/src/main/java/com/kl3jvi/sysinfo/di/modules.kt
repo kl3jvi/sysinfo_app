@@ -33,7 +33,7 @@ private val viewModelModule = module {
 private val providerModule = module {
     single { CpuDataProvider(get()) }
     single { RamDataProvider(get(), get()) }
-    single { GpuDataProvider(get()) }
+    single { GpuDataProvider(get(), get()) }
     single { StorageProvider(get()) }
     single { BatteryDataProvider(get()) }
 }

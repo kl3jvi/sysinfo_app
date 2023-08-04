@@ -19,7 +19,7 @@ import com.kl3jvi.sysinfo.utils.parsePercentage
 import com.kl3jvi.sysinfo.utils.setupActionBar
 import com.kl3jvi.sysinfo.utils.showToast
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -61,7 +61,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             batteryPercentage.text = type.data.first().details
             batteryProgress.progress = type.data.first().details.parsePercentage()
         }
-
     }
 
     private fun ProgressBar.setProgressAndText(percentage: Int, textView: TextView) {
@@ -72,7 +71,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
     private fun handleCpuInfoResult(uiResult: UiResult<CpuData>) {
         when (uiResult) {
             is UiResult.Error -> showToast(uiResult.throwable.message.orEmpty())
-            UiResult.Idle -> showToast("Loading Data")
             is UiResult.Success -> updateCpuInfoList(uiResult)
         }
     }
@@ -95,15 +93,14 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
     )
 
     private fun ArcProgress.setRamValueAsync(
-        flow: StateFlow<UiResult<RamData>>
+        flow: Flow<UiResult<RamData>>
     ) = apply {
         launchAndCollectWithViewLifecycle(flow) { handleRamValueResult(it) }
     }
 
     private fun handleRamValueResult(result: UiResult<RamData>) {
         when (result) {
-            is UiResult.Error -> requireContext().showToast(result.throwable.message.orEmpty())
-            UiResult.Idle -> requireContext().showToast("Loading Data")
+            is UiResult.Error -> showToast(result.throwable.message.orEmpty())
             is UiResult.Success -> {
                 binding.arcProgress.animate(result.data.percentageAvailable)
                 binding.ramTxt.text = resources.getString(

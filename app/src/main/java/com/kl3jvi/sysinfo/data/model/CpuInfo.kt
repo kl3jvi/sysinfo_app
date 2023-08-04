@@ -1,6 +1,9 @@
 package com.kl3jvi.sysinfo.data.model
 
 import com.kl3jvi.sysinfo.domain.models.CpuData
+import com.kl3jvi.sysinfo.utils.clearEmptyEntries
+import com.kl3jvi.sysinfo.utils.toAffirmative
+import com.kl3jvi.sysinfo.utils.toInformation
 
 data class CpuInfo(
     val processorName: String,
@@ -22,13 +25,25 @@ data class CpuInfo(
 }
 
 fun CpuInfo.toDomainModel(): CpuData {
-    val caches = listOf(l1dCaches, l1iCaches, l2Caches, l3Caches, l4Caches)
+    val info = listOf(
+        "Processor Name" to processorName,
+        "ABI" to abi,
+        "Core Number" to coreNumber.toString(),
+        "Arm Neon" to hasArmNeon.toAffirmative(),
+        "L1d Cache" to l1dCaches,
+        "L1i Cache" to l1iCaches,
+        "L2 Cache" to l2Caches,
+        "L3 Cache" to l3Caches,
+        "L4 Cache" to l4Caches
+    ).map(Pair<String, String>::toInformation)
+        .clearEmptyEntries()
+
     return CpuData(
         processorName,
         abi,
         coreNumber,
         hasArmNeon,
         frequencies,
-        caches
+        info
     )
 }

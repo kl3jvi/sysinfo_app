@@ -8,3 +8,7 @@ fun Pair<String, String>.toInformation(): Information {
         details = second
     )
 }
+
+fun List<Information>.clearEmptyEntries(): List<Information> {
+    return filter { it.details.isNotEmpty() }
+}

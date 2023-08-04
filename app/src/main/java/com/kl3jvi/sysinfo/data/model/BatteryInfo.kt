@@ -43,7 +43,7 @@ fun BatteryInfo.toDomainModel(): BatteryData {
         "Capacity" to capacity,
         "Technology" to technology,
         "Status" to isCharging.asString(),
-        "Power Source" to chargingType,
+        "Power Source" to chargingType
     ).map(Pair<String, String>::toInformation)
 
     return BatteryData(listOfInfo)

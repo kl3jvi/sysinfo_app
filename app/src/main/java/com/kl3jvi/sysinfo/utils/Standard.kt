@@ -24,4 +24,8 @@ inline fun <T> T.thenCatching(block: T.() -> T): Result<T> {
  * @param fn a function with no arguments that returns a `Long` value
  * @return the result of the function `fn`
  */
-fun<T> invoke(fn: () -> T) = fn()
+fun <T> invoke(fn: () -> T) = fn()
+
+fun Boolean.toAffirmative(): String {
+    return if (this) "Yes" else "No"
+}

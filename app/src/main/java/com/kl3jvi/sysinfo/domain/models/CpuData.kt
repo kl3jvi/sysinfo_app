@@ -8,5 +8,5 @@ data class CpuData(
     val coreNumber: Int,
     val hasArmNeon: Boolean,
     val frequencies: List<CpuInfo.Frequency>,
-    val caches: List<String>
+    val layoutInfo: List<Information>
 )
