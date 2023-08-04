@@ -105,7 +105,6 @@ class CpuDataProvider(
         }
     }
 
-
     /**
      * Returns a flow of [CpuInfo] containing information about the device's CPU cores.
      *
@@ -172,7 +171,6 @@ class CpuDataProvider(
         private const val CPU_INFO_DIRECTORY = "/sys/devices/system/cpu/"
     }
 }
-
 
 enum class CPULoad {
     Low,

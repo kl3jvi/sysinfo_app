@@ -41,7 +41,10 @@ class SystemFrag : Fragment(R.layout.system_fragment) {
         val isRoot =
             dataViewModel.systemInfo.firstOrNull { it.title == "Root Access" }?.details
         binding.isRoot.text = getString(R.string.is_root, isRoot)
-        binding.sdk.text = getString(R.string.sdk_version,dataViewModel.systemInfo.find { it.title == "Android Version" }?.details)
+        binding.sdk.text = getString(
+            R.string.sdk_version,
+            dataViewModel.systemInfo.find { it.title == "Android Version" }?.details
+        )
     }
 
     override fun onDestroy() {

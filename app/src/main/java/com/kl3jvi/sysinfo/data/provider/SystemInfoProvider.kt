@@ -100,7 +100,6 @@ class SystemInfoProvider(
         )
     }
 
-
     fun getGlEsVersion(): String {
         return activityManager.deviceConfigurationInfo.glEsVersion
     }
@@ -128,5 +127,3 @@ class SystemInfoProvider(
         }
     }
 }
-
-

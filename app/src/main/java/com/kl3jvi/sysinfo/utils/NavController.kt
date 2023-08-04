@@ -30,4 +30,3 @@ fun NavController.navigateSafe(
         this.navigate(directions)
     }
 }
-

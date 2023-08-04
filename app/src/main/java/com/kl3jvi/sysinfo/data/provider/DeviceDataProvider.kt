@@ -15,7 +15,7 @@ import org.koin.core.component.KoinComponent
 class DeviceDataProvider(
     private val appContext: Context,
     private val contentResolver: ContentResolver,
-    private val wifiManager: WifiManager,
+    private val wifiManager: WifiManager
 ) : KoinComponent {
 
     fun getDeviceInformation(): List<Information> {
@@ -67,5 +67,3 @@ class DeviceDataProvider(
         return runCatching { wifiManager.connectionInfo.ssid }
     }
 }
-
-

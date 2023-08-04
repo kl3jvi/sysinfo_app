@@ -26,7 +26,6 @@ data class CpuInfo(
     )
 }
 
-
 fun CpuInfo.toDomainModel(): CpuData {
     val info = listOf(
         "Processor Name" to processorName,
