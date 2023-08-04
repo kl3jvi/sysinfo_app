@@ -14,28 +14,33 @@ import android.os.BatteryManager
 import android.view.WindowManager
 import com.kl3jvi.sysinfo.data.provider.BatteryDataProvider
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
+import com.kl3jvi.sysinfo.data.provider.DeviceDataProvider
 import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
 import com.kl3jvi.sysinfo.data.provider.StorageProvider
+import com.kl3jvi.sysinfo.data.provider.SystemInfoProvider
 import com.kl3jvi.sysinfo.utils.Settings
 import com.kl3jvi.sysinfo.utils.WifiConnectionMonitor
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 const val SYSINFO_PREFERENCES = "sysinfo_preferences"
 
 private val viewModelModule = module {
-    viewModel { DataViewModel(get(), get(), get(), get()) }
+    viewModelOf(::DataViewModel)
 }
 
 private val providerModule = module {
-    single { CpuDataProvider(get()) }
-    single { RamDataProvider(get(), get()) }
-    single { GpuDataProvider(get(), get()) }
-    single { StorageProvider(get()) }
-    single { BatteryDataProvider(get()) }
+    singleOf(::CpuDataProvider)
+    singleOf(::RamDataProvider)
+    singleOf(::GpuDataProvider)
+    singleOf(::StorageProvider)
+    singleOf(::BatteryDataProvider)
+    singleOf(::DeviceDataProvider)
+    singleOf(::SystemInfoProvider)
 }
 
 private val appModule = module {
@@ -46,7 +51,7 @@ private val appModule = module {
     single<ContentResolver> { androidContext().contentResolver }
     single<WindowManager> { androidContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager }
     single<SensorManager> { androidContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager }
-    single<WifiManager> { androidContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager }
+    single<WifiManager> { get<Context>().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager }
     single<BatteryManager> { androidContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager }
     single<WifiConnectionMonitor> { WifiConnectionMonitor(androidContext() as Application) }
 }
@@ -62,6 +67,6 @@ private val persistenceModule = module {
 }
 
 val allModules = appModule +
-    viewModelModule +
-    providerModule +
-    persistenceModule
+        viewModelModule +
+        providerModule +
+        persistenceModule

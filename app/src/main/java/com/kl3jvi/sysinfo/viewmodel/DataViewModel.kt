@@ -8,9 +8,11 @@ import com.kl3jvi.sysinfo.data.model.RamInfo
 import com.kl3jvi.sysinfo.data.model.toDomainModel
 import com.kl3jvi.sysinfo.data.provider.BatteryDataProvider
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
+import com.kl3jvi.sysinfo.data.provider.DeviceDataProvider
 import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
 import com.kl3jvi.sysinfo.data.provider.StorageProvider
+import com.kl3jvi.sysinfo.data.provider.SystemInfoProvider
 import com.kl3jvi.sysinfo.utils.asResult
 import com.kl3jvi.sysinfo.utils.ifChanged
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +24,9 @@ class DataViewModel(
     ramDataProvider: RamDataProvider,
     storageProvider: StorageProvider,
     batteryDataProvider: BatteryDataProvider,
-    gpuDataProvider: GpuDataProvider
+    gpuDataProvider: GpuDataProvider,
+    deviceDataProvider: DeviceDataProvider,
+    systemInfoProvider: SystemInfoProvider
 ) : ViewModel() {
 
     val systemStoragePercentage = storageProvider.calculateSystemPercentage()
@@ -37,7 +41,10 @@ class DataViewModel(
     val ramInfo =
         ramDataProvider.getRamInformation().map(RamInfo::toDomainModel).ifChanged().asResult()
 
-    val gpuData = gpuDataProvider.getVulkanVersion() to gpuDataProvider.getGlEsVersion()
+    val systemInfo =
+        systemInfoProvider.getSystemInfo()
+
+    val deviceData = deviceDataProvider.getDeviceInformation()
 }
 
 private fun <T> Flow<T>.logFlow(name: String = "Flow Logged"): Flow<T> {

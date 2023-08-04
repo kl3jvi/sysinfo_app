@@ -66,15 +66,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:animateLayoutChanges="true"
+                app:cpuIcon="@{cpuInfo.cpuLoad}"
+                app:progressColor="@{cpuInfo.cpuLoad}"
                 app:rcAnimationEnable="true"
-                app:rcReverse="false"
+                app:rcAnimationSpeedScale="5"
                 app:rcBackgroundColor="#babdbe"
                 app:rcBackgroundPadding="5dp"
                 app:rcIconPadding="1dp"
                 app:rcIconSize="25dp"
-                app:rcIconSrc="@drawable/ic_cpu_white"
-                app:rcProgressColor="@color/colorAccent"
-                app:rcRadius="8dp">
+                app:rcRadius="8dp"
+                app:rcReverse="false">
 
             </com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar>
 

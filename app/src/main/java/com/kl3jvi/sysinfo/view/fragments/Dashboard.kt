@@ -2,6 +2,7 @@ package com.kl3jvi.sysinfo.view.fragments
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -58,8 +59,12 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             internalPercentage
         )
         launchAndCollectWithViewLifecycle(dataViewModel.batteryInfo) { type ->
-            batteryPercentage.text = type.data.first().details
+            val isCharging = type.data[6].details == "Charging"
+            batteryPercentage.text =
+                if (isCharging) "Charging ${type.data.first().details}" else type.data.first().details
             batteryProgress.progress = type.data.first().details.parsePercentage()
+            Log.e("TEst", type.data.first().details)
+            batteryProgress.isIndeterminate = isCharging
         }
     }
 

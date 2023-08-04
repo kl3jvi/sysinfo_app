@@ -1,5 +1,6 @@
 package com.kl3jvi.sysinfo.data.model
 
+import com.kl3jvi.sysinfo.data.provider.CPULoad
 import com.kl3jvi.sysinfo.domain.models.CpuData
 import com.kl3jvi.sysinfo.utils.clearEmptyEntries
 import com.kl3jvi.sysinfo.utils.toAffirmative
@@ -20,9 +21,11 @@ data class CpuInfo(
     data class Frequency(
         val min: Long,
         val max: Long,
-        val current: Long
+        val current: Long,
+        val cpuLoad: CPULoad
     )
 }
+
 
 fun CpuInfo.toDomainModel(): CpuData {
     val info = listOf(

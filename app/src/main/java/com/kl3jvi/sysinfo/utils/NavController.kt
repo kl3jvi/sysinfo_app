@@ -1,6 +1,5 @@
 package com.kl3jvi.sysinfo.utils
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
@@ -32,13 +31,3 @@ fun NavController.navigateSafe(
     }
 }
 
-/**
- * Checks if the Fragment with a [fragmentClassName] is on top of the back queue.
- */
-@SuppressLint("RestrictedApi")
-fun NavController.hasTopDestination(fragmentClassName: String): Boolean {
-    return this.backQueue.lastOrNull()?.destination?.displayName?.contains(
-        fragmentClassName,
-        true
-    ) == true
-}

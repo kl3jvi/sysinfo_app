@@ -96,6 +96,16 @@ class CpuDataProvider(
         }
     }
 
+    private fun calculateCpuLoad(current: Long, min: Long, max: Long): CPULoad {
+        val ratio = (current - min).toDouble() / (max - min).toDouble()
+        return when {
+            ratio < 0.33 -> CPULoad.Low
+            ratio < 0.66 -> CPULoad.Medium
+            else -> CPULoad.High
+        }
+    }
+
+
     /**
      * Returns a flow of [CpuInfo] containing information about the device's CPU cores.
      *
@@ -134,7 +144,8 @@ class CpuDataProvider(
                         CpuInfo.Frequency(
                             min = minimum,
                             max = maximum,
-                            current = current
+                            current = current,
+                            cpuLoad = calculateCpuLoad(current, minimum, maximum)
                         )
                     }
 
@@ -160,4 +171,11 @@ class CpuDataProvider(
     companion object {
         private const val CPU_INFO_DIRECTORY = "/sys/devices/system/cpu/"
     }
+}
+
+
+enum class CPULoad {
+    Low,
+    Medium,
+    High
 }
