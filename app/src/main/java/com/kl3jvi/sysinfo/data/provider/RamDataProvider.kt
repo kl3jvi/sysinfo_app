@@ -1,7 +1,6 @@
 package com.kl3jvi.sysinfo.data.provider
 
 import android.app.ActivityManager
-import android.util.Log
 import com.kl3jvi.sysinfo.data.model.RamInfo
 import com.kl3jvi.sysinfo.utils.Settings
 import kotlinx.coroutines.Dispatchers
@@ -57,8 +56,6 @@ class RamDataProvider(
             val threshold = getThreshold()
             val ramLoad = getRamLoad()
             emit(RamInfo(total, available, availablePercentage, threshold, ramLoad))
-            Log.e("ram freq", settings.ramRefreshRate.toString())
-
             delay(settings.ramRefreshRate)
         }
     }

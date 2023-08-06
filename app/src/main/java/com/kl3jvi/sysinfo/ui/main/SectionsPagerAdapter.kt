@@ -13,37 +13,34 @@ import com.kl3jvi.sysinfo.view.fragments.ScreenFragment
 import com.kl3jvi.sysinfo.view.fragments.StorageFragment
 import com.kl3jvi.sysinfo.view.fragments.SystemFrag
 
-class SectionsPagerAdapter(private val context: Context, fm: FragmentActivity) :
-    FragmentStateAdapter(fm) {
+class SectionsPagerAdapter(
+    private val context: Context,
+    fm: FragmentActivity
+) : FragmentStateAdapter(fm) {
 
-    override fun getItemCount(): Int = TAB_TITLES.size - 1
+    enum class TabType(val titleResId: Int, val fragment: () -> Fragment) {
+        DASHBOARD(R.string.tab_text_1, ::Dashboard),
+        DEVICE(R.string.tab_text_2, ::DeviceFragment),
+        SYSTEM(R.string.tab_text_3, ::SystemFrag),
+        STORAGE(R.string.tab_text_4, ::StorageFragment),
+        CPU(R.string.tab_text_5, { CPU() }),
+        BATTERY(R.string.tab_text_6, ::BatteryFragment),
+        SCREEN(R.string.tab_text_7, ::ScreenFragment);
 
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> Dashboard()
-            1 -> DeviceFragment()
-            2 -> SystemFrag()
-            3 -> StorageFragment()
-            4 -> CPU()
-            5 -> BatteryFragment()
-            6 -> ScreenFragment()
-            else -> throw IllegalStateException("Invalid position: $position")
+        companion object {
+            fun fromPosition(position: Int) = values().getOrElse(position) {
+                throw IllegalStateException("Invalid position: $position")
+            }
         }
     }
 
-    fun getPageTitle(position: Int): CharSequence {
-        return context.resources.getString(TAB_TITLES[position])
+    override fun getItemCount(): Int = TabType.values().size
+
+    override fun createFragment(position: Int): Fragment {
+        return TabType.fromPosition(position).fragment.invoke()
     }
 
-    companion object {
-        private val TAB_TITLES = intArrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2,
-            R.string.tab_text_3,
-            R.string.tab_text_4,
-            R.string.tab_text_5,
-            R.string.tab_text_6,
-            R.string.tab_text_7
-        )
+    fun getPageTitle(position: Int): CharSequence {
+        return context.resources.getString(TabType.fromPosition(position).titleResId)
     }
 }

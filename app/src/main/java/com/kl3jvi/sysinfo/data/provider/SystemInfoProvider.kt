@@ -7,45 +7,53 @@ import android.os.Build
 import android.os.SystemClock
 import com.kl3jvi.sysinfo.domain.models.Information
 import com.kl3jvi.sysinfo.utils.clearEmptyEntries
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
+import java.util.concurrent.TimeUnit
 
 class SystemInfoProvider(
     private val packageManager: PackageManager,
     private val activityManager: ActivityManager
 ) {
 
-    fun getAndroidVersion(): Information {
+    private fun getAndroidVersion(): Information {
         return Information("Android Version", Build.VERSION.RELEASE)
     }
 
-    fun getSecurityPatchLevel(): Information {
-        return Information("Security Patch Level", Build.VERSION.SECURITY_PATCH)
+    private fun getSecurityPatchLevel(): Information {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Information("Security Patch Level", Build.VERSION.SECURITY_PATCH)
+        } else {
+            Information("Security Patch Level", "")
+        }
     }
 
-    fun getBuildNumber(): Information {
+    private fun getBuildNumber(): Information {
         return Information("Build Number", Build.DISPLAY)
     }
 
-    fun getBaseband(): Information {
+    private fun getBaseband(): Information {
         return Information("Baseband", Build.getRadioVersion())
     }
 
-    fun getJavaVM(): Information {
+    private fun getJavaVM(): Information {
         return Information("Java VM", System.getProperty("java.vm.version") ?: "N/A")
     }
 
-    fun getKernel(): Information {
+    private fun getKernel(): Information {
         return Information("Kernel", System.getProperty("os.version") ?: "N/A")
     }
 
-    fun getOpenGL(glesVersion: String): Information {
+    private fun getOpenGL(glesVersion: String): Information {
         return Information("OpenGL ES", glesVersion)
     }
 
-    fun getRootAccess(): Information {
+    private fun getRootAccess(): Information {
         val isRooted = findBinary("su")
         return Information("Root Access", if (isRooted) "Yes" else "No")
     }
@@ -55,7 +63,7 @@ class SystemInfoProvider(
         return paths.any { File(it, binaryName).exists() }
     }
 
-    fun getSELinux(): Information {
+    private fun getSELinux(): Information {
         return Information(
             "SE Linux",
 //            try {
@@ -71,7 +79,7 @@ class SystemInfoProvider(
         )
     }
 
-    fun getGooglePlayServices(): Information {
+    private fun getGooglePlayServices(): Information {
         return try {
             val pInfo: PackageInfo = packageManager.getPackageInfo("com.google.android.gms", 0)
             Information("Google Play Services", pInfo.versionName)
@@ -80,9 +88,17 @@ class SystemInfoProvider(
         }
     }
 
-    fun getSystemUptimeFlow(): Information {
-        val uptime = SystemClock.elapsedRealtime() / 1000
-        return Information("System Uptime", "$uptime seconds")
+    fun getSystemUptimeFlow(): Flow<Information> = flow {
+        while (true) {
+            val uptime = SystemClock.elapsedRealtime()
+            val hours = TimeUnit.MILLISECONDS.toHours(uptime)
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(uptime) % 60
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(uptime) % 60
+
+            val currentTime = "%02d:%02d:%02d".format(hours, minutes, seconds)
+            emit(Information("System Uptime", currentTime))
+            delay(1000L)
+        }
     }
 
     private fun getTreble(): Information {
@@ -100,7 +116,7 @@ class SystemInfoProvider(
         )
     }
 
-    fun getGlEsVersion(): String {
+    private fun getGlEsVersion(): String {
         return activityManager.deviceConfigurationInfo.glEsVersion
     }
 
@@ -117,8 +133,7 @@ class SystemInfoProvider(
                 getRootAccess(),
                 getSELinux(),
                 getGooglePlayServices(),
-                getTreble(),
-                getSystemUptimeFlow()
+                getTreble()
                 // Include other information functions here if needed
             ).clearEmptyEntries()
         } catch (e: Exception) {

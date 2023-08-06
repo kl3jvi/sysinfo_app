@@ -44,6 +44,7 @@ class DataViewModel(
 
     val systemInfo =
         systemInfoProvider.getSystemInfo()
+    val uptimeFlow = systemInfoProvider.getSystemUptimeFlow()
 
     val deviceData = deviceDataProvider.getDeviceInformation()
 }

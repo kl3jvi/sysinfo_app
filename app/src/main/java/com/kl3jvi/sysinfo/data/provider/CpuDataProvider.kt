@@ -161,7 +161,6 @@ class CpuDataProvider(
                     l4Caches = l4Caches
                 )
                 emit(cpuInfo)
-                Log.e("core freq", settings.coreFrequencyRefreshRate.toString())
                 delay(settings.coreFrequencyRefreshRate)
             }
         }.flowOn(Dispatchers.IO)

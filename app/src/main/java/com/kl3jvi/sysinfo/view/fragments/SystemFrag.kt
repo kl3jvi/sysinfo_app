@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.SystemFragmentBinding
 import com.example.sysinfo.information
+import com.kl3jvi.sysinfo.utils.launchAndCollectWithViewLifecycle
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -37,11 +38,18 @@ class SystemFrag : Fragment(R.layout.system_fragment) {
 
     private fun setupUIElements() {
         binding.listWithItems.layoutManager = LinearLayoutManager(requireContext())
-        binding.listWithItems.withModels {
-            dataViewModel.systemInfo.forEach {
+        launchAndCollectWithViewLifecycle(dataViewModel.uptimeFlow) { systemUptimeInfo ->
+            binding.listWithItems.withModels {
+                dataViewModel.systemInfo.forEach { info ->
+                    information {
+                        id(info.title)
+                        data(info)
+                    }
+                }
+                // ADDS SYSTEM UPTIME FLOW
                 information {
-                    id(it.title)
-                    data(it)
+                    id(systemUptimeInfo.title)
+                    data(systemUptimeInfo)
                 }
             }
         }
