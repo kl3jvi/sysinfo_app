@@ -14,6 +14,7 @@ import com.github.lzyzsd.circleprogress.ArcProgress
 import com.kl3jvi.sysinfo.domain.models.CpuData
 import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.UiResult
+import com.kl3jvi.sysinfo.utils.animatedMovement
 import com.kl3jvi.sysinfo.utils.launchAndCollectWithViewLifecycle
 import com.kl3jvi.sysinfo.utils.nav
 import com.kl3jvi.sysinfo.utils.parsePercentage
@@ -55,8 +56,7 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
     private fun setupUIElements() = binding.apply {
         systemStorage.setProgressAndText(dataViewModel.systemStoragePercentage, textView4)
         internalProgress.setProgressAndText(
-            dataViewModel.internalStoragePercentage,
-            internalPercentage
+            dataViewModel.internalStoragePercentage, internalPercentage
         )
         launchAndCollectWithViewLifecycle(dataViewModel.batteryInfo) { type ->
             val isCharging = type.data[6].details == "Charging"
@@ -66,6 +66,9 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             Log.e("TEst", type.data.first().details)
             batteryProgress.isIndeterminate = isCharging
         }
+
+
+        binding.topBar.setOnClickListener(::animatedMovement)
     }
 
     private fun ProgressBar.setProgressAndText(percentage: Int, textView: TextView) {
@@ -87,14 +90,15 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
                     id(uiResult.data.coreNumber)
                     position(index + 1)
                     cpuInfo(frequency)
+                    clickListener(::animatedMovement)
                 }
             }
         }
     }
 
+
     private fun handleSettings() = nav(
-        R.id.containerFragment,
-        ContainerFragmentDirections.actionDashboardToSettingsFragment()
+        R.id.containerFragment, ContainerFragmentDirections.actionDashboardToSettingsFragment()
     )
 
     private fun ArcProgress.setRamValueAsync(
@@ -108,6 +112,7 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             is UiResult.Error -> showToast(result.throwable.message.orEmpty())
             is UiResult.Success -> {
                 binding.arcProgress.animate(result.data.percentageAvailable)
+                binding.ramLoad = result.data.ramLoad
                 binding.ramTxt.text = resources.getString(
                     R.string.ram_text,
                     result.data.available,

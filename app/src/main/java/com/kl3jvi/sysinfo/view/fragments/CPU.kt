@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.CpuFragmentBinding
 import com.example.sysinfo.information
+import com.kl3jvi.sysinfo.utils.Do
 import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.launchAndCollectWithViewLifecycle
 import com.kl3jvi.sysinfo.utils.showToast
@@ -28,7 +29,7 @@ class CPU : Fragment(R.layout.cpu_fragment) {
     private fun setupUIElements() {
         binding.listWithItems.layoutManager = LinearLayoutManager(requireContext())
         launchAndCollectWithViewLifecycle(dataViewModel.cpuInfo) { result ->
-            when (result) {
+            Do exhaustive when (result) {
                 is UiResult.Error -> showToast(result.throwable.message.orEmpty())
                 is UiResult.Success -> binding.listWithItems.withModels {
                     result.data.layoutInfo.forEach { information ->

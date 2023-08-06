@@ -58,7 +58,8 @@ class BatteryDataProvider(private val appContext: Context) {
     }
 
     private fun getBatteryTemperature(batteryStatus: Intent?): String {
-        val temperature = (batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) ?: 0) / 10
+        val temperature =
+            (batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) ?: 0) / 10
         return "%.2s".format(temperature.toFloat())
     }
 

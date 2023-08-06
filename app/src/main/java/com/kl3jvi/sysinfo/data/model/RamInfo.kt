@@ -1,5 +1,6 @@
 package com.kl3jvi.sysinfo.data.model
 
+import com.kl3jvi.sysinfo.data.provider.RamLoad
 import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.humanReadableByteCount
 
@@ -7,7 +8,8 @@ data class RamInfo(
     val total: Long = 0L,
     val available: Long = 0L,
     val percentageAvailable: Int = 0,
-    val threshold: Long = 0L
+    val threshold: Long = 0L,
+    val ramLoad: RamLoad
 )
 
 fun RamInfo.toDomainModel(): RamData {
@@ -15,6 +17,7 @@ fun RamInfo.toDomainModel(): RamData {
         humanReadableByteCount(total),
         humanReadableByteCount(available),
         percentageAvailable,
-        humanReadableByteCount(threshold)
+        humanReadableByteCount(threshold),
+        ramLoad
     )
 }

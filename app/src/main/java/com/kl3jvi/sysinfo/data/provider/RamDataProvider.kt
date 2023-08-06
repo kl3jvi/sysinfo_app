@@ -41,13 +41,22 @@ class RamDataProvider(
         return memoryInfo.threshold
     }
 
+    private fun getRamLoad(): RamLoad {
+        return when (getAvailablePercentage()) {
+            in 0..25 -> RamLoad.High
+            in 26..50 -> RamLoad.Medium
+            else -> RamLoad.Low
+        }
+    }
+
     fun getRamInformation(): Flow<RamInfo> = flow {
         while (true) {
             val total = getTotalBytes()
             val available = getAvailableBytes()
             val availablePercentage = getAvailablePercentage()
             val threshold = getThreshold()
-            emit(RamInfo(total, available, availablePercentage, threshold))
+            val ramLoad = getRamLoad()
+            emit(RamInfo(total, available, availablePercentage, threshold, ramLoad))
             Log.e("ram freq", settings.ramRefreshRate.toString())
 
             delay(settings.ramRefreshRate)
@@ -56,3 +65,10 @@ class RamDataProvider(
         .distinctUntilChanged()
         .flowOn(Dispatchers.IO)
 }
+
+enum class RamLoad {
+    Low,
+    Medium,
+    High
+}
+

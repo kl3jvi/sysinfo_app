@@ -31,6 +31,7 @@ class DataViewModel(
 
     val systemStoragePercentage = storageProvider.calculateSystemPercentage()
     val internalStoragePercentage = storageProvider.calculateInternalPercentage()
+    val externalStoragePercentage = storageProvider.calculateExternalPercentage()
 
     val batteryInfo =
         batteryDataProvider.getBatteryStatus().map(BatteryInfo::toDomainModel).ifChanged()
