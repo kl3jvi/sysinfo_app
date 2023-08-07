@@ -33,7 +33,7 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result = withContext(Dispatchers.Default) {
         // Here we check the current RAM and CPU stats
-        val monitoringPeriod = 60000 // one minute
+        val monitoringPeriod = 10000 // one minute
         val cpuRefreshFrequency = settings.coreFrequencyRefreshRate
         val ramRefreshFrequency = settings.ramRefreshRate
 
@@ -41,27 +41,28 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
         val numberOfSamplesForRam = (monitoringPeriod / ramRefreshFrequency).toInt()
 
         val ramInfo = ramDataProvider.getRamInformation()
-            .scan(emptyList<RamInfo>()) { acc, value -> (acc + value).takeLast(numberOfSamplesForCpu) }
+            .scan(emptyList<RamInfo>()) { acc, value ->
+                (acc + value).takeLast(numberOfSamplesForCpu)
+            }
             .take(numberOfSamplesForCpu)
             .toList()
             .flatten()
 
         val cpuInfo = cpuDataProvider.getCpuCoresInformation()
-            .scan(emptyList<CpuInfo>()) { acc, value -> (acc + value).takeLast(numberOfSamplesForRam) }
+            .scan(emptyList<CpuInfo>()) { acc, value ->
+                (acc + value).takeLast(numberOfSamplesForRam)
+            }
             .take(numberOfSamplesForRam)
             .toList()
             .flatten()
 
-        // Check if thresholds are exceeded and trigger a notification if they are
-        if (shouldTriggerNotification(ramInfo, cpuInfo)) {
-            showNotification()
-        }
+        checkAndTriggerNotification(ramInfo, cpuInfo)
 
         // Indicate whether the work finished successfully with the Result
         return@withContext Result.success()
     }
 
-    private fun showNotification() {
+    private fun showNotification(title: String, message: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
@@ -80,8 +81,8 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
         }
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle("System Alert")
-            .setContentText("Your CPU and RAM usage is high.")
+            .setContentTitle(title)
+            .setContentText(message)
             .setSmallIcon(R.drawable.alert_icon) // replace with your own icon
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
@@ -90,21 +91,37 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
-    private fun shouldTriggerNotification(ramInfo: List<RamInfo>, cpuInfo: List<CpuInfo>): Boolean {
+    private fun checkAndTriggerNotification(ramInfo: List<RamInfo>, cpuInfo: List<CpuInfo>) {
         // If our sample has any percentage less than 20% something is eating ram!!
         val ramThresholdExceeded = ramInfo.any { it.percentageAvailable < 20 }
-        // If our sample has in all of them any occurence of a high cpu load chances are that
-        // something really heavy is running
-        val cpuLoadHigh =
-            cpuInfo.all { it.frequencies.any { frequency -> frequency.cpuLoad == CPULoad.High } }
 
-        return ramThresholdExceeded && cpuLoadHigh
+        if (ramThresholdExceeded) {
+            showNotification(RAM_TITLE, RAM_MESSAGE)
+        }
+
+        // If our sample has in all of them any occurrence of a high cpu load chances are that
+        // something really heavy is running
+        val cpuLoadHigh = cpuInfo.all {
+            it.frequencies.any { frequency ->
+                frequency.cpuLoad == CPULoad.High
+            }
+        }
+        if (cpuLoadHigh) {
+            showNotification(CPU_TITLE, CPU_MESSAGE)
+        }
     }
+
 
     companion object {
         private const val CHANNEL_ID = "SystemMonitorChannel"
         private const val CHANNEL_NAME = "System Monitor"
         private const val CHANNEL_DESC = "Notifications for system monitoring"
         private const val NOTIFICATION_ID = 1
+
+        private const val RAM_TITLE = "RAM Alert"
+        private const val RAM_MESSAGE = "Your RAM usage is high."
+
+        private const val CPU_TITLE = "CPU Alert"
+        private const val CPU_MESSAGE = "Your CPU load is high."
     }
 }

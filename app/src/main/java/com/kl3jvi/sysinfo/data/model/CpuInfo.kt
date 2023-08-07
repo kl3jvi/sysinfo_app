@@ -5,6 +5,7 @@ import com.kl3jvi.sysinfo.domain.models.CpuData
 import com.kl3jvi.sysinfo.utils.clearEmptyEntries
 import com.kl3jvi.sysinfo.utils.toAffirmative
 import com.kl3jvi.sysinfo.utils.toInformation
+import java.io.Serializable
 
 data class CpuInfo(
     val processorName: String,
@@ -17,13 +18,13 @@ data class CpuInfo(
     val l2Caches: String,
     val l3Caches: String,
     val l4Caches: String
-) {
+) : Serializable {
     data class Frequency(
         val min: Long,
         val max: Long,
         val current: Long,
         val cpuLoad: CPULoad
-    )
+    ) : Serializable
 }
 
 fun CpuInfo.toDomainModel(): CpuData {
