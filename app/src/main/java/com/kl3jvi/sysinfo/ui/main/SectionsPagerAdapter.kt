@@ -9,7 +9,6 @@ import com.kl3jvi.sysinfo.view.fragments.BatteryFragment
 import com.kl3jvi.sysinfo.view.fragments.CPU
 import com.kl3jvi.sysinfo.view.fragments.Dashboard
 import com.kl3jvi.sysinfo.view.fragments.DeviceFragment
-import com.kl3jvi.sysinfo.view.fragments.ScreenFragment
 import com.kl3jvi.sysinfo.view.fragments.StorageFragment
 import com.kl3jvi.sysinfo.view.fragments.SystemFrag
 

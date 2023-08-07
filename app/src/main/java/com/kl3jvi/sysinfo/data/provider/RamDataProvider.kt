@@ -68,4 +68,3 @@ enum class RamLoad {
     Medium,
     High
 }
-

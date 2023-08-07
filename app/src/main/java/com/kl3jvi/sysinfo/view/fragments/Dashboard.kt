@@ -56,7 +56,8 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
     private fun setupUIElements() = binding.apply {
         systemStorage.setProgressAndText(dataViewModel.systemStoragePercentage, textView4)
         internalProgress.setProgressAndText(
-            dataViewModel.internalStoragePercentage, internalPercentage
+            dataViewModel.internalStoragePercentage,
+            internalPercentage
         )
         launchAndCollectWithViewLifecycle(dataViewModel.batteryInfo) { type ->
             val isCharging = type.data[6].details == "Charging"
@@ -66,7 +67,6 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             Log.e("TEst", type.data.first().details)
             batteryProgress.isIndeterminate = isCharging
         }
-
 
         binding.topBar.setOnClickListener(::animatedMovement)
     }
@@ -96,9 +96,9 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
         }
     }
 
-
     private fun handleSettings() = nav(
-        R.id.containerFragment, ContainerFragmentDirections.actionDashboardToSettingsFragment()
+        R.id.containerFragment,
+        ContainerFragmentDirections.actionDashboardToSettingsFragment()
     )
 
     private fun ArcProgress.setRamValueAsync(

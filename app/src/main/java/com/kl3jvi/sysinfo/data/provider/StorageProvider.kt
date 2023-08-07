@@ -74,7 +74,6 @@ class StorageProvider(
         }
     }
 
-
     fun calculateSystemPercentage(): Int {
         val (total, used) = getSystemStorageUsage()
         return (used.toDouble() / total * 100).toInt()

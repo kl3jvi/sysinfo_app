@@ -106,7 +106,6 @@ private class StringSetPreference(
         thisRef.preferences.edit().putStringSet(key, value).apply()
 }
 
-
 /**
  * Property delegate for getting and setting a boolean shared preference.
  *
@@ -206,11 +205,8 @@ fun stringSetPreference(
 ): ReadWriteProperty<PreferencesHolder, Set<String>> =
     StringSetPreference(key, default)
 
-
 fun <E : Enum<E>> enumPreference(
     key: String,
     default: E,
     values: Array<E>
 ): ReadWriteProperty<PreferencesHolder, E> = EnumPreference(key, default, values)
-
-

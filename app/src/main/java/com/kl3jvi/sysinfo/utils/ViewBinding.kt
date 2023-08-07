@@ -28,7 +28,6 @@ fun IconRoundCornerProgressBar.progress(cpuInfo: CpuInfo.Frequency) {
     progress = cpuInfo.current.toFloat()
 }
 
-
 @BindingAdapter("cpuIcon")
 fun IconRoundCornerProgressBar.setCpuIcon(cpuLoad: CPULoad) {
     iconImageResource = when (cpuLoad) {

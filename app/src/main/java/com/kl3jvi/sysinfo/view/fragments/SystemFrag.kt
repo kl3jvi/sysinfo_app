@@ -35,7 +35,6 @@ class SystemFrag : Fragment(R.layout.system_fragment) {
         startColorAnimation(binding.cardView)
     }
 
-
     private fun setupUIElements() {
         binding.listWithItems.layoutManager = LinearLayoutManager(requireContext())
         launchAndCollectWithViewLifecycle(dataViewModel.uptimeFlow) { systemUptimeInfo ->
@@ -90,7 +89,6 @@ class SystemFrag : Fragment(R.layout.system_fragment) {
                 delay(2000) // delay in milliseconds
             }
         }
-
     }
 
     override fun onDestroy() {

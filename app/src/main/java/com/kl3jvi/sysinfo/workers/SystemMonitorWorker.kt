@@ -46,7 +46,6 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
             .toList()
             .flatten()
 
-
         val cpuInfo = cpuDataProvider.getCpuCoresInformation()
             .scan(emptyList<CpuInfo>()) { acc, value -> (acc + value).takeLast(numberOfSamplesForRam) }
             .take(numberOfSamplesForRam)
@@ -63,7 +62,6 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
     }
 
     private fun showNotification() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
@@ -91,7 +89,6 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
 
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
-
 
     private fun shouldTriggerNotification(ramInfo: List<RamInfo>, cpuInfo: List<CpuInfo>): Boolean {
         // If our sample has any percentage less than 20% something is eating ram!!
