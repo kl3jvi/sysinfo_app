@@ -33,7 +33,7 @@ class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result = withContext(Dispatchers.Default) {
         // Here we check the current RAM and CPU stats
-        val monitoringPeriod = 10000 // one minute
+        val monitoringPeriod = 60000 // one minute
         val cpuRefreshFrequency = settings.coreFrequencyRefreshRate
         val ramRefreshFrequency = settings.ramRefreshRate
 
