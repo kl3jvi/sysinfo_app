@@ -12,9 +12,5 @@ sealed interface UiResult<out T> {
 }
 
 fun <T> Flow<T>.asResult(): Flow<UiResult<T>> {
-    return map<T, UiResult<T>> {
-        Success(it)
-    }.catch {
-        emit(Error(it))
-    }
+    return map<T, UiResult<T>>(::Success).catch { emit(Error(it)) }
 }

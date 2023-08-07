@@ -52,7 +52,11 @@ class DeviceDataProvider(
     private fun getNetworkType(): String {
         val connectivityManager =
             appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.activeNetwork ?: return "Unknown"
+        val activeNetwork = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManager.activeNetwork ?: return "Unknown"
+        } else {
+            return ""
+        }
         val networkCapabilities =
             connectivityManager.getNetworkCapabilities(activeNetwork) ?: return "Unknown"
 

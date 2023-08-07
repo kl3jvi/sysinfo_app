@@ -79,6 +79,21 @@ private class StringPreference(
         thisRef.preferences.edit().putString(key, value).apply()
 }
 
+private class EnumPreference<E : Enum<E>>(
+    private val key: String,
+    private val default: E,
+    private val values: Array<E>
+) : ReadWriteProperty<PreferencesHolder, E> {
+
+    override fun getValue(thisRef: PreferencesHolder, property: KProperty<*>): E {
+        val enumString = thisRef.preferences.getString(key, default.name)
+        return values.first { it.name == enumString }
+    }
+
+    override fun setValue(thisRef: PreferencesHolder, property: KProperty<*>, value: E) =
+        thisRef.preferences.edit().putString(key, value.name).apply()
+}
+
 private class StringSetPreference(
     private val key: String,
     private val default: Set<String>
@@ -90,6 +105,7 @@ private class StringSetPreference(
     override fun setValue(thisRef: PreferencesHolder, property: KProperty<*>, value: Set<String>) =
         thisRef.preferences.edit().putStringSet(key, value).apply()
 }
+
 
 /**
  * Property delegate for getting and setting a boolean shared preference.
@@ -189,3 +205,12 @@ fun stringSetPreference(
     default: Set<String>
 ): ReadWriteProperty<PreferencesHolder, Set<String>> =
     StringSetPreference(key, default)
+
+
+fun <E : Enum<E>> enumPreference(
+    key: String,
+    default: E,
+    values: Array<E>
+): ReadWriteProperty<PreferencesHolder, E> = EnumPreference(key, default, values)
+
+

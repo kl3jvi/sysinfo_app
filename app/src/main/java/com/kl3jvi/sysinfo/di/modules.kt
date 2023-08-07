@@ -1,6 +1,7 @@
 package com.kl3jvi.sysinfo.di
 
 import android.app.ActivityManager
+import android.app.NotificationManager
 import android.app.admin.DevicePolicyManager
 import android.content.ContentResolver
 import android.content.Context
@@ -51,6 +52,7 @@ private val appModule = module {
     single<SensorManager> { androidContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager }
     single<WifiManager> { get<Context>().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager }
     single<BatteryManager> { androidContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager }
+    single<NotificationManager> { androidContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 }
 
 private val persistenceModule = module {

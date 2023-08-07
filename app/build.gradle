@@ -37,7 +37,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -51,6 +51,15 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            universalApk true  // If true, also generate a universal APK
+        }
     }
 }
 
@@ -76,6 +85,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-common-ktx:2.5.3'
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
     kapt "com.airbnb.android:epoxy-processor:5.1.1"
 
     testImplementation 'junit:junit:4.13.2'

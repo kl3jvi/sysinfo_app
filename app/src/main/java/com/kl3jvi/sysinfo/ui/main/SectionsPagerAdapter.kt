@@ -24,8 +24,8 @@ class SectionsPagerAdapter(
         SYSTEM(R.string.tab_text_3, ::SystemFrag),
         STORAGE(R.string.tab_text_4, ::StorageFragment),
         CPU(R.string.tab_text_5, { CPU() }),
-        BATTERY(R.string.tab_text_6, ::BatteryFragment),
-        SCREEN(R.string.tab_text_7, ::ScreenFragment);
+        BATTERY(R.string.tab_text_6, ::BatteryFragment);
+//        SCREEN(R.string.tab_text_7, ::ScreenFragment);
 
         companion object {
             fun fromPosition(position: Int) = values().getOrElse(position) {
