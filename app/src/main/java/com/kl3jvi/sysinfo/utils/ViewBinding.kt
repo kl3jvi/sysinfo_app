@@ -8,9 +8,9 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
 import com.example.sysinfo.R
+import com.kl3jvi.sysinfo.data.model.CPULoad
 import com.kl3jvi.sysinfo.data.model.CpuInfo
-import com.kl3jvi.sysinfo.data.provider.CPULoad
-import com.kl3jvi.sysinfo.data.provider.RamLoad
+import com.kl3jvi.sysinfo.data.model.RamLoad
 
 @BindingAdapter("coreNumber")
 fun TextView.coreNumber(coreNumber: Int) {

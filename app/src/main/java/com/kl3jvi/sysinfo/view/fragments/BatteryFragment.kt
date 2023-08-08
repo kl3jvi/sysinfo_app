@@ -26,7 +26,6 @@ class BatteryFragment : Fragment(R.layout.battery_fragment), KoinComponent {
 
     private fun initViews() {
         binding.listWithItems.layoutManager = LinearLayoutManager(requireContext())
-
         launchAndCollectWithViewLifecycle(viewModel.batteryInfo) { type ->
             binding.listWithItems.withModels {
                 type.data.forEach {

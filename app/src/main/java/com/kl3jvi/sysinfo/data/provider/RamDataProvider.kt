@@ -2,6 +2,7 @@ package com.kl3jvi.sysinfo.data.provider
 
 import android.app.ActivityManager
 import com.kl3jvi.sysinfo.data.model.RamInfo
+import com.kl3jvi.sysinfo.data.model.RamLoad
 import com.kl3jvi.sysinfo.utils.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -63,8 +64,4 @@ class RamDataProvider(
         .flowOn(Dispatchers.IO)
 }
 
-enum class RamLoad {
-    Low,
-    Medium,
-    High
-}
+

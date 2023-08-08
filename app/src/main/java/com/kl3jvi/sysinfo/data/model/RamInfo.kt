@@ -1,6 +1,5 @@
 package com.kl3jvi.sysinfo.data.model
 
-import com.kl3jvi.sysinfo.data.provider.RamLoad
 import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.humanReadableByteCount
 import java.io.Serializable
@@ -15,10 +14,10 @@ data class RamInfo(
 
 fun RamInfo.toDomainModel(): RamData {
     return RamData(
-        humanReadableByteCount(total),
-        humanReadableByteCount(available),
-        percentageAvailable,
-        humanReadableByteCount(threshold),
-        ramLoad
+        total = humanReadableByteCount(total),
+        available = humanReadableByteCount(available),
+        percentageAvailable = percentageAvailable,
+        threshold = humanReadableByteCount(threshold),
+        ramLoad = ramLoad
     )
 }

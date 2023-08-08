@@ -9,9 +9,9 @@ import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.sysinfo.R
+import com.kl3jvi.sysinfo.data.model.CPULoad
 import com.kl3jvi.sysinfo.data.model.CpuInfo
 import com.kl3jvi.sysinfo.data.model.RamInfo
-import com.kl3jvi.sysinfo.data.provider.CPULoad
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
 import com.kl3jvi.sysinfo.utils.Settings
@@ -25,14 +25,14 @@ import org.koin.core.component.inject
 
 class SystemMonitorWorker(context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams), KoinComponent {
-    // Get dependencies via Koin
+
     private val ramDataProvider: RamDataProvider by inject()
     private val cpuDataProvider: CpuDataProvider by inject()
     private val notificationManager: NotificationManager by inject()
     private val settings: Settings by inject()
 
     override suspend fun doWork(): Result = withContext(Dispatchers.Default) {
-        // Here we check the current RAM and CPU stats
+
         val monitoringPeriod = 60000 // one minute
         val cpuRefreshFrequency = settings.coreFrequencyRefreshRate
         val ramRefreshFrequency = settings.ramRefreshRate

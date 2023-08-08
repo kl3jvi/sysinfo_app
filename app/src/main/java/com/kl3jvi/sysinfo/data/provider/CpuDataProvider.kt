@@ -2,6 +2,7 @@ package com.kl3jvi.sysinfo.data.provider
 
 import android.os.Build
 import android.util.Log
+import com.kl3jvi.sysinfo.data.model.CPULoad
 import com.kl3jvi.sysinfo.data.model.CpuInfo
 import com.kl3jvi.sysinfo.utils.Settings
 import com.kl3jvi.sysinfo.utils.cacheHumanReadable
@@ -171,8 +172,3 @@ class CpuDataProvider(
     }
 }
 
-enum class CPULoad {
-    Low,
-    Medium,
-    High
-}

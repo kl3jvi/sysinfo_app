@@ -5,6 +5,10 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
         // Warning: this repository is going to shut down soon
     }
 }

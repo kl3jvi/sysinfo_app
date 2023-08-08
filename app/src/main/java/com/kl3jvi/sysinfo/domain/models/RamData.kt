@@ -1,6 +1,6 @@
 package com.kl3jvi.sysinfo.domain.models
 
-import com.kl3jvi.sysinfo.data.provider.RamLoad
+import com.kl3jvi.sysinfo.data.model.RamLoad
 
 data class RamData(
     val total: String,

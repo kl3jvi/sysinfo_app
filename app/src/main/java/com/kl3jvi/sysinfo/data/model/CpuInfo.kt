@@ -1,6 +1,5 @@
 package com.kl3jvi.sysinfo.data.model
 
-import com.kl3jvi.sysinfo.data.provider.CPULoad
 import com.kl3jvi.sysinfo.domain.models.CpuData
 import com.kl3jvi.sysinfo.utils.clearEmptyEntries
 import com.kl3jvi.sysinfo.utils.toAffirmative

@@ -9,6 +9,9 @@ import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.di.allModules
 import com.kl3jvi.sysinfo.utils.thenCatching
 import com.kl3jvi.sysinfo.workers.SystemMonitorWorker
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -23,6 +26,16 @@ class SysInfoApplication : Application(), KoinComponent {
         startKoin()
         initNativeCpuInfo()
         addSystemMonitor()
+        addMSApp()
+    }
+
+    private fun addMSApp() {
+        AppCenter.start(
+            this,
+            "383ff08e-cd63-4dd2-8635-cb81239175f5",
+            Analytics::class.java,
+            Crashes::class.java
+        )
     }
 
     private fun addSystemMonitor() {
