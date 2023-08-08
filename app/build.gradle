@@ -42,11 +42,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_19
+        targetCompatibility JavaVersion.VERSION_19
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '19'
     }
     buildFeatures {
         viewBinding true
@@ -81,12 +81,12 @@ dependencies {
     implementation "com.getkeepsafe.relinker:relinker:1.4.5"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    implementation "com.airbnb.android:epoxy:5.1.1"
-    implementation "com.airbnb.android:epoxy-databinding:5.1.1"
+    implementation "com.airbnb.android:epoxy:5.1.3"
+    implementation "com.airbnb.android:epoxy-databinding:5.1.3"
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-common-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-common-ktx:2.6.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
     kapt "com.airbnb.android:epoxy-processor:5.1.1"
 
