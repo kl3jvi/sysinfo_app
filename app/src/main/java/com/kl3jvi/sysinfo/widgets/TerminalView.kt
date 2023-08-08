@@ -19,7 +19,6 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.io.PrintWriter
 
-
 class TerminalView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -33,19 +32,21 @@ class TerminalView @JvmOverloads constructor(
 
     init {
         isVerticalScrollBarEnabled = true
-        setBackgroundColor(Color.BLACK)  // Set the background to black
-        setTextColor(Color.WHITE)  // Set the text color to green
+        setBackgroundColor(Color.BLACK) // Set the background to black
+        setTextColor(Color.WHITE) // Set the text color to green
         gravity = 0x30
         imeOptions = 0x00000006
         typeface = Typeface.create("monospace", Typeface.NORMAL)
-        setOnKeyListener(OnKeyListener { v, keyCode, event -> // If the event is a key-down event on the "enter" button
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                // Perform action on key press
-                executeCommand(text.toString())
-                return@OnKeyListener true
+        setOnKeyListener(
+            OnKeyListener { v, keyCode, event -> // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // Perform action on key press
+                    executeCommand(text.toString())
+                    return@OnKeyListener true
+                }
+                false
             }
-            false
-        })
+        )
         // Add a text watcher to ensure the "$: " is always present
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -65,7 +66,6 @@ class TerminalView @JvmOverloads constructor(
         // Always show "$: " at the beginning
         text?.append("$: ")
     }
-
 
     private fun executeCommand(command: String) {
         scope.launch {
@@ -89,7 +89,7 @@ class TerminalView @JvmOverloads constructor(
 
                 // Display the output in your terminal
                 withContext(Dispatchers.Main) {
-                    append("\n${result.toString()}")
+                    append("\n$result")
                 }
             } catch (e: Exception) {
                 // Handle the exception

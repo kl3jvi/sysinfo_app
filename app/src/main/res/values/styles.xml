@@ -1,12 +1,21 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSurface">@color/colorAccent</item>
         <item name="titleTextColor">@color/colorAccent</item>
         <item name="elevation">0dp</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBar</item>
+    </style>
+
+    <style name="AppTheme.ActionBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <!-- This sets the text color for the action bar -->
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <!-- This sets the icon color for the action bar -->
+        <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 
 

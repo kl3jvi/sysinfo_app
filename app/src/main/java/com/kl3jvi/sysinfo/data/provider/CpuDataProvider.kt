@@ -171,4 +171,3 @@ class CpuDataProvider(
         private const val CPU_INFO_DIRECTORY = "/sys/devices/system/cpu/"
     }
 }
-

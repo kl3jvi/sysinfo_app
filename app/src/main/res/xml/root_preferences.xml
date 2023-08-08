@@ -5,19 +5,43 @@
 
         <SeekBarPreference
             android:max="20"
+            android:summary="Interval for fetching the latest RAM usage data. (Seconds)"
             app:defaultValue="5"
             app:key="@string/ram_refresh_pref"
             app:min="1"
             app:seekBarIncrement="1"
+            app:showSeekBarValue="true"
             app:title="Ram Update Delay" />
 
         <SeekBarPreference
             android:max="5"
-            app:defaultValue="1"
+            android:summary="Frequency at which CPU data is sampled. (Seconds)"
+            app:defaultValue="2"
             app:key="@string/cpu_frequency_pref"
             app:min="1"
             app:seekBarIncrement="1"
+            app:showSeekBarValue="true"
             app:title="Cpu Update Delay" />
-
     </PreferenceCategory>
+    <PreferenceCategory app:title="@string/system_monitoring_header">
+
+        <SwitchPreferenceCompat
+            android:summaryOff="System monitoring is OFF"
+            android:summaryOn="System monitoring is ON"
+            app:defaultValue="false"
+            app:key="@string/enable_monitoring_pref"
+            app:title="Enable System Monitoring" />
+
+        <SeekBarPreference
+            android:max="60"
+            android:summary="Duration between consecutive system monitoring checks. (Minutes)"
+            app:defaultValue="1"
+            app:dependency="@string/enable_monitoring_pref"
+            app:key="@string/monitoring_period"
+            app:min="1"
+            app:seekBarIncrement="1"
+            app:showSeekBarValue="true"
+            app:title="Monitoring Period" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

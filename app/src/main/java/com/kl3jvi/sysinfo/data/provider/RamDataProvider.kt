@@ -63,5 +63,3 @@ class RamDataProvider(
         .distinctUntilChanged()
         .flowOn(Dispatchers.IO)
 }
-
-

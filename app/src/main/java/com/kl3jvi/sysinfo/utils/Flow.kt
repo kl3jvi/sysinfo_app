@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 
 fun <T> Flow<T>.ifChanged() = ifChanged { it }
 
@@ -112,4 +115,12 @@ fun <T, R> Flow<T>.ifAnyChanged(transform: (T) -> Array<R>): Flow<T> {
             false
         }
     }
+}
+
+suspend fun <T> Flow<T>.scanAndLimit(limit: Int): List<T> {
+    return scan(emptyList<T>()) { accumulator, value ->
+        (accumulator + value).takeLast(limit)
+    }.take(limit)
+        .toList()
+        .flatten()
 }

@@ -19,6 +19,7 @@
     <string name="battery_unspecified_failure">Unspecified failure</string>
     <string name="ram_refresh_pref">ram_refresh_rate</string>
     <string name="cpu_frequency_pref">cpu_refresh_rate</string>
+    <string name="monitoring_period">monitoring_period_frequency</string>
     <!-- Preference Titles -->
     <string name="sync_header">Sync</string>
 
@@ -30,5 +31,7 @@
     <string name="android_version">Android: %s</string>
     <string name="is_root">Root: %s</string>
     <string name="sdk_version">SDK Version: %s</string>
+    <string name="enable_monitoring_pref">enable_monitoring_preference</string>
+    <string name="system_monitoring_header">System</string>
 
 </resources>
