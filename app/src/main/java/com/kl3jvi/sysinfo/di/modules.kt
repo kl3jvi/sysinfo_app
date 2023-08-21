@@ -16,11 +16,15 @@ import com.kl3jvi.sysinfo.data.provider.BatteryDataProvider
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.data.provider.DeviceDataProvider
 import com.kl3jvi.sysinfo.data.provider.GpuDataProvider
+import com.kl3jvi.sysinfo.data.provider.NetworkInfoProvider
 import com.kl3jvi.sysinfo.data.provider.RamDataProvider
 import com.kl3jvi.sysinfo.data.provider.StorageProvider
 import com.kl3jvi.sysinfo.data.provider.SystemInfoProvider
 import com.kl3jvi.sysinfo.utils.Settings
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -40,6 +44,7 @@ private val providerModule = module {
     singleOf(::BatteryDataProvider)
     singleOf(::DeviceDataProvider)
     singleOf(::SystemInfoProvider)
+    singleOf(::NetworkInfoProvider)
 }
 
 private val appModule = module {
@@ -65,7 +70,12 @@ private val persistenceModule = module {
     }
 }
 
+private val scopeModule = module {
+    single<CoroutineScope> { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
+}
+
 val allModules = appModule +
-    viewModelModule +
-    providerModule +
-    persistenceModule
+        viewModelModule +
+        providerModule +
+        persistenceModule +
+        scopeModule

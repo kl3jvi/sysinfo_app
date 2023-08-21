@@ -89,6 +89,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-common-ktx:2.6.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
     kapt "com.airbnb.android:epoxy-processor:5.1.1"
+    implementation "com.google.code.gson:gson:2.10.1"
+
 
     def appCenterSdkVersion = '4.4.5'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"

@@ -3,12 +3,16 @@ package com.kl3jvi.sysinfo
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.getkeepsafe.relinker.ReLinker
+import com.kl3jvi.sysinfo.data.model.ChannelData
 import com.kl3jvi.sysinfo.data.provider.CpuDataProvider
 import com.kl3jvi.sysinfo.di.allModules
 import com.kl3jvi.sysinfo.utils.Settings
@@ -98,11 +102,53 @@ class SysInfoApplication : Application(), KoinComponent {
         }
     }
 
+    // Nice to Have :)
+    fun ensureNotificationChannelExists(
+        context: Context,
+        channelDate: ChannelData,
+        onSetupChannel: NotificationChannel.() -> Unit = {},
+        onCreateChannel: NotificationManager.() -> Unit = {},
+    ): String {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelDate.id,
+                context.getString(channelDate.name),
+                channelDate.importance,
+            )
+            onSetupChannel(channel)
+            notificationManager.createNotificationChannel(channel)
+            onCreateChannel(notificationManager)
+        }
+
+        return channelDate.id
+    }
+
     companion object {
         private const val CHANNEL_ID = "SystemMonitorChannel"
         private const val CHANNEL_NAME = "System Monitor"
         private const val CHANNEL_DESC = "Notifications for system monitoring"
 
         const val LIB_NAME = "cpuinfo-libs"
+    }
+}
+
+const val DEFAULT_FONT_PADDING = 6
+
+fun TextView.adjustMaxTextSize(
+    heightMeasureSpec: Int,
+    ascenderPadding: Int = DEFAULT_FONT_PADDING
+) {
+    val maxHeight = View.MeasureSpec.getSize(heightMeasureSpec)
+
+    var availableHeight = maxHeight.toFloat()
+    if (this.includeFontPadding) {
+        availableHeight -= ascenderPadding * resources.displayMetrics.density
+    }
+
+    availableHeight -= (this.paddingBottom + this.paddingTop) *
+            resources.displayMetrics.density
+
+    if (availableHeight > 0 && this.textSize > availableHeight) {
+        this.textSize = availableHeight / resources.displayMetrics.density
     }
 }
