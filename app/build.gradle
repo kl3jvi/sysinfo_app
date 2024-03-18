@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.kl3jvi.sysinfo"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 2
         versionName "1.1"
 
@@ -67,28 +67,29 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.2'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
     //KOIN
-    implementation "io.insert-koin:koin-android:3.3.2"
+    implementation "io.insert-koin:koin-android:3.5.3"
     implementation "com.getkeepsafe.relinker:relinker:1.4.5"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     implementation "com.airbnb.android:epoxy:5.1.3"
     implementation "com.airbnb.android:epoxy-databinding:5.1.3"
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
-    implementation 'androidx.navigation:navigation-common-ktx:2.6.0'
-    implementation 'androidx.work:work-runtime-ktx:2.8.1'
-    kapt "com.airbnb.android:epoxy-processor:5.1.1"
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-common-ktx:2.7.7'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
+    kapt "com.airbnb.android:epoxy-processor:5.1.3"
+    implementation 'com.android.billingclient:billing:6.2.0'
     implementation "com.google.code.gson:gson:2.10.1"
 
 

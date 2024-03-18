@@ -6,11 +6,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.sysinfo.R
 import com.kl3jvi.sysinfo.view.fragments.BatteryFragment
-import com.kl3jvi.sysinfo.view.fragments.CPU
-import com.kl3jvi.sysinfo.view.fragments.Dashboard
+import com.kl3jvi.sysinfo.view.fragments.CPUFragment
+import com.kl3jvi.sysinfo.view.fragments.DashboardFragment
 import com.kl3jvi.sysinfo.view.fragments.DeviceFragment
 import com.kl3jvi.sysinfo.view.fragments.StorageFragment
-import com.kl3jvi.sysinfo.view.fragments.SystemFrag
+import com.kl3jvi.sysinfo.view.fragments.SystemFragment
 
 class SectionsPagerAdapter(
     private val context: Context,
@@ -18,11 +18,11 @@ class SectionsPagerAdapter(
 ) : FragmentStateAdapter(fm) {
 
     enum class TabType(val titleResId: Int, val fragment: () -> Fragment) {
-        DASHBOARD(R.string.tab_text_1, ::Dashboard),
+        DASHBOARD(R.string.tab_text_1, ::DashboardFragment),
         DEVICE(R.string.tab_text_2, ::DeviceFragment),
-        SYSTEM(R.string.tab_text_3, ::SystemFrag),
+        SYSTEM(R.string.tab_text_3, ::SystemFragment),
         STORAGE(R.string.tab_text_4, ::StorageFragment),
-        CPU(R.string.tab_text_5, { CPU() }),
+        CPU(R.string.tab_text_5, { CPUFragment() }),
         BATTERY(R.string.tab_text_6, ::BatteryFragment);
 //        SCREEN(R.string.tab_text_7, ::ScreenFragment);
 

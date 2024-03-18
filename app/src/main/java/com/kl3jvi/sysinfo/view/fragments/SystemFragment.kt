@@ -17,11 +17,13 @@ import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SystemFrag : Fragment(R.layout.system_fragment) {
+class SystemFragment : Fragment(R.layout.system_fragment) {
 
     private var _binding: SystemFragmentBinding? = null
     private val binding get() = _binding!!
@@ -37,7 +39,7 @@ class SystemFrag : Fragment(R.layout.system_fragment) {
 
     private fun setupUIElements() {
         binding.listWithItems.layoutManager = LinearLayoutManager(requireContext())
-        launchAndCollectWithViewLifecycle(dataViewModel.uptimeFlow) { systemUptimeInfo ->
+        dataViewModel.uptimeFlow.onEach { systemUptimeInfo ->
             binding.listWithItems.withModels {
                 dataViewModel.systemInfo.forEach { info ->
                     information {
@@ -51,7 +53,7 @@ class SystemFrag : Fragment(R.layout.system_fragment) {
                     data(systemUptimeInfo)
                 }
             }
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.androidNo.text = getString(
             R.string.android_version,

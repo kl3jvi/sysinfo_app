@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         navController = findNavController(this, R.id.nav_host_fragment_activity_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.sysinfo.R
 import com.example.sysinfo.cpuProgress
 import com.example.sysinfo.databinding.DashboardFragmentBinding
@@ -15,20 +16,21 @@ import com.kl3jvi.sysinfo.domain.models.CpuData
 import com.kl3jvi.sysinfo.domain.models.RamData
 import com.kl3jvi.sysinfo.utils.UiResult
 import com.kl3jvi.sysinfo.utils.animatedMovement
-import com.kl3jvi.sysinfo.utils.launchAndCollectWithViewLifecycle
 import com.kl3jvi.sysinfo.utils.nav
 import com.kl3jvi.sysinfo.utils.parsePercentage
 import com.kl3jvi.sysinfo.utils.setupActionBar
 import com.kl3jvi.sysinfo.utils.showToast
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
+class DashboardFragment : Fragment(R.layout.dashboard_fragment), KoinComponent {
 
     private val dataViewModel: DataViewModel by viewModel()
     private var _binding: DashboardFragmentBinding? = null
@@ -42,9 +44,11 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
         setupUIElements()
         binding.listView.itemAnimator = null
 
-        launchAndCollectWithViewLifecycle(dataViewModel.cpuInfo) {
-            handleCpuInfoResult(it)
-        }
+
+        dataViewModel.cpuInfo
+            .onEach { handleCpuInfoResult(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
 
         setupActionBar(R.menu.settings_menu) {
             when (it.itemId) {
@@ -59,14 +63,15 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
             dataViewModel.internalStoragePercentage,
             internalPercentage
         )
-        launchAndCollectWithViewLifecycle(dataViewModel.batteryInfo) { type ->
+
+        dataViewModel.batteryInfo.onEach { type ->
             val isCharging = type.data[6].details == "Charging"
             batteryPercentage.text =
                 if (isCharging) "Charging ${type.data.first().details}" else type.data.first().details
             batteryProgress.progress = type.data.first().details.parsePercentage()
             Log.e("TEst", type.data.first().details)
             batteryProgress.isIndeterminate = isCharging
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.topBar.setOnClickListener(::animatedMovement)
     }
@@ -104,7 +109,7 @@ class Dashboard : Fragment(R.layout.dashboard_fragment), KoinComponent {
     private fun ArcProgress.setRamValueAsync(
         flow: Flow<UiResult<RamData>>
     ) = apply {
-        launchAndCollectWithViewLifecycle(flow) { handleRamValueResult(it) }
+        flow.onEach { handleRamValueResult(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun handleRamValueResult(result: UiResult<RamData>) {

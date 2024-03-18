@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/dashboard"
-        android:name="com.kl3jvi.sysinfo.view.fragments.Dashboard"
+        android:name="com.kl3jvi.sysinfo.view.fragments.DashboardFragment"
         android:label="Dashboard">
 
     </fragment>

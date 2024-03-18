@@ -3,12 +3,14 @@ package com.kl3jvi.sysinfo.view.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sysinfo.R
 import com.example.sysinfo.databinding.BatteryFragmentBinding
 import com.example.sysinfo.information
-import com.kl3jvi.sysinfo.utils.launchAndCollectWithViewLifecycle
 import com.kl3jvi.sysinfo.viewmodel.DataViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -26,16 +28,17 @@ class BatteryFragment : Fragment(R.layout.battery_fragment), KoinComponent {
 
     private fun initViews() {
         binding.listWithItems.layoutManager = LinearLayoutManager(requireContext())
-        launchAndCollectWithViewLifecycle(viewModel.batteryInfo) { type ->
+
+        viewModel.batteryInfo.onEach { batteryData ->
             binding.listWithItems.withModels {
-                type.data.forEach {
+                batteryData.data.forEach { info ->
                     information {
-                        id(it.details)
-                        data(it)
+                        id(info.details)
+                        data(info)
                     }
                 }
             }
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onDestroy() {

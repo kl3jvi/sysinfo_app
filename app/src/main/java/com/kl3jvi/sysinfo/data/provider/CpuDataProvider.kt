@@ -21,21 +21,21 @@ class CpuDataProvider(
 ) {
     external fun initLibrary(): Boolean
 
-    private external fun getCpuName(): String
+    external fun getCpuName(): String
 
-    private external fun hasArmNeon(): Boolean
+    external fun hasArmNeon(): Boolean
 
-    private external fun getL1dCaches(): IntArray?
+    external fun getL1dCaches(): IntArray?
 
-    private external fun getL1iCaches(): IntArray?
+    external fun getL1iCaches(): IntArray?
 
-    private external fun getL2Caches(): IntArray?
+    external fun getL2Caches(): IntArray?
 
-    private external fun getL3Caches(): IntArray?
+    external fun getL3Caches(): IntArray?
 
-    private external fun getL4Caches(): IntArray?
+    external fun getL4Caches(): IntArray?
 
-    private fun getAbi(): String {
+    fun getAbi(): String {
         return Build.SUPPORTED_ABIS[0]
     }
 
@@ -53,7 +53,7 @@ class CpuDataProvider(
         }
     }
 
-    private fun getNumberOfCores(): Int {
+    fun getNumberOfCores(): Int {
         return try {
             Runtime.getRuntime().availableProcessors()
         } catch (e: Exception) {
