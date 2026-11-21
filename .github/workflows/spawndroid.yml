@@ -1,0 +1,35 @@
+name: spawndroid
+on:
+  pull_request:
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew :app:assembleDebug
+      - name: Upload the build for its preview
+        env:
+          SPAWNDROID_API_KEY: ${{ secrets.SPAWNDROID_API_KEY }}
+          APK: app/build/outputs/apk/debug/app-debug.apk
+          API: http://localhost:3001
+        run: |
+          auth="Authorization: Bearer $SPAWNDROID_API_KEY"
+          presign=$(curl -fsS -X POST "$API/api/apps/presign" -H "$auth" \
+            -H "Content-Type: application/json" \
+            -d "{\"filename\":\"app.apk\",\"size\":$(stat -c%s "$APK")}")
+          curl -fsS -X PUT "$(jq -r .url <<<"$presign")" \
+            -H "Content-Type: $(jq -r '.contentType // "application/octet-stream"' <<<"$presign")" \
+            --data-binary @"$APK"
+          jq -n --arg key "$(jq -r .key <<<"$presign")" \
+            --arg repo "${{ github.repository }}" \
+            --argjson pr "${{ github.event.pull_request.number }}" \
+            --arg sha "${{ github.event.pull_request.head.sha }}" \
+            '{key: $key, filename: "app.apk", github: {repository: $repo, pullNumber: $pr, headSha: $sha}}' |
+            curl -fsS -X POST "$API/api/apps" -H "$auth" \
+              -H "Content-Type: application/json" --data @- > /dev/null
